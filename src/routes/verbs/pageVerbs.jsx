@@ -29,11 +29,16 @@ const pageVerbs = () => {
         setState(1)
       }
         try {
-        } catch (error) {}
+        } catch (error) {
+          console.log(error)
+        }
     }
 
     async function traerVerbos(verbsMode) {
-      const resVerbs = await getLinks(verbsMode);
+      // console.log(verbsMode)
+      const verbsAll = await getLinks("verbs");
+      const resVerbs=verbsAll.filter((verb) => verb.type == verbsMode);
+      ordenarAlf(resVerbs);
       setOriginalVerbs([...resVerbs]);
       setSignVerbs([...resVerbs]);
 
@@ -41,6 +46,18 @@ const pageVerbs = () => {
       significadoVerbos([...resVerbs]);
     }
   }, []);
+
+  function ordenarAlf(arr) {
+    arr.sort(function (a, b) {
+      if (b.name < a.name) {
+        return 1;
+      } else if (b.name > a.name) {
+        return -1;
+      } else {
+        return 0;
+      }
+    });
+  }
 
   function significadoVerbos(resVerbs) {
     let arrSign = [];

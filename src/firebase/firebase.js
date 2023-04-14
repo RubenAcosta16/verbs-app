@@ -106,7 +106,8 @@ export async function getUserInfo(uid) {
     }
   }
 
-  
+
+
 
   export async function updateVerb(docId, verb,type) {
     try {
@@ -141,6 +142,7 @@ export async function getLinks(type) {
   }
 }
 
+
 // creo que docRef, osea doc solo busca, y ya haces con eso despues lo que sea
 
 export async function deleteVerb(docId,type) {
@@ -170,3 +172,14 @@ export async function existsVerbMode(verbMode) {
 
   return verbModes.length > 0 ? verbModes[0].type : null;
 }
+
+
+export async function deleteType(type) {
+console.log("eliminar")
+}
+
+
+
+
+
+
