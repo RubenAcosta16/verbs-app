@@ -1,8 +1,8 @@
 import AuthProvider from "./authProvider";
 import { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
-import {showMessage} from '../../app/showMessage'
+import { showMessage } from "../../app/showMessage";
 
 import Navbar from "./navbar";
 import VerbDb from "./verbDb";
@@ -153,7 +153,7 @@ const dashBoard = () => {
     const nombre = e.target["nombre"].value;
     const significado = e.target["significado"].value;
 
-    if(nombre!=="" || significado!==""){
+    if (nombre !== "" || significado !== "") {
       const newDocId = uuidv4();
 
       const newVerb = {
@@ -162,15 +162,15 @@ const dashBoard = () => {
         docId: newDocId,
         type: verbsMode,
       };
-  
+
       try {
         insertVerb(newVerb, "verbs", newDocId);
-  
+
         showMessage("se envio el verbo");
-  
+
         refNombre.current.value = "";
         refSignificado.current.value = "";
-  
+
         for (let i = 0; i < mainVerbs.length; i++) {
           if (mainVerbs[i].type == verbsMode) {
             // console.log(mainVerbs[i])
@@ -182,11 +182,9 @@ const dashBoard = () => {
       } catch (error) {
         console.log(error);
       }
-    }else{
-      showMessage("No pueden haber campos vacios","e");
+    } else {
+      showMessage("No pueden haber campos vacios", "e");
     }
-
-    
   }
 
   async function remove(docId) {
@@ -269,7 +267,7 @@ const dashBoard = () => {
         console.log(error);
       }
     } else {
-      showMessage("No pueden haber campos vacios","e")
+      showMessage("No pueden haber campos vacios", "e");
     }
   }
   // console.log(mainVerbs);
@@ -323,9 +321,9 @@ const dashBoard = () => {
   return (
     <Navbar>
       <div>
-        <div>
-          Crear tipo de verbos
-        </div>
+        <Link to="/">Pagina principal</Link>
+        <div>Crear tipo de verbos</div>
+
         <form action="" onSubmit={handleCrearTipo}>
           <label htmlFor="">Nombre:</label>
           <input ref={refCrearTipo} name="type" type="text" />

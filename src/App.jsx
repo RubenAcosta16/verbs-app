@@ -1,32 +1,30 @@
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 
-import {useEffect, useState} from 'react'
-import {getLinks} from './firebase/firebase'
+import { useEffect, useState } from "react";
+import { getLinks } from "./firebase/firebase";
 
 function App() {
-
-  const [currentTypes, setCurrentTypes] = useState([])
+  const [currentTypes, setCurrentTypes] = useState([]);
 
   useEffect(() => {
-    typesVerbs()
+    typesVerbs();
 
-    async function typesVerbs(){
+    async function typesVerbs() {
       const types = await getLinks("types");
 
-      const tmp=[]
+      const tmp = [];
       for (let i = 0; i < types.length; i++) {
-        tmp[i]=types[i].type
-        
+        tmp[i] = types[i].type;
       }
 
       // console.log(tmp)
       // ordenarAlf(tmp);
       // setCurrentTypes(tmp)
 
-      setCurrentTypes(types)
+      setCurrentTypes(types);
       ordenarAlf(currentTypes);
     }
-  }, [])
+  }, []);
 
   function ordenarAlf(arr) {
     arr.sort(function (a, b) {
@@ -41,7 +39,7 @@ function App() {
   }
 
   // console.log(currentTypes)
-  
+
   return (
     <div>
       <h1>Verbs</h1>
@@ -51,12 +49,11 @@ function App() {
       {currentTypes?.map((type) => (
         // <div key={verb.name}>{verb.name}</div>
         <div key={type.docId}>
-          <Link to={"/p/"+type.type}>{type.type}</Link>
+          <Link to={"/p/" + type.type}>{type.type}</Link>
         </div>
       ))}
-
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

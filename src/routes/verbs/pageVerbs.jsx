@@ -11,7 +11,7 @@ const pageVerbs = () => {
   const [verbs, setVerbs] = useState([]);
   const [originalVerbs, setOriginalVerbs] = useState([]);
   const [signVerbs, setSignVerbs] = useState([]);
-  const [state, setState] = useState(0)
+  const [state, setState] = useState(0);
   // 1 = no existe tipos de verbos
 
   useEffect(() => {
@@ -22,22 +22,22 @@ const pageVerbs = () => {
 
       const verbExist = await existsVerbMode(verbParams);
 
-      if (verbExist){
+      if (verbExist) {
         traerVerbos(verbExist);
-      }else{
+      } else {
         // poner un useState y luego un return de interfaz
-        setState(1)
+        setState(1);
       }
-        try {
-        } catch (error) {
-          console.log(error)
-        }
+      try {
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     async function traerVerbos(verbsMode) {
       // console.log(verbsMode)
       const verbsAll = await getLinks("verbs");
-      const resVerbs=verbsAll.filter((verb) => verb.type == verbsMode);
+      const resVerbs = verbsAll.filter((verb) => verb.type == verbsMode);
       ordenarAlf(resVerbs);
       setOriginalVerbs([...resVerbs]);
       setSignVerbs([...resVerbs]);
@@ -129,11 +129,12 @@ const pageVerbs = () => {
 
   //   console.log(verbs)
 
-
-  if(state==1){
-    return <div>
-      <p>No existe ese tipo de verbo {params.pageVerbsMode}</p>
-    </div>
+  if (state == 1) {
+    return (
+      <div>
+        <p>No existe ese tipo de verbo {params.pageVerbsMode}</p>
+      </div>
+    );
   }
 
   return (

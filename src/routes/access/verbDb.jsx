@@ -19,7 +19,7 @@ const verbDb = ({ docId, name, verb, onDelete, onUpdate }) => {
   }
 
   async function handleDelete() {
-    await onDelete(docId)
+    await onDelete(docId);
   }
 
   function handleOnBlurName(e) {
@@ -31,7 +31,6 @@ const verbDb = ({ docId, name, verb, onDelete, onUpdate }) => {
   function handleOnBlurVerb(e) {
     setEditVerb(false);
     onUpdate(docId, currentName, e.target.value);
-
   }
 
   useEffect(() => {
@@ -42,7 +41,7 @@ const verbDb = ({ docId, name, verb, onDelete, onUpdate }) => {
 
   useEffect(() => {
     if (refVerb.current) {
-        refVerb.current.focus();
+      refVerb.current.focus();
     }
   }, [editVerb]);
 
@@ -54,12 +53,9 @@ const verbDb = ({ docId, name, verb, onDelete, onUpdate }) => {
     setCurrentVerb(e.target.value);
   }
 
-
-
   return (
     <div key={docId}>
-      <p>
-      </p>
+      <p></p>
       <div>
         {editName ? (
           <>
@@ -79,7 +75,7 @@ const verbDb = ({ docId, name, verb, onDelete, onUpdate }) => {
       </div>
 
       <div>
-      {editVerb ? (
+        {editVerb ? (
           <>
             <input
               ref={refVerb}

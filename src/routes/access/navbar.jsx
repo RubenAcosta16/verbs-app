@@ -1,15 +1,15 @@
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 
-const navbar = ({children}) => {
-    return <div>
+const navbar = ({ children }) => {
+  return (
+    <div>
+      <nav>
+        <Link to="/signout">Cerrar sesion</Link>
+      </nav>
 
-        <nav>
-            <Link to="/signout">Cerrar sesion</Link>
-        </nav>
-
-        {children}
-        
-    </div>;
-}
+      {children}
+    </div>
+  );
+};
 
 export default navbar;

@@ -1,15 +1,17 @@
-import { useNavigate } from "react-router-dom";
-import { createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
+import { useNavigate, Link } from "react-router-dom";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 
 import { auth } from "../../firebase/firebase";
-import {useState} from 'react'
+import { useState } from "react";
 
 import AuthProvider from "./authProvider";
 
 const login = () => {
   const navigate = useNavigate();
-    const [currentState, setcurrentState] = useState(0)
-
+  const [currentState, setcurrentState] = useState(0);
 
   // const signInForm=useRef() bootstrap
 
@@ -23,11 +25,15 @@ const login = () => {
     const passsword = e.target["password"].value;
 
     try {
-        const credentials=await signInWithEmailAndPassword(auth,email,passsword)
+      const credentials = await signInWithEmailAndPassword(
+        auth,
+        email,
+        passsword
+      );
 
-        console.log(credentials)
+      console.log(credentials);
 
-    //   console.log(credentials);
+      //   console.log(credentials);
 
       // cosa especial de bootstrap
       // const signInModal = document.querySelector("#signinModal");
@@ -56,22 +62,30 @@ const login = () => {
   }
 
   function handleUserNotLoggedIn() {
-    setcurrentState(4)
+    setcurrentState(4);
   }
 
-
-  if(currentState==4){
+  if (currentState == 4) {
     return (
+      <div>
+        <Link to="/">Pagina principal</Link>
+
         <form action="" onSubmit={handleSubmit}>
           <label htmlFor="email">Email:</label>
           <input type="text" placeholder="Title" id="email" required />
-  
+
           <label htmlFor="password">Password:</label>
-          <input type="password" placeholder="Password" id="password" required />
-  
+          <input
+            type="password"
+            placeholder="Password"
+            id="password"
+            required
+          />
+
           <button type="submit">Save changes</button>
         </form>
-      );
+      </div>
+    );
   }
 
   return (
@@ -79,7 +93,9 @@ const login = () => {
       <AuthProvider
         userLoggedIn={handleUserLoggedIn}
         userNotLoggedIn={handleUserNotLoggedIn}
-      >Loading...</AuthProvider>
+      >
+        Loading...
+      </AuthProvider>
     </div>
   );
 };
