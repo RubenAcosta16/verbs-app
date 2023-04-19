@@ -13,12 +13,34 @@ function App() {
     async function typesVerbs(){
       const types = await getLinks("types");
 
-      // console.log(types[0].type)
+      const tmp=[]
+      for (let i = 0; i < types.length; i++) {
+        tmp[i]=types[i].type
+        
+      }
+
+      // console.log(tmp)
+      // ordenarAlf(tmp);
+      // setCurrentTypes(tmp)
+
       setCurrentTypes(types)
+      ordenarAlf(currentTypes);
     }
   }, [])
 
-  console.log(currentTypes)
+  function ordenarAlf(arr) {
+    arr.sort(function (a, b) {
+      if (b.name < a.name) {
+        return 1;
+      } else if (b.name > a.name) {
+        return -1;
+      } else {
+        return 0;
+      }
+    });
+  }
+
+  // console.log(currentTypes)
   
   return (
     <div>

@@ -2,6 +2,8 @@ import AuthProvider from "./authProvider";
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
+import {showMessage} from '../../app/showMessage'
+
 import Navbar from "./navbar";
 import VerbDb from "./verbDb";
 import ButtonDelete from "../verbs/buttonDeleteType";
@@ -142,8 +144,7 @@ const dashBoard = () => {
     // console.log(mainVerbs)
     // console.log(currentTypesVerbs)
 
-      setVerbs([...tmp[0].verbs]);
-
+    setVerbs([...tmp[0].verbs]);
   }
 
   // enviar verbo
@@ -152,34 +153,40 @@ const dashBoard = () => {
     const nombre = e.target["nombre"].value;
     const significado = e.target["significado"].value;
 
-        const newDocId=uuidv4()
+    if(nombre!=="" || significado!==""){
+      const newDocId = uuidv4();
 
-    const newVerb = {
-      name: nombre,
-      verb: significado,
-      docId: newDocId,
-      type: verbsMode,
-    };
-
-    try {
-      insertVerb(newVerb, "verbs",newDocId);
-
-      console.log("se envio el verbo");
-
-      refNombre.current.value = "";
-      refSignificado.current.value = "";
-
-      for (let i = 0; i < mainVerbs.length; i++) {
-        if (mainVerbs[i].type == verbsMode) {
-          // console.log(mainVerbs[i])
-          mainVerbs[i].verbs.push(newVerb);
-          ordenarAlf(mainVerbs[i].verbs);
-          setVerbs([...mainVerbs[i].verbs]);
+      const newVerb = {
+        name: nombre,
+        verb: significado,
+        docId: newDocId,
+        type: verbsMode,
+      };
+  
+      try {
+        insertVerb(newVerb, "verbs", newDocId);
+  
+        showMessage("se envio el verbo");
+  
+        refNombre.current.value = "";
+        refSignificado.current.value = "";
+  
+        for (let i = 0; i < mainVerbs.length; i++) {
+          if (mainVerbs[i].type == verbsMode) {
+            // console.log(mainVerbs[i])
+            mainVerbs[i].verbs.push(newVerb);
+            ordenarAlf(mainVerbs[i].verbs);
+            setVerbs([...mainVerbs[i].verbs]);
+          }
         }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
+    }else{
+      showMessage("No pueden haber campos vacios","e");
     }
+
+    
   }
 
   async function remove(docId) {
@@ -219,55 +226,56 @@ const dashBoard = () => {
     const tipo = e.target["type"].value;
     // console.log(tipo);
 
-    const newDocId=uuidv4()
+    if (tipo !== "") {
+      const newDocId = uuidv4();
 
-    const newType = {
-      type: tipo,
-      docId: newDocId,
-    };
-    // console.log(currentTypesVerbs);
+      const newType = {
+        type: tipo,
+        docId: newDocId,
+      };
+      // console.log(currentTypesVerbs);
 
-    const newMainVerb = {
-      type: tipo,
-      verbs: [{ name: "Sin verbos aun", verb: "",docId: newDocId, }],
-      
-    };
+      const newMainVerb = {
+        type: tipo,
+        verbs: [{ name: "Sin verbos aun", verb: "", docId: newDocId }],
+      };
 
-    try {
-      // para crear tipo
-      insertVerb(newType, "types",newDocId);
+      try {
+        // para crear tipo
+        insertVerb(newType, "types", newDocId);
 
-      console.log("se envio el tipo");
-      // console.log(newType);
+        showMessage("se creo el tipo");
+        // console.log(newType);
 
-      refCrearTipo.current.value = "";
+        refCrearTipo.current.value = "";
 
-      setCurrentTypesVerbs([...currentTypesVerbs, newType]);
+        setCurrentTypesVerbs([...currentTypesVerbs, newType]);
 
-      // setMainVerbs([...mainVerbs, newMainVerb]);
-      setMainVerbs([...mainVerbs,newMainVerb]);
+        // setMainVerbs([...mainVerbs, newMainVerb]);
+        setMainVerbs([...mainVerbs, newMainVerb]);
 
-      // console.log(mainVerbs);
+        // console.log(mainVerbs);
 
-      // setVerbsMode()
+        // setVerbsMode()
 
-      // for (let i = 0; i < currentTypesVerbs.length; i++) {
-      //   if (currentTypesVerbs[i].type == verbsMode) {
-      //     // console.log(mainVerbs[i])
-      //     mainVerbs[i].verbs.push(newVerb);
-      //     ordenarAlf(mainVerbs[i].verbs);
-      //     setVerbs([...mainVerbs[i].verbs]);
-      //   }
-
-      
-    } catch (error) {
-      console.log(error);
+        // for (let i = 0; i < currentTypesVerbs.length; i++) {
+        //   if (currentTypesVerbs[i].type == verbsMode) {
+        //     // console.log(mainVerbs[i])
+        //     mainVerbs[i].verbs.push(newVerb);
+        //     ordenarAlf(mainVerbs[i].verbs);
+        //     setVerbs([...mainVerbs[i].verbs]);
+        //   }
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      showMessage("No pueden haber campos vacios","e")
     }
   }
   // console.log(mainVerbs);
 
-  if(currentState==3){
-    navigate("/dashboard")
+  if (currentState == 3) {
+    navigate("/dashboard");
   }
 
   async function handleDeleteType(docId, type) {
@@ -316,7 +324,7 @@ const dashBoard = () => {
     <Navbar>
       <div>
         <div>
-          <button>Crear tipo de verbos</button>
+          Crear tipo de verbos
         </div>
         <form action="" onSubmit={handleCrearTipo}>
           <label htmlFor="">Nombre:</label>
