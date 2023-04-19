@@ -44,7 +44,7 @@ function App() {
   
   return (
     <div>
-      <h1>past</h1>
+      <h1>Verbs</h1>
       <Link to="/past-verbs">Page verbs</Link>
       <Link to="/dashboard">Edit Verbs</Link>
 
