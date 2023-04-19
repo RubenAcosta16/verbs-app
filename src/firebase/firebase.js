@@ -93,12 +93,14 @@ export async function getUserInfo(uid) {
 
   // 
 
-  export async function insertVerb(verb,type) {
+  export async function insertVerb(verb,type,docId) {
     try {
-      // para enviar datos, docRef recibe la coleccion creo y res envia los datos
-      const docRef = collection(db, type);
+      // para enviar datos, docRef recibe la coleccion creo y res envia los datos 
+      // const docRef = collection(db, type);
+      const docRef = doc(db, type, docId);
       // creo que envia los datos
-      const res = await addDoc(docRef, verb);
+      // const res = await addDoc(docRef, verb);
+      const res = await setDoc(docRef, verb);
       // console.log(res)
       return res;
     } catch (error) {

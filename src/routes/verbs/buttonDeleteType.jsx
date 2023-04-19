@@ -1,5 +1,5 @@
 import { useState } from "react";
-const buttonDeleteType = ({type,handleDeleteType}) => {
+const buttonDeleteType = ({type,handleDeleteType,docId}) => {
   const [deleteType, setDeleteType] = useState(false);
 
   function handleShowButtonDelete() {
@@ -10,7 +10,7 @@ const buttonDeleteType = ({type,handleDeleteType}) => {
     setDeleteType(false);
   }
   return (
-    <div key={type.docId}>
+    <div style={{display:"inline"}}>
       {!deleteType ? (
         <button onClick={handleShowButtonDelete}>Delete</button>
       ) : (

@@ -57,7 +57,7 @@ const verbDb = ({ docId, name, verb, onDelete, onUpdate }) => {
 
 
   return (
-    <div>
+    <div key={docId}>
       <p>
       </p>
       <div>

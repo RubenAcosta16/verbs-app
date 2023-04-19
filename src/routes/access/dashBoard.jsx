@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import Navbar from "./navbar";
 import VerbDb from "./verbDb";
-import ButtonDelete from '../verbs/buttonDeleteType'
+import ButtonDelete from "../verbs/buttonDeleteType";
 
 import {
   getLinks,
@@ -34,6 +34,8 @@ import { v4 as uuidv4 } from "uuid";
 
 const dashBoard = () => {
   const [currentState, setCurrentState] = useState(0);
+  // 3 recargar
+
   const [currentUser, setCurrentUser] = useState({});
 
   const [verbs, setVerbs] = useState([]);
@@ -45,8 +47,6 @@ const dashBoard = () => {
   const [verbsMode, setVerbsMode] = useState("past");
   // 1 past
   // 2 phrasal
-
-
 
   const navigate = useNavigate();
 
@@ -91,7 +91,7 @@ const dashBoard = () => {
       // ordena alfabeticamente
       ordenarAlf(arrMain[i].verbs);
     }
-    console.log(arrMain);
+    // console.log(arrMain);
 
     // console.log(arrMain)
 
@@ -134,11 +134,16 @@ const dashBoard = () => {
   async function handleType(type) {
     let tmp = await mainVerbs.filter((verbs) => verbs.type == type);
 
-    // console.log(type);
+    // console.log(mainVerbs);
     // console.log(tmp);
 
-    setVerbsMode(tmp[0].type);
-    setVerbs([...tmp[0].verbs]);
+    setVerbsMode(type);
+    // console.log(tmp)
+    // console.log(mainVerbs)
+    // console.log(currentTypesVerbs)
+
+      setVerbs([...tmp[0].verbs]);
+
   }
 
   // enviar verbo
@@ -147,15 +152,17 @@ const dashBoard = () => {
     const nombre = e.target["nombre"].value;
     const significado = e.target["significado"].value;
 
+        const newDocId=uuidv4()
+
     const newVerb = {
       name: nombre,
       verb: significado,
-      docId: uuidv4(),
+      docId: newDocId,
       type: verbsMode,
     };
 
     try {
-      insertVerb(newVerb, "verbs");
+      insertVerb(newVerb, "verbs",newDocId);
 
       console.log("se envio el verbo");
 
@@ -212,20 +219,23 @@ const dashBoard = () => {
     const tipo = e.target["type"].value;
     // console.log(tipo);
 
+    const newDocId=uuidv4()
+
     const newType = {
       type: tipo,
-      docId: uuidv4(),
+      docId: newDocId,
     };
     // console.log(currentTypesVerbs);
 
     const newMainVerb = {
       type: tipo,
-      verbs: [{ name: "Sin verbos aun", verb: "" }],
+      verbs: [{ name: "Sin verbos aun", verb: "",docId: newDocId, }],
+      
     };
 
     try {
       // para crear tipo
-      insertVerb(newType, "types");
+      insertVerb(newType, "types",newDocId);
 
       console.log("se envio el tipo");
       // console.log(newType);
@@ -234,7 +244,8 @@ const dashBoard = () => {
 
       setCurrentTypesVerbs([...currentTypesVerbs, newType]);
 
-      setMainVerbs([...mainVerbs, newMainVerb]);
+      // setMainVerbs([...mainVerbs, newMainVerb]);
+      setMainVerbs([...mainVerbs,newMainVerb]);
 
       // console.log(mainVerbs);
 
@@ -247,11 +258,17 @@ const dashBoard = () => {
       //     ordenarAlf(mainVerbs[i].verbs);
       //     setVerbs([...mainVerbs[i].verbs]);
       //   }
+
+      
     } catch (error) {
       console.log(error);
     }
   }
-  console.log(mainVerbs);
+  // console.log(mainVerbs);
+
+  if(currentState==3){
+    navigate("/dashboard")
+  }
 
   async function handleDeleteType(docId, type) {
     await deleteVerb(docId, "types");
@@ -266,17 +283,12 @@ const dashBoard = () => {
 
     setCurrentTypesVerbs([...tmp]);
 
-    const verbVacio = [{ name: "vacio", verb: "" }];
-    setVerbs(verbVacio);
-
-    
-
     for (let i = 0; i < mainVerbs.length; i++) {
       if (mainVerbs[i].type == type) {
         // await deleteVerb(mainVerbs[i].docId, "verbs");
         // console.log(mainVerbs[i].verbs)
         for (let i2 = 0; i2 < mainVerbs[i].verbs.length; i2++) {
-          console.log(mainVerbs[i].verbs[i2].docId)
+          // console.log(mainVerbs[i].verbs[i2].docId);
           await deleteVerb(mainVerbs[i].verbs[i2].docId, "verbs");
         }
       }
@@ -299,8 +311,6 @@ const dashBoard = () => {
   }
 
   // console.log(verbs)
-
-
 
   return (
     <Navbar>
@@ -337,9 +347,10 @@ const dashBoard = () => {
               >
                 {type.type}
               </button>
-              <ButtonDelete type={type} handleDeleteType={handleDeleteType}>
-               
-              </ButtonDelete>
+              <ButtonDelete
+                type={type}
+                handleDeleteType={handleDeleteType}
+              ></ButtonDelete>
             </div>
           ))}
         </nav>
@@ -360,5 +371,3 @@ const dashBoard = () => {
 };
 
 export default dashBoard;
-
-
