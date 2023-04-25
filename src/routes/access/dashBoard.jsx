@@ -108,7 +108,7 @@ const dashBoard = () => {
 
     // console.log(arrMain)
 
-    let arrClasificados = [];
+
     for (let i = 0; i < arrMain.length; i++) {
       const sortedArray = arrMain[i].verbs.sort((a, b) =>
         a.group > b.group ? 1 : -1
@@ -155,8 +155,9 @@ const dashBoard = () => {
     // }
 
     setMainVerbs(arrMain);
-    // console.log(arrMain)
+    console.log(arrMain)
     setVerbs(arrMain[0].verbs);
+    console.log(arrMain[0].verbs);
   }
 
   // console.log(mainVerbs)
