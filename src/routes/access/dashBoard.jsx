@@ -41,6 +41,7 @@ const dashBoard = () => {
   const [currentUser, setCurrentUser] = useState({});
 
   const [verbs, setVerbs] = useState([]);
+  const [verbsAllGot, setVerbsAllGot] = useState([])
 
   const [mainVerbs, setMainVerbs] = useState([]);
 
@@ -54,6 +55,7 @@ const dashBoard = () => {
 
   const refNombre = useRef(null);
   const refSignificado = useRef(null);
+  const refGrupo = useRef(null);
   const refType = useRef(null);
 
   const refCrearTipo = useRef(null);
@@ -77,7 +79,15 @@ const dashBoard = () => {
 
     // obtener verbos
     const verbsAll = await getLinks("verbs");
+    console.log(verbsAll)
+    setVerbsAllGot(verbsAll)
 
+    recibirArray(verbsAll,types)
+
+
+  }
+
+  function recibirArray(verbsAll,types){
     let arrMain = [];
     for (let i = 0; i < types.length; i++) {
       // console.log(tmp)
@@ -93,9 +103,56 @@ const dashBoard = () => {
       // ordena alfabeticamente
       ordenarAlf(arrMain[i].verbs);
     }
+    console.log(arrMain);
     // console.log(arrMain);
 
     // console.log(arrMain)
+
+    let arrClasificados = [];
+    for (let i = 0; i < arrMain.length; i++) {
+      const sortedArray = arrMain[i].verbs.sort((a, b) =>
+        a.group > b.group ? 1 : -1
+      );
+
+      const groupedArray = sortedArray.reduce((acc, obj) => {
+        if (!acc[obj.group]) {
+          acc[obj.group] = [];
+        }
+        acc[obj.group].push(obj);
+        return acc;
+      }, {});
+
+      const resultArray = Object.values(groupedArray);
+      // console.log(resultArray)
+
+      arrMain[i].verbs = resultArray;
+
+      // console.log(arrMain[i].verbs)
+      // // console.log(arrMain[i].verbs)
+
+      // arrMain[i].verbs.sort(compararPorClasificacion);
+
+      // // Crear varios arreglos con cada clasificación
+      // const arreglosClasificados = [];
+      // arrMain[i].verbs.forEach((verb) => {
+      //   if (!arreglosClasificados[verb.group]) {
+      //     arreglosClasificados[verb.group] = [];
+      //   }
+      //   arreglosClasificados[verb.group].push(verb);
+      // });
+
+      // // Imprimir los arreglos clasificados
+      // console.log(arreglosClasificados);
+      // arrClasificados[i]=arreglosClasificados
+      // arrMain[i].verbs=arreglosClasificados
+    }
+
+    console.log(arrMain);
+    // console.log(arrMain[0].verbs.length)
+
+    // for (let i = 0; i < arrMain[0].verbs.length; i++) {
+
+    // }
 
     setMainVerbs(arrMain);
     // console.log(arrMain)
@@ -103,6 +160,39 @@ const dashBoard = () => {
   }
 
   // console.log(mainVerbs)
+
+  // const array = [
+  //   { id: 1, clasificacion: "A" },
+  //   { id: 2, clasificacion: "B" },
+  //   { id: 3, clasificacion: "A" },
+  //   { id: 4, clasificacion: "C" },
+  //   { id: 5, clasificacion: "B" },
+  //   { id: 6, clasificacion: "C" }
+  // ];
+
+  // const sortedArray = array.sort((a, b) => (a.clasificacion > b.clasificacion) ? 1 : -1);
+
+  // const groupedArray = sortedArray.reduce((acc, obj) => {
+  //   if (!acc[obj.clasificacion]) {
+  //     acc[obj.clasificacion] = [];
+  //   }
+  //   acc[obj.clasificacion].push(obj);
+  //   return acc;
+  // }, {});
+
+  // const resultArray = Object.values(groupedArray);
+  // console.log(resultArray)
+
+  // Definir la función de comparación
+  function compararPorClasificacion(a, b) {
+    if (a.group < b.group) {
+      return -1;
+    } else if (a.group > b.group) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
 
   function ordenarAlf(arr) {
     arr.sort(function (a, b) {
@@ -152,6 +242,11 @@ const dashBoard = () => {
     e.preventDefault();
     const nombre = e.target["nombre"].value;
     const significado = e.target["significado"].value;
+    let grupo = e.target["grupo"].value;
+
+    if (!grupo) {
+      grupo = "Sin grupo";
+    }
 
     if (nombre !== "" || significado !== "") {
       const newDocId = uuidv4();
@@ -161,6 +256,7 @@ const dashBoard = () => {
         verb: significado,
         docId: newDocId,
         type: verbsMode,
+        group: grupo,
       };
 
       try {
@@ -170,15 +266,27 @@ const dashBoard = () => {
 
         refNombre.current.value = "";
         refSignificado.current.value = "";
+        refGrupo.current.value = "";
 
-        for (let i = 0; i < mainVerbs.length; i++) {
-          if (mainVerbs[i].type == verbsMode) {
-            // console.log(mainVerbs[i])
-            mainVerbs[i].verbs.push(newVerb);
-            ordenarAlf(mainVerbs[i].verbs);
-            setVerbs([...mainVerbs[i].verbs]);
-          }
-        }
+        // for (let i = 0; i < mainVerbs.length; i++) {
+        //   if (mainVerbs[i].type == verbsMode) {
+        //     // console.log(mainVerbs[i])
+        //     mainVerbs[i].verbs.push(newVerb);
+        //     ordenarAlf(mainVerbs[i].verbs);
+        //     setVerbs([...mainVerbs[i].verbs]);
+        //   }
+        // }
+
+
+
+        setVerbsAllGot([...verbsAllGot,newVerb])
+
+        console.log(verbsAllGot)
+
+
+        recibirArray(verbsAllGot,currentTypesVerbs)
+
+        
       } catch (error) {
         console.log(error);
       }
@@ -189,28 +297,90 @@ const dashBoard = () => {
 
   async function remove(docId) {
     await deleteVerb(docId, "verbs");
-    // await deleteVerb(docId, verbsMode);
 
-    for (let i = 0; i < mainVerbs.length; i++) {
-      if (mainVerbs[i].type == verbsMode) {
-        const tmp = mainVerbs[i].verbs.filter((verb) => verb.docId !== docId);
-        mainVerbs[i].verbs = tmp;
-        // console.log(mainVerbs[i].verbs)
-        setVerbs([...mainVerbs[i].verbs]);
-      }
-    }
+    // for (let i = 0; i < mainVerbs.length; i++) {
+    //   if (mainVerbs[i].type == verbsMode) {
+    //     const tmp = mainVerbs[i].verbs.filter((verb) => verb.docId !== docId);
+    //     mainVerbs[i].verbs = tmp;
+    //     // console.log(mainVerbs[i].verbs)
+    //     setVerbs([...mainVerbs[i].verbs]);
+    //   }
     // }
+    // }
+    const tmp=verbsAllGot.filter((verb) => verb.docId !== docId);
+
+    recibirArray(tmp,currentTypesVerbs)
+
+//     let newVerb = {};
+//     for (let i = 0; i < verbs.length; i++) {
+
+//       newVerb = verbs[i].filter((verb) => verb.docId !== docId);
+
+//       console.log(newVerb)
+
+// // setVerbsAllGot([...verbsAllGot,newVerb])
+
+//     //     console.log(verbsAllGot)
+
+
+//     //     recibirArray(verbsAllGot,currentTypesVerbs)
+
+//       // if (newVerb) {
+//       //   console.log(verbs);
+//       //   // console.log(docId, name, verb,group)
+//       //   newVerb.name = name;
+//       //   newVerb.verb = verb;
+//       //   newVerb.group = group;
+
+//       //   // console.log(newVerb);
+
+//       //   // aqui el error, se ejecuta infinitas veces
+//       //   await updateVerb(docId, newVerb, "verbs");
+
+//       //   // setVerbsAllGot([...verbsAllGot,newVerb])
+
+//       //   // console.log(verbsAllGot)
+
+
+//       //   // recibirArray(verbsAllGot,currentTypesVerbs)
+//       // }
+//     }
+
+
+    
   }
 
-  async function handleUpdateVerb(docId, name, verb) {
-    const newVerb = verbs.find((verb) => verb.docId === docId);
-    newVerb.name = name;
-    newVerb.verb = verb;
+  async function handleUpdateVerb(docId, name, verb, group) {
+    // const newVerb = verbs.find((verb) => verb.docId === docId);
 
-    // console.log(newVerb);
+    let newVerb = {};
+    for (let i = 0; i < verbs.length; i++) {
 
-    // aqui el error, se ejecuta infinitas veces
-    await updateVerb(docId, newVerb, "verbs");
+      newVerb = verbs[i].find((verb) => verb.docId === docId);
+
+
+      if (newVerb) {
+        console.log(verbs);
+        // console.log(docId, name, verb,group)
+        newVerb.name = name;
+        newVerb.verb = verb;
+        newVerb.group = group;
+
+        // console.log(newVerb);
+
+        // aqui el error, se ejecuta infinitas veces
+        await updateVerb(docId, newVerb, "verbs");
+
+        // setVerbsAllGot([...verbsAllGot,newVerb])
+
+        // console.log(verbsAllGot)
+
+
+        // recibirArray(verbsAllGot,currentTypesVerbs)
+      }
+    }
+
+
   }
 
   // console.log(verbs[0]?.name)
@@ -318,10 +488,16 @@ const dashBoard = () => {
 
   // console.log(verbs)
 
+  // console.log(verbs)
+  // verbs.forEach((verbGroup) => (
+  //   // console.log(verbGroup)
+
+  // ))
+
   return (
     <Navbar>
+      <Link to="/">Pagina principal</Link>
       <div>
-        <Link to="/">Pagina principal</Link>
         <div>Crear tipo de verbos</div>
 
         <form action="" onSubmit={handleCrearTipo}>
@@ -339,6 +515,10 @@ const dashBoard = () => {
 
         <label htmlFor="">Significado</label>
         <input ref={refSignificado} type="text" name="significado" />
+
+        <label htmlFor="">Grupo</label>
+        <div>Si se queda vacio es porque no tiene grupo</div>
+        <input ref={refGrupo} type="text" name="grupo" />
 
         <button type="submit">Enviar</button>
       </form>
@@ -361,15 +541,23 @@ const dashBoard = () => {
           ))}
         </nav>
 
-        {verbs?.map((verb) => (
-          <VerbDb
-            key={verb.docId}
-            name={verb.name}
-            verb={verb.verb}
-            docId={verb.docId}
-            onDelete={remove}
-            onUpdate={handleUpdateVerb}
-          ></VerbDb>
+        {verbs?.map((verbGroup) => (
+          // console.log(verbGroup)
+
+          <div key={verbGroup[0].docId}>
+            grupo-------------------------------------{verbGroup[0].group}
+            {verbGroup.map((verb) => (
+              <VerbDb
+                key={verb.docId}
+                name={verb.name}
+                verb={verb.verb}
+                docId={verb.docId}
+                group={verb.group}
+                onDelete={remove}
+                onUpdate={handleUpdateVerb}
+              ></VerbDb>
+            ))}
+          </div>
         ))}
       </div>
     </Navbar>
@@ -377,3 +565,9 @@ const dashBoard = () => {
 };
 
 export default dashBoard;
+
+// poner opcion de habiltar verbos o algo asi al crear un tipo de verbo en un checbox, si esta habilitado hago todo mi desmadre, sino los imprimo asi tal cual sin separar, como ya estan separados solo los imprimo igual pero sin separador
+
+// enseguida del delete verb poner el mismo check
+
+
