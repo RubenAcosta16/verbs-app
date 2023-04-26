@@ -38,14 +38,54 @@ const pageVerbs = () => {
       // console.log(verbsMode)
       const verbsAll = await getLinks("verbs");
       const resVerbs = verbsAll.filter((verb) => verb.type == verbsMode);
-      ordenarAlf(resVerbs);
-      setOriginalVerbs([...resVerbs]);
-      setSignVerbs([...resVerbs]);
+      // ordenarAlf(resVerbs);
+      // setOriginalVerbs([...resVerbs]);
+      // setSignVerbs([...resVerbs]);
 
-      setVerbs([...resVerbs]);
-      significadoVerbos([...resVerbs]);
+      // setVerbs([...resVerbs]);
+      // significadoVerbos([...resVerbs]);
+
+      const tmp = verbsAll.filter((verb) => verb.type == verbsMode);
+      
+      const obj = {
+        type: verbsMode,
+        verbs: tmp,
+      };
+
+      // console.log(obj)
+
+
+        const sortedArray = obj.verbs.sort((a, b) =>
+          a.group > b.group ? 1 : -1
+        );
+  
+        const groupedArray = sortedArray.reduce((acc, obj) => {
+          if (!acc[obj.group]) {
+            acc[obj.group] = [];
+          }
+          acc[obj.group].push(obj);
+          return acc;
+        }, {});
+  
+        const resultArray = Object.values(groupedArray);
+        // console.log(resultArray)
+  
+        obj.verbs = resultArray;
+
+
+
+
+      // console.log(obj.verbs)
+
+      setOriginalVerbs(obj.verbs);
+      setSignVerbs(obj.verbs);
+      setVerbs(obj.verbs);
+      significadoVerbos(obj.verbs);
+      
     }
   }, []);
+
+  // console.log(verbs)
 
   function ordenarAlf(arr) {
     arr.sort(function (a, b) {
@@ -180,12 +220,23 @@ const pageVerbs = () => {
         </li>
       </nav>
 
-      {verbs?.map((verb) => (
+      {verbs?.map((verbGroup) => (
+          // console.log(verbGroup)
+
+          <div key={verbGroup[0].docId}>
+            grupo-------------------------------------{verbGroup[0].group}
+            {verbGroup.map((verb) => (
+              <Verb key={verb.docId} name={verb.name} verb={verb.verb}></Verb>
+            ))}
+          </div>
+        ))}
+
+      {/* {verbs?.map((verb) => (
         // <div key={verb.name}>{verb.name}</div>
         <div key={verb.name}>
           <Verb name={verb.name} verb={verb.verb}></Verb>
         </div>
-      ))}
+      ))} */}
     </div>
   );
 };

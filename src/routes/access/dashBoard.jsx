@@ -71,7 +71,7 @@ const dashBoard = () => {
     // para obtener tipos
     const types = await getLinks("types");
 
-    // console.log(types)
+    // console.log(types[0].type)
 
     setCurrentTypesVerbs(types);
 
@@ -79,15 +79,16 @@ const dashBoard = () => {
 
     // obtener verbos
     const verbsAll = await getLinks("verbs");
-    console.log(verbsAll)
+    // console.log(verbsAll)
     setVerbsAllGot(verbsAll)
 
-    recibirArray(verbsAll,types)
+    recibirArray(verbsAll,types,types[0].type)
 
 
   }
 
-  function recibirArray(verbsAll,types){
+  function recibirArray(verbsAll,types,typeMode){
+    // console.log(verbsAll)
     let arrMain = [];
     for (let i = 0; i < types.length; i++) {
       // console.log(tmp)
@@ -103,7 +104,7 @@ const dashBoard = () => {
       // ordena alfabeticamente
       ordenarAlf(arrMain[i].verbs);
     }
-    console.log(arrMain);
+    // console.log(arrMain);
     // console.log(arrMain);
 
     // console.log(arrMain)
@@ -147,17 +148,23 @@ const dashBoard = () => {
       // arrMain[i].verbs=arreglosClasificados
     }
 
-    console.log(arrMain);
+    // console.log(arrMain);
     // console.log(arrMain[0].verbs.length)
 
     // for (let i = 0; i < arrMain[0].verbs.length; i++) {
 
     // }
+    // console.log(typeMode)
+
+    const tmp=arrMain.filter((verbsArr) => verbsArr.type == typeMode)
+    // console.log(tmp)
+
+    setVerbsMode(typeMode)
 
     setMainVerbs(arrMain);
-    console.log(arrMain)
-    setVerbs(arrMain[0].verbs);
-    console.log(arrMain[0].verbs);
+    // console.log(arrMain)
+    setVerbs(tmp[0].verbs);
+    // console.log(arrMain[0].verbs);
   }
 
   // console.log(mainVerbs)
@@ -227,7 +234,7 @@ const dashBoard = () => {
   async function handleType(type) {
     let tmp = await mainVerbs.filter((verbs) => verbs.type == type);
 
-    // console.log(mainVerbs);
+    // console.log(type);
     // console.log(tmp);
 
     setVerbsMode(type);
@@ -237,6 +244,8 @@ const dashBoard = () => {
 
     setVerbs([...tmp[0].verbs]);
   }
+
+  // console.log(verbsMode)
 
   // enviar verbo
   function handleSubmit(e) {
@@ -259,6 +268,7 @@ const dashBoard = () => {
         type: verbsMode,
         group: grupo,
       };
+      // console.log(newVerb)
 
       try {
         insertVerb(newVerb, "verbs", newDocId);
@@ -278,14 +288,15 @@ const dashBoard = () => {
         //   }
         // }
 
-
-
         setVerbsAllGot([...verbsAllGot,newVerb])
+        const tmp=[...verbsAllGot,newVerb]
 
-        console.log(verbsAllGot)
+        
+        // console.log(tmp)
 
+        recibirArray(tmp,currentTypesVerbs,verbsMode)
 
-        recibirArray(verbsAllGot,currentTypesVerbs)
+        // console.log(arr)
 
         
       } catch (error) {
@@ -295,7 +306,7 @@ const dashBoard = () => {
       showMessage("No pueden haber campos vacios", "e");
     }
   }
-
+  // console.log(verbsAllGot)
   async function remove(docId) {
     await deleteVerb(docId, "verbs");
 
@@ -309,8 +320,9 @@ const dashBoard = () => {
     // }
     // }
     const tmp=verbsAllGot.filter((verb) => verb.docId !== docId);
+    setVerbsAllGot([...tmp])
 
-    recibirArray(tmp,currentTypesVerbs)
+    recibirArray(tmp,currentTypesVerbs,verbsMode)
 
 //     let newVerb = {};
 //     for (let i = 0; i < verbs.length; i++) {
@@ -361,7 +373,7 @@ const dashBoard = () => {
 
 
       if (newVerb) {
-        console.log(verbs);
+        // console.log(verbs);
         // console.log(docId, name, verb,group)
         newVerb.name = name;
         newVerb.verb = verb;
@@ -406,7 +418,7 @@ const dashBoard = () => {
 
       const newMainVerb = {
         type: tipo,
-        verbs: [{ name: "Sin verbos aun", verb: "", docId: newDocId }],
+        verbs: [[{ name: "Sin verbos aun", verb: "", docId: newDocId }]],
       };
 
       try {
@@ -495,6 +507,8 @@ const dashBoard = () => {
 
   // ))
 
+  // console.log(verbs)
+
   return (
     <Navbar>
       <Link to="/">Pagina principal</Link>
@@ -572,3 +586,7 @@ export default dashBoard;
 // enseguida del delete verb poner el mismo check
 
 
+// mismo desmadre pero en pageVerbs
+
+
+// en remove algo para que me cargue el tipo con el que trabaje y no el tipo verbs verbs
