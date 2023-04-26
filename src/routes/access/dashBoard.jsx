@@ -533,18 +533,20 @@ const dashBoard = () => {
     console.log(group)
     console.log(groupArr)
 
-    groupArr.map((verb) =>{
-      verb.group=group
+    // groupArr.map((verb) =>{
+    //   verb.group=group
       
-    })
+    // })
 
 
 
     let tmp=verbsAllGot
     let objs=[]
     for (let i = 0; i < groupArr.length; i++) {
-      console.log(groupArr[i].docId)
+      console.log(groupArr[i])
       tmp=tmp.filter((verb) => verb.docId !== groupArr[i].docId);
+
+
 
       groupArr[i].group=group
       objs[i]=groupArr[i]
@@ -559,7 +561,7 @@ const dashBoard = () => {
     // console.log(verbsAllGot)
     // console.log(tmp)
 
-    // console.log(objs)
+    console.log(objs)
 
 
     // tmp

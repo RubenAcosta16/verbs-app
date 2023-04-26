@@ -79,12 +79,12 @@ const verbDb = ({ docId, name, verb,group, onDelete, onUpdate }) => {
 
   function handleOnChangeGroup(e) {
 
-    let group=e.target.value
+    // let group=e.target.value
 
-    if(group==""){
-      group="Sin grupo"
-    }
-    setCurrentGroup(group);
+    // if(group==""){
+    //   group="Sin grupo"
+    // }
+    setCurrentGroup(e.target.value);
   }
 
   return (

@@ -16,7 +16,7 @@ const pageVerbs = () => {
 
   const [habilited, sethabilited] = useState(true);
 
-  console.log(habilited);
+  // console.log(habilited);
 
   useEffect(() => {
     existeVerbo();
@@ -29,24 +29,80 @@ const pageVerbs = () => {
       const arrTypes = await getLinks("types");
       const tmpType = arrTypes.find((type) => type.type == verbParams);
 
-      console.log(tmpType);
+      // console.log(tmpType);
 
       sethabilited(tmpType.habilited);
 
       const verbsAll = await getLinks("verbs");
 
+      // verbos normales
+      const resVerbs = verbsAll.filter((verb) => verb.type == verbExist);
+
+      // verbos significado
+      let arrSign = [];
+      for (let i = 0; i < resVerbs.length; i++) {
+        let obj = {
+          docId: "",
+          name: "",
+          verb: "",
+          group: "",
+        };
+        obj.name = resVerbs[i].verb;
+        obj.verb = resVerbs[i].name;
+        obj.docId = resVerbs[i].docId;
+        obj.group = resVerbs[i].group;
+        // console.log(resVerbs[i])
+        arrSign.push(obj);
+      }
+
+      // verbos significado
+
+      // console.log(resVerbs);
+      // console.log(arrSign);
+
       if (verbExist) {
         if (tmpType.habilited) {
-          traerVerbos(verbsAll, verbExist);
-        } else {
-          const resVerbs = verbsAll.filter((verb) => verb.type == verbExist);
+          // console.log("si")
+          // traerVerbos(verbsAll, verbExist);
 
+          let arrNormal = doArrays(resVerbs);
+          let arrSignR = doArrays(arrSign);
+
+          function doArrays(array) {
+            const sortedArray = array.sort((a, b) =>
+              a.group > b.group ? 1 : -1
+            );
+
+            const groupedArray = sortedArray.reduce((acc, obj) => {
+              if (!acc[obj.group]) {
+                acc[obj.group] = [];
+              }
+              acc[obj.group].push(obj);
+              return acc;
+            }, {});
+
+            const resultArray = Object.values(groupedArray);
+            for (let i = 0; i < resultArray.length; i++) {
+              ordenarAlf(resultArray[i]);
+            }
+
+            return resultArray;
+          }
+
+          setOriginalVerbs([...arrNormal]);
+          setSignVerbs([...arrSignR]);
+
+          setVerbs([...arrNormal]);
+
+          // console.log(arrNormal);
+          // console.log(arrSignR);
+        } else {
           ordenarAlf(resVerbs);
           setOriginalVerbs([...resVerbs]);
           setSignVerbs([...resVerbs]);
 
           setVerbs([...resVerbs]);
-          significadoVerbos([...resVerbs], false);
+          significadoVerbos([...resVerbs]);
         }
       } else {
         // poner un useState y luego un return de interfaz
@@ -59,51 +115,6 @@ const pageVerbs = () => {
     }
 
     // ---------------------------
-
-    async function traerVerbos(verbsAll, verbsMode) {
-      // console.log(verbsMode)
-
-      const resVerbs = verbsAll.filter((verb) => verb.type == verbsMode);
-      // ordenarAlf(resVerbs);
-      // setOriginalVerbs([...resVerbs]);
-      // setSignVerbs([...resVerbs]);
-
-      // setVerbs([...resVerbs]);
-      // significadoVerbos([...resVerbs]);
-
-      const tmp = verbsAll.filter((verb) => verb.type == verbsMode);
-
-      const obj = {
-        type: verbsMode,
-        verbs: tmp,
-      };
-
-      // console.log(obj)
-
-      const sortedArray = obj.verbs.sort((a, b) =>
-        a.group > b.group ? 1 : -1
-      );
-
-      const groupedArray = sortedArray.reduce((acc, obj) => {
-        if (!acc[obj.group]) {
-          acc[obj.group] = [];
-        }
-        acc[obj.group].push(obj);
-        return acc;
-      }, {});
-
-      const resultArray = Object.values(groupedArray);
-      // console.log(resultArray)
-
-      obj.verbs = resultArray;
-
-      // console.log(resultArray)
-
-      setOriginalVerbs(obj.verbs);
-      setSignVerbs(obj.verbs);
-      setVerbs(obj.verbs);
-      significadoVerbos(obj.verbs, true);
-    }
   }, []);
 
   // console.log(verbs)
@@ -120,84 +131,22 @@ const pageVerbs = () => {
     });
   }
 
-  function significadoVerbos(resVerbs, hbted) {
-    if (hbted) {
-      console.log("habilitado");
+  function significadoVerbos(resVerbs) {
+    // console.log("no habilitado");
 
-      //son 8 arrays, cada uno con los verbos
-      console.log(resVerbs);
+    let arrSign = [];
+    for (let i = 0; i < resVerbs.length; i++) {
+      let obj = {
+        docId: "",
+        name: "",
+        verb: "",
+      };
+      obj.name = resVerbs[i].verb;
+      obj.verb = resVerbs[i].name;
+      obj.docId = resVerbs[i].docId;
+      // console.log(resVerbs[i])
+      arrSign.push(obj);
 
-      let arrSign = [];
-      for (let i = 0; i < resVerbs.length; i++) {
-        let tmp = resVerbs[i];
-        console.log(resVerbs[i]);
-        for (let i2 = 0; i2 < resVerbs[i].length; i2++) {
-          // console.log(tmp[i2])
-          let obj = {
-            docId: "",
-            name: "",
-            verb: "",
-            group:""
-          };
-          obj.name = tmp[i2].verb;
-          obj.verb = tmp[i2].name;
-          obj.docId = tmp[i2].docId;
-          if (tmp[i2].group == "") {
-            obj.group = "Sin grupo";
-          } else {
-            obj.docId = tmp[i2].group;
-          }
-          // console.log(resVerbs[i])
-          arrSign.push(obj);
-        }
-      }
-
-
-
-
-      const sortedArray = arrSign.sort((a, b) =>
-        a.group > b.group ? 1 : -1
-      );
-
-      const groupedArray = sortedArray.reduce((acc, obj) => {
-        if (!acc[obj.group]) {
-          acc[obj.group] = [];
-        }
-        acc[obj.group].push(obj);
-        return acc;
-      }, {});
-
-      const resultArray = Object.values(groupedArray);
-      // console.log(resultArray)
-
-      // arrSign = resultArray;
-      console.log(resultArray)
-
-
-
-
-
-
-
-      console.log(arrSign);
-      // traerVerbos(verbsAll,verbsMode)
-      setSignVerbs(resultArray);
-    } else {
-      console.log("no habilitado");
-
-      let arrSign = [];
-      for (let i = 0; i < resVerbs.length; i++) {
-        let obj = {
-          docId: "",
-          name: "",
-          verb: "",
-        };
-        obj.name = resVerbs[i].verb;
-        obj.verb = resVerbs[i].name;
-        obj.docId = resVerbs[i].docId;
-        // console.log(resVerbs[i])
-        arrSign.push(obj);
-      }
       setSignVerbs(arrSign);
     }
   }
@@ -215,16 +164,46 @@ const pageVerbs = () => {
     });
     //fin aleatorio
 
+    // console.log(lista)
+
     return lista;
   }
 
   function randomVerbs(arr) {
+    // console.log(habilited);
     const tmp = [];
-    const num = listaRandom(verbs.length);
+    if (habilited) {
+      const num = listaRandom(verbs.length);
 
-    // console.log(num)
-    for (let i = 0; i < num.length; i++) {
-      tmp[i] = arr[num[i]];
+      // console.log(num)
+      for (let i = 0; i < num.length; i++) {
+        tmp[i] = arr[num[i]];
+
+
+        let tmp2=[]
+        let tmp2Arr=tmp[i]
+        const num2 = listaRandom(tmp[i].length);
+        // console.log(tmp[i])
+        // console.log(num2)
+
+        for (let i2 = 0; i2 < tmp[i].length; i2++) {
+          tmp2[i2]=tmp2Arr[num2[i2]]
+          // console.log(num2[i2])
+        }
+        // console.log(tmp2)
+        // tmp[i]=
+        tmp[i]=tmp2
+      }
+
+
+    } else {
+
+      const num = listaRandom(verbs.length);
+
+      // console.log(num)
+      for (let i = 0; i < num.length; i++) {
+        tmp[i] = arr[num[i]];
+      }
     }
 
     setVerbs([...tmp]);

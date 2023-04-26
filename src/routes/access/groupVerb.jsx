@@ -35,13 +35,13 @@ const groupVerb = ({ group,onUpdateGroup }) => {
   }, [editGroup]);
 
   function handleOnChangeGroup(e) {
-    let groupTmp = e.target.value;
+    // let groupTmp = e.target.value;
 
-    if (groupTmp == "") {
-      groupTmp = "Sin grupo";
-    }
+    // if (groupTmp == "") {
+    //   groupTmp = "Sin grupo";
+    // }
 
-    setCurrentGroup(groupTmp);
+    setCurrentGroup(e.target.value);
   }
 
   // return <div>-- {group.group} --</div>;
@@ -59,7 +59,7 @@ const groupVerb = ({ group,onUpdateGroup }) => {
       ) : (
         <>
           <button onClick={handleEditGroup}>Edit</button>
-          {currentGroup}
+          {currentGroup? currentGroup : <div>Sin Grupo</div>}
         </>
       )}
     </div>
