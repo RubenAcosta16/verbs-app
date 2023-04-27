@@ -14,6 +14,10 @@ const pageVerbs = () => {
   const [state, setState] = useState(0);
   // 1 = no existe tipos de verbos
 
+  const [habilited, sethabilited] = useState(true);
+
+  console.log(habilited);
+
   useEffect(() => {
     existeVerbo();
 
@@ -22,8 +26,28 @@ const pageVerbs = () => {
 
       const verbExist = await existsVerbMode(verbParams);
 
+      const arrTypes = await getLinks("types");
+      const tmpType = arrTypes.find((type) => type.type == verbParams);
+
+      console.log(tmpType);
+
+      sethabilited(tmpType.habilited);
+
+      const verbsAll = await getLinks("verbs");
+
       if (verbExist) {
-        traerVerbos(verbExist);
+        if (tmpType.habilited) {
+          traerVerbos(verbsAll, verbExist);
+        } else {
+          const resVerbs = verbsAll.filter((verb) => verb.type == verbExist);
+
+          ordenarAlf(resVerbs);
+          setOriginalVerbs([...resVerbs]);
+          setSignVerbs([...resVerbs]);
+
+          setVerbs([...resVerbs]);
+          significadoVerbos([...resVerbs], false);
+        }
       } else {
         // poner un useState y luego un return de interfaz
         setState(1);
@@ -34,9 +58,11 @@ const pageVerbs = () => {
       }
     }
 
-    async function traerVerbos(verbsMode) {
+    // ---------------------------
+
+    async function traerVerbos(verbsAll, verbsMode) {
       // console.log(verbsMode)
-      const verbsAll = await getLinks("verbs");
+
       const resVerbs = verbsAll.filter((verb) => verb.type == verbsMode);
       // ordenarAlf(resVerbs);
       // setOriginalVerbs([...resVerbs]);
@@ -46,7 +72,7 @@ const pageVerbs = () => {
       // significadoVerbos([...resVerbs]);
 
       const tmp = verbsAll.filter((verb) => verb.type == verbsMode);
-      
+
       const obj = {
         type: verbsMode,
         verbs: tmp,
@@ -54,34 +80,29 @@ const pageVerbs = () => {
 
       // console.log(obj)
 
+      const sortedArray = obj.verbs.sort((a, b) =>
+        a.group > b.group ? 1 : -1
+      );
 
-        const sortedArray = obj.verbs.sort((a, b) =>
-          a.group > b.group ? 1 : -1
-        );
-  
-        const groupedArray = sortedArray.reduce((acc, obj) => {
-          if (!acc[obj.group]) {
-            acc[obj.group] = [];
-          }
-          acc[obj.group].push(obj);
-          return acc;
-        }, {});
-  
-        const resultArray = Object.values(groupedArray);
-        // console.log(resultArray)
-  
-        obj.verbs = resultArray;
+      const groupedArray = sortedArray.reduce((acc, obj) => {
+        if (!acc[obj.group]) {
+          acc[obj.group] = [];
+        }
+        acc[obj.group].push(obj);
+        return acc;
+      }, {});
 
+      const resultArray = Object.values(groupedArray);
+      // console.log(resultArray)
 
+      obj.verbs = resultArray;
 
-
-      // console.log(obj.verbs)
+      // console.log(resultArray)
 
       setOriginalVerbs(obj.verbs);
       setSignVerbs(obj.verbs);
       setVerbs(obj.verbs);
-      significadoVerbos(obj.verbs);
-      
+      significadoVerbos(obj.verbs, true);
     }
   }, []);
 
@@ -99,21 +120,86 @@ const pageVerbs = () => {
     });
   }
 
-  function significadoVerbos(resVerbs) {
-    let arrSign = [];
-    for (let i = 0; i < resVerbs.length; i++) {
-      let obj = {
-        docId: "",
-        name: "",
-        verb: "",
-      };
-      obj.name = resVerbs[i].verb;
-      obj.verb = resVerbs[i].name;
-      obj.docId = resVerbs[i].docId;
-      // console.log(resVerbs[i])
-      arrSign.push(obj);
+  function significadoVerbos(resVerbs, hbted) {
+    if (hbted) {
+      console.log("habilitado");
+
+      //son 8 arrays, cada uno con los verbos
+      console.log(resVerbs);
+
+      let arrSign = [];
+      for (let i = 0; i < resVerbs.length; i++) {
+        let tmp = resVerbs[i];
+        console.log(resVerbs[i]);
+        for (let i2 = 0; i2 < resVerbs[i].length; i2++) {
+          // console.log(tmp[i2])
+          let obj = {
+            docId: "",
+            name: "",
+            verb: "",
+            group:""
+          };
+          obj.name = tmp[i2].verb;
+          obj.verb = tmp[i2].name;
+          obj.docId = tmp[i2].docId;
+          if (tmp[i2].group == "") {
+            obj.group = "Sin grupo";
+          } else {
+            obj.docId = tmp[i2].group;
+          }
+          // console.log(resVerbs[i])
+          arrSign.push(obj);
+        }
+      }
+
+
+
+
+      const sortedArray = arrSign.sort((a, b) =>
+        a.group > b.group ? 1 : -1
+      );
+
+      const groupedArray = sortedArray.reduce((acc, obj) => {
+        if (!acc[obj.group]) {
+          acc[obj.group] = [];
+        }
+        acc[obj.group].push(obj);
+        return acc;
+      }, {});
+
+      const resultArray = Object.values(groupedArray);
+      // console.log(resultArray)
+
+      // arrSign = resultArray;
+      console.log(resultArray)
+
+
+
+
+
+
+
+      console.log(arrSign);
+      // traerVerbos(verbsAll,verbsMode)
+      setSignVerbs(resultArray);
+    } else {
+      console.log("no habilitado");
+
+      let arrSign = [];
+      for (let i = 0; i < resVerbs.length; i++) {
+        let obj = {
+          docId: "",
+          name: "",
+          verb: "",
+        };
+        obj.name = resVerbs[i].verb;
+        obj.verb = resVerbs[i].name;
+        obj.docId = resVerbs[i].docId;
+        // console.log(resVerbs[i])
+        arrSign.push(obj);
+      }
+      setSignVerbs(arrSign);
     }
-    setSignVerbs(arrSign);
   }
 
   // console.log(signVerbs)
@@ -220,23 +306,23 @@ const pageVerbs = () => {
         </li>
       </nav>
 
-      {verbs?.map((verbGroup) => (
-          // console.log(verbGroup)
+      {habilited
+        ? verbs?.map((verbGroup) => (
+            // console.log(verbGroup)
 
-          <div key={verbGroup[0].docId}>
-            grupo-------------------------------------{verbGroup[0].group}
-            {verbGroup.map((verb) => (
-              <Verb key={verb.docId} name={verb.name} verb={verb.verb}></Verb>
-            ))}
-          </div>
-        ))}
-
-      {/* {verbs?.map((verb) => (
-        // <div key={verb.name}>{verb.name}</div>
-        <div key={verb.name}>
-          <Verb name={verb.name} verb={verb.verb}></Verb>
-        </div>
-      ))} */}
+            <div key={verbGroup[0].docId}>
+              grupo-------------------------------------{verbGroup[0].group}
+              {verbGroup.map((verb) => (
+                <Verb key={verb.docId} name={verb.name} verb={verb.verb}></Verb>
+              ))}
+            </div>
+          ))
+        : verbs?.map((verb) => (
+            // <div key={verb.name}>{verb.name}</div>
+            <div key={verb.name}>
+              <Verb name={verb.name} verb={verb.verb}></Verb>
+            </div>
+          ))}
     </div>
   );
 };

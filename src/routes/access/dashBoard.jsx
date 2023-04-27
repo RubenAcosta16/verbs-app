@@ -7,6 +7,8 @@ import { showMessage } from "../../app/showMessage";
 import Navbar from "./navbar";
 import VerbDb from "./verbDb";
 import ButtonDelete from "../verbs/buttonDeleteType";
+import GroupVerb from './groupVerb'
+import ButtonHabilited from './buttonHabilited'
 
 import {
   getLinks,
@@ -363,7 +365,7 @@ const dashBoard = () => {
     
   }
 
-  async function handleUpdateVerb(docId, name, verb, group) {
+  async function handleUpdateVerb(docId, name, verb, group, groupCall=false) {
     // const newVerb = verbs.find((verb) => verb.docId === docId);
 
     let newVerb = {};
@@ -384,12 +386,29 @@ const dashBoard = () => {
         // aqui el error, se ejecuta infinitas veces
         await updateVerb(docId, newVerb, "verbs");
 
+
+        if(groupCall){
+          const tmp=verbsAllGot.filter((verb) => verb.docId !== docId);
+        setVerbsAllGot([...tmp,newVerb])
+    
+        recibirArray([...tmp,newVerb],currentTypesVerbs,verbsMode)
+        }
+
         // setVerbsAllGot([...verbsAllGot,newVerb])
 
         // console.log(verbsAllGot)
 
 
         // recibirArray(verbsAllGot,currentTypesVerbs)
+
+
+        // const tmp=[...verbsAllGot,newVerb]
+
+        
+        // console.log(tmp)
+
+        // recibirArray(tmp,currentTypesVerbs,verbsMode)
+        
       }
     }
 
@@ -509,6 +528,53 @@ const dashBoard = () => {
 
   // console.log(verbs)
 
+
+  async function handleUpdateGroup(group, groupArr){
+    console.log(group)
+    console.log(groupArr)
+
+    groupArr.map((verb) =>{
+      verb.group=group
+      
+    })
+
+
+
+    let tmp=verbsAllGot
+    let objs=[]
+    for (let i = 0; i < groupArr.length; i++) {
+      console.log(groupArr[i].docId)
+      tmp=tmp.filter((verb) => verb.docId !== groupArr[i].docId);
+
+      groupArr[i].group=group
+      objs[i]=groupArr[i]
+
+
+
+      await handleUpdateVerb(groupArr[i].docId,groupArr[i].name,groupArr[i].verb,groupArr[i].group)
+
+
+    }
+
+    // console.log(verbsAllGot)
+    // console.log(tmp)
+
+    // console.log(objs)
+
+
+    // tmp
+
+
+    // const tmp=verbsAllGot
+    // .filter((verb) => verb.docId !== docId);
+    setVerbsAllGot([...tmp,...objs])
+    
+    recibirArray([...tmp,...objs],currentTypesVerbs,verbsMode)
+
+
+    // console.log(groupArr)
+  }
+
   return (
     <Navbar>
       <Link to="/">Pagina principal</Link>
@@ -552,6 +618,8 @@ const dashBoard = () => {
                 type={type}
                 handleDeleteType={handleDeleteType}
               ></ButtonDelete>
+
+              <ButtonHabilited type={type}></ButtonHabilited>
             </div>
           ))}
         </nav>
@@ -560,7 +628,14 @@ const dashBoard = () => {
           // console.log(verbGroup)
 
           <div key={verbGroup[0].docId}>
-            grupo-------------------------------------{verbGroup[0].group}
+            {/* - {verbGroup[0].group} - */}
+
+            <br />
+            <br />
+            <br />
+            ---------------------------------
+            <GroupVerb group={verbGroup} onUpdateGroup={handleUpdateGroup}></GroupVerb>
+
             {verbGroup.map((verb) => (
               <VerbDb
                 key={verb.docId}
@@ -586,7 +661,3 @@ export default dashBoard;
 // enseguida del delete verb poner el mismo check
 
 
-// mismo desmadre pero en pageVerbs
-
-
-// en remove algo para que me cargue el tipo con el que trabaje y no el tipo verbs verbs

@@ -42,7 +42,13 @@ const verbDb = ({ docId, name, verb,group, onDelete, onUpdate }) => {
 
   function handleOnBlurGroup(e) {
     setEditGroup(false);
-    onUpdate(docId, currentName, currentVerb, e.target.value);
+
+    let group=e.target.value
+
+    if(group==""){
+      group="Sin grupo"
+    }
+    onUpdate(docId, currentName, currentVerb, group, true);
   }
 
   useEffect(() => {
@@ -72,7 +78,13 @@ const verbDb = ({ docId, name, verb,group, onDelete, onUpdate }) => {
   }
 
   function handleOnChangeGroup(e) {
-    setCurrentGroup(e.target.value);
+
+    let group=e.target.value
+
+    if(group==""){
+      group="Sin grupo"
+    }
+    setCurrentGroup(group);
   }
 
   return (
