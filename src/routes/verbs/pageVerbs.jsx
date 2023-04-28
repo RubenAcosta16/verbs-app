@@ -1,7 +1,7 @@
 import { getLinks, existsVerbMode } from "../../firebase/firebase";
 import { useState, useEffect } from "react";
 
-import { useParams } from "react-router-dom";
+import { useParams,Link } from "react-router-dom";
 
 import Verb from "./verb";
 
@@ -245,6 +245,8 @@ const pageVerbs = () => {
   return (
     <div>
       {/* <button onClick={handleOnSubmit}>Enviar</button> */}
+
+      <Link to="/">Pagina principal</Link>
 
       <nav>
         <li className="nav-item mx-auto px-1 my-1">
