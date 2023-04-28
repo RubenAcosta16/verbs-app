@@ -283,7 +283,7 @@ const dashBoard = () => {
           showMessage("Hay otro verbo igual, no se puede agregar","e");
       }else{
         try {
-          // insertVerb(newVerb, "verbs", newDocId);
+          insertVerb(newVerb, "verbs", newDocId);
   
           showMessage("se envio el verbo");
   
@@ -612,7 +612,9 @@ const dashBoard = () => {
 
         <label htmlFor="">Grupo</label>
         <div>Si se queda vacio es porque no tiene grupo</div>
-        <input ref={refGrupo} type="text" name="grupo" />
+        {/* <input  type="text" name="grupo" /> */}
+
+        <textarea ref={refGrupo} name="grupo"cols="40" rows="3"></textarea>
 
         <button type="submit">Enviar</button>
       </form>
