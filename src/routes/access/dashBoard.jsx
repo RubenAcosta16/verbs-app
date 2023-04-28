@@ -250,7 +250,8 @@ const dashBoard = () => {
   // console.log(verbsMode)
 
   // enviar verbo
-  function handleSubmit(e) {
+  // console.log(verbsAllGot)
+  function handleSubmitVerb(e) {
     e.preventDefault();
     const nombre = e.target["nombre"].value;
     const significado = e.target["significado"].value;
@@ -272,38 +273,48 @@ const dashBoard = () => {
       };
       // console.log(newVerb)
 
-      try {
-        insertVerb(newVerb, "verbs", newDocId);
+      refNombre.current.value = "";
+      refSignificado.current.value = "";
+      refGrupo.current.value = "";
 
-        showMessage("se envio el verbo");
+      const verbsFound=verbsAllGot.find((verb) => verb.name === nombre)
+      if(verbsFound&&(verbsFound.group==grupo)){
+          // console.log(verbsFound)
+          showMessage("Hay otro verbo igual, no se puede agregar","e");
+      }else{
+        try {
+          // insertVerb(newVerb, "verbs", newDocId);
+  
+          showMessage("se envio el verbo");
+  
 
-        refNombre.current.value = "";
-        refSignificado.current.value = "";
-        refGrupo.current.value = "";
-
-        // for (let i = 0; i < mainVerbs.length; i++) {
-        //   if (mainVerbs[i].type == verbsMode) {
-        //     // console.log(mainVerbs[i])
-        //     mainVerbs[i].verbs.push(newVerb);
-        //     ordenarAlf(mainVerbs[i].verbs);
-        //     setVerbs([...mainVerbs[i].verbs]);
-        //   }
-        // }
-
-        setVerbsAllGot([...verbsAllGot,newVerb])
-        const tmp=[...verbsAllGot,newVerb]
-
-        
-        // console.log(tmp)
-
-        recibirArray(tmp,currentTypesVerbs,verbsMode)
-
-        // console.log(arr)
-
-        
-      } catch (error) {
-        console.log(error);
+  
+          // for (let i = 0; i < mainVerbs.length; i++) {
+          //   if (mainVerbs[i].type == verbsMode) {
+          //     // console.log(mainVerbs[i])
+          //     mainVerbs[i].verbs.push(newVerb);
+          //     ordenarAlf(mainVerbs[i].verbs);
+          //     setVerbs([...mainVerbs[i].verbs]);
+          //   }
+          // }
+  
+          setVerbsAllGot([...verbsAllGot,newVerb])
+          const tmp=[...verbsAllGot,newVerb]
+  
+          
+          // console.log(tmp)
+  
+          recibirArray(tmp,currentTypesVerbs,verbsMode)
+  
+          // console.log(arr)
+  
+          
+        } catch (error) {
+          console.log(error);
+        }
       }
+
+
     } else {
       showMessage("No pueden haber campos vacios", "e");
     }
@@ -592,7 +603,7 @@ const dashBoard = () => {
         <br />
       </div>
 
-      <form action="" onSubmit={handleSubmit}>
+      <form action="" onSubmit={handleSubmitVerb}>
         <label htmlFor="">Nombre</label>
         <input ref={refNombre} type="text" name="nombre" />
 
