@@ -572,7 +572,7 @@ const dashBoard = () => {
     // console.log(verbsAllGot)
     // console.log(tmp)
 
-    console.log(objs)
+    // console.log(objs)
 
 
     // tmp
@@ -607,17 +607,21 @@ const dashBoard = () => {
         <label htmlFor="">Nombre</label>
         <input ref={refNombre} type="text" name="nombre" />
 
+        <br />
         <label htmlFor="">Significado</label>
-        <input ref={refSignificado} type="text" name="significado" />
+        {/* <input ref={refSignificado} type="text" name="significado" /> */}
+        <textarea ref={refSignificado} name="significado" cols="40" rows="3"></textarea>
 
+        <br />
         <label htmlFor="">Grupo</label>
         <div>Si se queda vacio es porque no tiene grupo</div>
         {/* <input  type="text" name="grupo" /> */}
-
         <textarea ref={refGrupo} name="grupo"cols="40" rows="3"></textarea>
 
+        <br />
         <button type="submit">Enviar</button>
       </form>
+      <br /><br /><br />
       <div>
         <nav>
           {currentTypesVerbs.map((type) => (
