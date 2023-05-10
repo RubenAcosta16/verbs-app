@@ -1,6 +1,10 @@
 import {Link} from 'react-router-dom'
 
+import '../css/link-btn-card.css'
+
 const verbLink = ({name}) => {
+    let num=(Math.random()*10)+360
+    console.log(num)
   return (
     <div className="col-md text-center link-btn-card font-weight-bold">
 
@@ -8,7 +12,7 @@ const verbLink = ({name}) => {
 
         <div className="card">
           <img
-            src="https://picsum.photos/500/360.jpg"
+            src={`https://picsum.photos/500/${Math.round(num)}.jpg`}
             className="card-img-top"
             alt="..."
           />
