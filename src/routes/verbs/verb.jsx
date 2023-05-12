@@ -1,21 +1,38 @@
-import {useRef} from 'react'
+import { useRef } from "react";
 
+import '../../css/verbos_style.css'
 
-const link = ({name,verb}) => {
+import arrow from "./arrow.svg";
 
-    const exp=useRef(null)
+const link = ({ name, verb }) => {
+  const img = useRef(null);
+  const significadoRef = useRef(null)
 
-    function make(){
-        exp.current.style.color="red"
+  function make() {
+    // exp.current.style.color = "red";
+
+    significadoRef.current.classList.toggle("significado-mostrar");
+    img.current.classList.toggle("img-back-active");
+
+    let height=0;
+
+    if(significadoRef.current.clientHeight=="0"){
+        height=significadoRef.current.scrollHeight;
     }
+    significadoRef.current.style.height=height+"px";
+  }
 
-
-
-
-
-    return <div>
-        <p  ref={exp} onClick={make}>{name} | {verb}</p>
-    </div>;
-}
+  return (
+    <li className="verbo" onClick={make}>
+      <span className="palabra" >
+        {name}
+        <img src={arrow} alt="" ref={img}/>
+      </span>
+      <span ref={significadoRef} className="significado text-p-sm">
+        {verb}
+      </span>
+    </li>
+  );
+};
 
 export default link;

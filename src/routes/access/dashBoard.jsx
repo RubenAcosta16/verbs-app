@@ -9,6 +9,7 @@ import VerbDb from "./verbDb";
 import ButtonDelete from "../verbs/buttonDeleteType";
 import GroupVerb from './groupVerb'
 import ButtonHabilited from './buttonHabilited'
+import DescripcionEdit from './descriptionEdit'
 
 import {
   getLinks,
@@ -50,8 +51,8 @@ const dashBoard = () => {
   const [currentTypesVerbs, setCurrentTypesVerbs] = useState([]);
 
   const [verbsMode, setVerbsMode] = useState("past");
-  // 1 past
-  // 2 phrasal
+  const [descripcionMode, setDescripcionMode] = useState("")
+  const [typeVerbMain, setTypeVerbMain] = useState({})
 
   const navigate = useNavigate();
 
@@ -61,6 +62,8 @@ const dashBoard = () => {
   const refType = useRef(null);
 
   const refCrearTipo = useRef(null);
+  const refTipoDescripcion = useRef(null);
+
 
   async function handleUserLoggedIn(user) {
     // navigate("/");
@@ -97,11 +100,13 @@ const dashBoard = () => {
       // const tmp = await getLinks(types[i].type);
 
       const tmp = verbsAll.filter((verb) => verb.type == types[i].type);
-
+      
       const obj = {
         type: types[i].type,
+        descripcion:types[i]?.descripcion,
         verbs: tmp,
       };
+      // console.log(types[i]?.descripcion)
       arrMain[i] = obj;
       // ordena alfabeticamente
       ordenarAlf(arrMain[i].verbs);
@@ -159,9 +164,24 @@ const dashBoard = () => {
     // console.log(typeMode)
 
     const tmp=arrMain.filter((verbsArr) => verbsArr.type == typeMode)
-    // console.log(tmp)
+    console.log(tmp[0])
 
-    setVerbsMode(typeMode)
+    if (tmp[0].descripcion) {
+      setTypeVerbMain(tmp[0])
+      // setDescripcionMode(tmp[0]?.descripcion)
+    }else{
+      let newType={type: tmp[0].type, descripcion: "Sin descripcion", verbs: tmp[0].verbs}
+
+      // setDescripcionMode("Sin descripcion")
+      setTypeVerbMain(newType)
+    }
+
+    // if (tmp[0].descripcion) {
+    //   setDescripcionMode(tmp[0]?.descripcion)
+    // }else{
+    //   setDescripcionMode("Sin descripcion")
+    // }
+    // setDescripcionMode()
 
     setMainVerbs(arrMain);
     // console.log(arrMain)
@@ -234,17 +254,30 @@ const dashBoard = () => {
   }
 
   async function handleType(type) {
+    console.log(type)
     let tmp = await mainVerbs.filter((verbs) => verbs.type == type);
 
-    // console.log(type);
+    // console.log(tmp[0]?.descripcion);
     // console.log(tmp);
 
-    setVerbsMode(type);
+    // setVerbsMode(type);
+    // setTypeVerbMain(tmp[0])
     // console.log(tmp)
     // console.log(mainVerbs)
     // console.log(currentTypesVerbs)
 
     setVerbs([...tmp[0].verbs]);
+
+    if (tmp[0].descripcion) {
+      setTypeVerbMain(tmp[0])
+      // setDescripcionMode(tmp[0]?.descripcion)
+    }else{
+      let newType={type: tmp[0].type, descripcion: "Sin descripcion", verbs: tmp[0].verbs}
+
+      // setDescripcionMode("Sin descripcion")
+      setTypeVerbMain(newType)
+    }
+    
   }
 
   // console.log(verbsMode)
@@ -268,7 +301,7 @@ const dashBoard = () => {
         name: nombre,
         verb: significado,
         docId: newDocId,
-        type: verbsMode,
+        type: typeVerbMain.type,
         group: grupo,
       };
       // console.log(newVerb)
@@ -304,7 +337,7 @@ const dashBoard = () => {
           
           // console.log(tmp)
   
-          recibirArray(tmp,currentTypesVerbs,verbsMode)
+          recibirArray(tmp,currentTypesVerbs,typeVerbMain.type)
   
           // console.log(arr)
   
@@ -335,7 +368,7 @@ const dashBoard = () => {
     const tmp=verbsAllGot.filter((verb) => verb.docId !== docId);
     setVerbsAllGot([...tmp])
 
-    recibirArray(tmp,currentTypesVerbs,verbsMode)
+    recibirArray(tmp,currentTypesVerbs,typeVerbMain.type)
 
 //     let newVerb = {};
 //     for (let i = 0; i < verbs.length; i++) {
@@ -402,7 +435,7 @@ const dashBoard = () => {
           const tmp=verbsAllGot.filter((verb) => verb.docId !== docId);
         setVerbsAllGot([...tmp,newVerb])
     
-        recibirArray([...tmp,newVerb],currentTypesVerbs,verbsMode)
+        recibirArray([...tmp,newVerb],currentTypesVerbs,typeVerbMain.type)
         }
 
         // setVerbsAllGot([...verbsAllGot,newVerb])
@@ -435,6 +468,8 @@ const dashBoard = () => {
     e.preventDefault();
 
     const tipo = e.target["type"].value;
+    const descripcion = e.target["tipoDescripcion"].value;
+
     // console.log(tipo);
 
     if (tipo !== "") {
@@ -442,12 +477,14 @@ const dashBoard = () => {
 
       const newType = {
         type: tipo,
+        descripcion:descripcion,
         docId: newDocId,
       };
       // console.log(currentTypesVerbs);
 
       const newMainVerb = {
         type: tipo,
+        descripcion:descripcion,
         verbs: [[{ name: "Sin verbos aun", verb: "", docId: newDocId }]],
       };
 
@@ -582,12 +619,12 @@ const dashBoard = () => {
     // .filter((verb) => verb.docId !== docId);
     setVerbsAllGot([...tmp,...objs])
     
-    recibirArray([...tmp,...objs],currentTypesVerbs,verbsMode)
+    recibirArray([...tmp,...objs],currentTypesVerbs,typeVerbMain.type)
 
 
-    // console.log(groupArr)
   }
-
+  // console.log(mainVerbs)
+  
   return (
     <Navbar>
       <Link to="/">Pagina principal</Link>
@@ -597,6 +634,10 @@ const dashBoard = () => {
         <form action="" onSubmit={handleCrearTipo}>
           <label htmlFor="">Nombre:</label>
           <input ref={refCrearTipo} name="type" type="text" />
+
+          <label htmlFor="">Descripcion:</label>
+          <textarea ref={refTipoDescripcion} name="tipoDescripcion" cols="40" rows="3"></textarea>
+          
           <button type="submit">Crear</button>
         </form>
         <br />
@@ -647,7 +688,11 @@ const dashBoard = () => {
           // console.log(verbGroup)
 
           <div key={verbGroup[0].docId}>
-            {/* - {verbGroup[0].group} - */}
+            - {typeVerbMain.type} -
+            <br /><br />
+
+            - {typeVerbMain.descripcion} -
+            <DescripcionEdit docId={typeVerbMain.docId} typeVerb={typeVerbMain}></DescripcionEdit>
 
             <br />
             <br />

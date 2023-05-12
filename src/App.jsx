@@ -59,15 +59,14 @@ function App() {
           </p>
 
           <div className="verbs-container row align-items-center gap-4 p-5">
-
             {currentTypes?.map((type) => (
               // <div key={verb.name}>{verb.name}</div>
-              <VerbLink  key={type.docId} name={type.type}></VerbLink>
+              <VerbLink key={type.docId} name={type.type}></VerbLink>
               // <div key={type.docId}>
               //   <Link to={"/p/" + type.type}>{type.type}</Link>
               // </div>
             ))}
-            
+
             {/* <VerbLink></VerbLink>
             <VerbLink></VerbLink>
             <VerbLink></VerbLink>
@@ -109,13 +108,16 @@ function App() {
 
       {/* <h1>Verbs</h1> */}
 
-
       {/* {currentTypes?.map((type) => (
         // <div key={verb.name}>{verb.name}</div>
         <div key={type.docId}>
           <Link to={"/p/" + type.type}>{type.type}</Link>
         </div>
       ))} */}
+
+      <footer className="container-fluid footer p-5">
+        <p class="text-center">Pagina de verbos - Ruben Acosta</p>
+      </footer>
     </div>
   );
 }

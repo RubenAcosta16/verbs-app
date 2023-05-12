@@ -4,6 +4,10 @@ import { useState, useEffect } from "react";
 import { useParams,Link } from "react-router-dom";
 
 import Verb from "./verb";
+import NavBar from "../../components/navBarMain";
+import "../../css/main.css";
+
+import '../../css/verbos_style.css'
 
 const pageVerbs = () => {
   const params = useParams();
@@ -13,6 +17,8 @@ const pageVerbs = () => {
   const [signVerbs, setSignVerbs] = useState([]);
   const [state, setState] = useState(0);
   // 1 = no existe tipos de verbos
+
+  const [descriptcion, setDescriptcion] = useState("")
 
   const [habilited, sethabilited] = useState(true);
 
@@ -30,6 +36,20 @@ const pageVerbs = () => {
       const tmpType = arrTypes.find((type) => type.type == verbParams);
 
       // console.log(tmpType);
+      
+
+      if (tmpType.descripcion) {
+        setDescriptcion(tmpType.descripcion)
+        // setDescripcionMode(tmp[0]?.descripcion)
+      }else{
+        let newDescripcion="Sin descripcion"
+  
+        // setDescripcionMode("Sin descripcion")
+        setDescriptcion(newDescripcion)
+      }
+
+
+
 
       sethabilited(tmpType.habilited);
 
@@ -243,8 +263,9 @@ const pageVerbs = () => {
   }
 
   return (
-    <div>
+    <div className="eq-body">
       {/* <button onClick={handleOnSubmit}>Enviar</button> */}
+      <NavBar></NavBar>
 
       <Link to="/">Pagina principal</Link>
 
@@ -287,16 +308,21 @@ const pageVerbs = () => {
         </li>
       </nav>
 
+      <p>{descriptcion}</p>
+
+      <div className="contenedor container-lg p-5">
+
+      
       {habilited
         ? verbs?.map((verbGroup) => (
             // console.log(verbGroup)
 
-            <div key={verbGroup[0].docId}>
-              grupo-------------------------------------{verbGroup[0].group}
+            <ul className="list" key={verbGroup[0].docId}>
+              --------Grupo: {verbGroup[0].group}----------
               {verbGroup.map((verb) => (
                 <Verb key={verb.docId} name={verb.name} verb={verb.verb}></Verb>
               ))}
-            </div>
+            </ul>
           ))
         : verbs?.map((verb) => (
             // <div key={verb.name}>{verb.name}</div>
@@ -304,6 +330,7 @@ const pageVerbs = () => {
               <Verb name={verb.name} verb={verb.verb}></Verb>
             </div>
           ))}
+          </div>
     </div>
   );
 };
