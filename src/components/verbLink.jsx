@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 import '../css/link-btn-card.css'
 
 const verbLink = ({name}) => {
-    let num=(Math.random()*10)+360
+    let num=(Math.random()*20)+360
     console.log(num)
   return (
     <div className="col-md text-center link-btn-card font-weight-bold">
