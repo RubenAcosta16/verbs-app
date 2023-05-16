@@ -454,7 +454,7 @@ const dashBoard = () => {
   //   console.log(verb.name)
   // })
 
-  console.log(currentTypesVerbs)
+  // console.log(currentTypesVerbs)
 
   function handleCrearTipo(e) {
     e.preventDefault();
@@ -622,13 +622,14 @@ const dashBoard = () => {
 
   async function handleUpdateDescription(docId, newType) {
     await updateVerb(docId, newType, "types");
-    console.log("se cambio");
+    // console.log("se cambio");
+    // showMessage("Se cambio la descripcion")
 
     const tmp = currentTypesVerbs.filter(
       (type) => type.docId !== newType.docId
     );
 
-    console.log(tmp);
+    // console.log(tmp);
 
     setCurrentTypesVerbs([...tmp, newType]);
   }

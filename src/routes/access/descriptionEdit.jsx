@@ -1,94 +1,81 @@
 import { useState, useRef, useEffect } from "react";
 
-const descriptionEdit = ({typeVerb,docId,allTypes,onUpdate}) => {
+const descriptionEdit = ({ typeVerb, docId, allTypes, onUpdate }) => {
+  // console.log(typeVerb)
+  // console.log(allTypes)
 
+  const thisType = allTypes.find((type) => type.type === typeVerb.type);
 
-    // console.log(typeVerb)
-    // console.log(allTypes)
+  // console.log(thisType)
 
-    const thisType=allTypes.find((type) => type.type === typeVerb.type)
+  const [currentType, setCurrentType] = useState(thisType.descripcion);
 
+  const [editType, setEditType] = useState(false);
+
+  const refType = useRef(null);
+
+  function handleEditType() {
+    setEditType(true);
+  }
+
+  // async function handleDelete() {
+  //   await onDelete(docId);
+  // }
+
+  function handleOnBlurType(e) {
+    setEditType(false);
+
+    let newDescription = e.target.value;
+
+    if (newDescription == "") {
+      group = "Sin descripcion";
+    }
     // console.log(thisType)
 
-    const [currentType, setCurrentType] = useState(thisType.descripcion);
+    const newType = {
+      docId: thisType.docId,
+      habilited: thisType.habilited,
+      type: thisType.type,
+      descripcion: newDescription,
+    };
 
-    const [editType, setEditType] = useState(false);
+    onUpdate(thisType.docId, newType);
+  }
 
-  
-    const refType = useRef(null);
-
-  
-    function handleEditType() {
-      setEditType(true);
+  useEffect(() => {
+    if (refType.current) {
+      refType.current.focus();
     }
-  
+  }, [editType]);
 
-  
-    // async function handleDelete() {
-    //   await onDelete(docId);
-    // }
-  
- 
-  
+  function handleOnChangeType(e) {
+    setCurrentType(e.target.value);
+  }
 
-  
-    function handleOnBlurType(e) {
-      setEditType(false);
-  
-      let newDescription=e.target.value
-  
-      if(newDescription==""){
-        group="Sin descripcion"
-      }
-      // console.log(thisType)
-
-      const newType={
-        docId:thisType.docId,
-        habilited:thisType.habilited,
-        type: thisType.type,
-        descripcion:newDescription
-      }
-
-      onUpdate(thisType.docId, newType);
-    }
-  
-    useEffect(() => {
-      if (refType.current) {
-        refType.current.focus();
-      }
-    }, [editType]);
-
-  
-    function handleOnChangeType(e) {
-      setCurrentType(e.target.value);
-    }
-  
-
-  
-    return (
-      <div key={thisType.docId}>
-        <p></p>
-        <div>
-          {editType ? (
-            <>
-              <input
-                ref={refType}
-                onBlur={handleOnBlurType}
-                onChange={handleOnChangeType}
-                value={currentType}
-              />
-            </>
-          ) : (
-            <>
-              <button onClick={handleEditType}>Edit</button>
-              {currentType}
-            </>
-          )}
-        </div>
-  
+  return (
+    <div key={thisType.docId}>
+      <p></p>
+      <div>
+        {editType ? (
+          <>
+            <textarea
+              ref={refType}
+              onBlur={handleOnBlurType}
+              onChange={handleOnChangeType}
+              value={currentType}
+              cols="40"
+              rows="3"
+            ></textarea>
+          </>
+        ) : (
+          <>
+            <button onClick={handleEditType}>Edit</button>
+            {currentType}
+          </>
+        )}
       </div>
-    );
-}
-
+    </div>
+  );
+};
 
 export default descriptionEdit;
