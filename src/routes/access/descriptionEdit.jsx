@@ -1,9 +1,17 @@
 import { useState, useRef, useEffect } from "react";
 
-const descriptionEdit = ({typeVerb,docId}) => {
-    const [currentType, setCurrentType] = useState(typeVerb.type);
+const descriptionEdit = ({typeVerb,docId,allTypes,onUpdate}) => {
 
-    console.log(docId)
+
+    // console.log(typeVerb)
+    // console.log(allTypes)
+
+    const thisType=allTypes.find((type) => type.type === typeVerb.type)
+
+    // console.log(thisType)
+
+    const [currentType, setCurrentType] = useState(thisType.descripcion);
+
     const [editType, setEditType] = useState(false);
 
   
@@ -27,12 +35,21 @@ const descriptionEdit = ({typeVerb,docId}) => {
     function handleOnBlurType(e) {
       setEditType(false);
   
-      let newType=e.target.value
+      let newDescription=e.target.value
   
-      if(group==""){
-        group="Sin grupo"
+      if(newDescription==""){
+        group="Sin descripcion"
       }
-      onUpdate(docId, currentType, currentVerb, group, true);
+      // console.log(thisType)
+
+      const newType={
+        docId:thisType.docId,
+        habilited:thisType.habilited,
+        type: thisType.type,
+        descripcion:newDescription
+      }
+
+      onUpdate(thisType.docId, newType);
     }
   
     useEffect(() => {
@@ -49,7 +66,7 @@ const descriptionEdit = ({typeVerb,docId}) => {
 
   
     return (
-      <div key={docId}>
+      <div key={thisType.docId}>
         <p></p>
         <div>
           {editType ? (

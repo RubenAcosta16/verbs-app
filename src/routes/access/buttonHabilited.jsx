@@ -20,7 +20,8 @@ const buttonHabilited = ({type}) => {
     let tmpType={
         docId:type.docId,
         type:type.type,
-        habilited:true
+        habilited:true,
+        descripcion:type.descripcion
     }
 
 
@@ -33,7 +34,9 @@ const buttonHabilited = ({type}) => {
     let tmpType={
         docId:type.docId,
         type:type.type,
-        habilited:false
+        habilited:false,
+        descripcion:type.descripcion
+        
     }
 
 

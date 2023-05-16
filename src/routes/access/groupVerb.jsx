@@ -1,7 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 
-const groupVerb = ({ group,onUpdateGroup }) => {
-//   console.log(group);
+const groupVerb = ({ group,onUpdateGroup}) => {
+
+
+
+  // console.log(group);
   const [currentGroup, setCurrentGroup] = useState(group[0].group);
 
   const [editGroup, setEditGroup] = useState(false);
@@ -47,6 +50,7 @@ const groupVerb = ({ group,onUpdateGroup }) => {
   // return <div>-- {group.group} --</div>;
   return (
     <div>
+      <div>
       {editGroup ? (
         <>
           <input
@@ -62,6 +66,15 @@ const groupVerb = ({ group,onUpdateGroup }) => {
           {currentGroup? currentGroup : <div>Sin Grupo</div>}
         </>
       )}
+      </div>
+
+
+
+
+      
+
+
+
     </div>
   );
 };
