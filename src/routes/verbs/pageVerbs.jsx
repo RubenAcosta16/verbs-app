@@ -171,6 +171,7 @@ const pageVerbs = () => {
     }
   }
 
+
   // console.log(signVerbs)
 
   function listaRandom(num) {
@@ -308,10 +309,10 @@ const pageVerbs = () => {
         </li>
       </nav>
 
-      <p>{descriptcion}</p>
 
       <div className="contenedor container-lg p-5">
 
+        <p>{descriptcion}</p>
       
       {habilited
         ? verbs?.map((verbGroup) => (

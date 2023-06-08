@@ -11,6 +11,7 @@ import GroupVerb from "./groupVerb";
 import ButtonHabilited from "./buttonHabilited";
 import DescripcionEdit from "./descriptionEdit";
 import DeleteGroup from "./deleteGroup";
+import EditTypeName from "./editTypeName";
 
 import {
   getLinks,
@@ -23,21 +24,6 @@ import {
 import { v4 as uuidv4 } from "uuid";
 // install npm install uuidv4
 
-// let ar=["Alo","Ruben","Esta morra","Ya no quiero trabajar aaaaaaaaaaa"]
-
-// ar.sort(function(a, b) {
-
-//   if (b < a) {
-//     return 1;
-//   } else if (b > a) {
-//     return -1;
-//   } else {
-//     return 0;
-//   }
-// });
-
-// console.log(ar)
-
 const dashBoard = () => {
   const [currentState, setCurrentState] = useState(0);
   // 3 recargar
@@ -45,13 +31,19 @@ const dashBoard = () => {
   const [currentUser, setCurrentUser] = useState({});
 
   const [verbs, setVerbs] = useState([]);
+  //lista de verbos que se imprimen y muestran, estos se agrupan o lo que sea
   const [verbsAllGot, setVerbsAllGot] = useState([]);
+  //todos los recibidos asi sin manipular
+
 
   const [mainVerbs, setMainVerbs] = useState([]);
-
+  //contiene los tipos de verbos, solo descripcion, nombre y los verbos
   const [currentTypesVerbs, setCurrentTypesVerbs] = useState([]);
+  //los tipos de verbos, con sus atributos, docId y eso, sin verbos
+
 
   const [typeVerbMain, setTypeVerbMain] = useState({});
+  //el tipo de verbo que se esta usando, tipo, descripcion y sus verbos
 
   //para conservar el grupo
   const [inputGrupo, setInputGrupo] = useState(false);
@@ -91,6 +83,23 @@ const dashBoard = () => {
     recibirArray(verbsAll, types, types[0].type);
   }
 
+  // console.log(verbsAllGot)
+  // verbsAllGot.map((verb) =>{
+  //     // console.log(verb)
+  //     const tmp={
+  //       docId: uuidv4(),
+  //     group: verb.group,
+  //     name: verb.name,
+  //     type: verb.type,
+  //     verb: verb.verb
+  //     }
+  //     console.log(tmp)
+  //     updateVerb(verb.docId,tmp,"verbs")
+  //   })
+  // // const de=verbsAllGot.filter((verb) => verb.name == "Drive ");
+  // // console.log(de)
+
+  //esto le mantas los verbos, tipos y el tipo de verbo actual y los ordena en grupos ya todo listo para mandarselo a verbs
   function recibirArray(verbsAll, types, typeMode) {
     // console.log(verbsAll)
     let arrMain = [];
@@ -327,7 +336,7 @@ const dashBoard = () => {
           refNombre.current.value = "";
           refSignificado.current.value = "";
 
-          if(!inputGrupo){
+          if (!inputGrupo) {
             refGrupo.current.value = "";
           }
 
@@ -462,63 +471,61 @@ const dashBoard = () => {
     const tipo = e.target["type"].value;
     const descripcion = e.target["tipoDescripcion"].value;
 
-    const tmp=currentTypesVerbs.find((type) => type.type.toLowerCase() == tipo.toLowerCase());
-
-
-
+    const tmp = currentTypesVerbs.find(
+      (type) => type.type.toLowerCase() == tipo.toLowerCase()
+    );
 
     // console.log(tipo);
 
     if (tipo !== "") {
-      if(tmp){
-        console.log("ya existe")
-      }else{
+      if (tmp) {
+        console.log("ya existe");
+      } else {
         const newDocId = uuidv4();
 
-      const newType = {
-        type: tipo,
-        descripcion: descripcion,
-        docId: newDocId,
-      };
-      // console.log(currentTypesVerbs);
+        const newType = {
+          type: tipo,
+          descripcion: descripcion,
+          docId: newDocId,
+        };
+        // console.log(currentTypesVerbs);
 
-      const newMainVerb = {
-        type: tipo,
-        descripcion: descripcion,
-        verbs: [[{ name: "Sin verbos aun", verb: "", docId: newDocId }]],
-      };
+        const newMainVerb = {
+          type: tipo,
+          descripcion: descripcion,
+          verbs: [[{ name: "Sin verbos aun", verb: "", docId: newDocId }]],
+        };
 
-      try {
-        // para crear tipo
-        insertVerb(newType, "types", newDocId);
+        try {
+          // para crear tipo
+          insertVerb(newType, "types", newDocId);
 
-        showMessage("se creo el tipo");
-        // console.log(newType);
+          showMessage("se creo el tipo");
+          // console.log(newType);
 
-        refCrearTipo.current.value = "";
-        refTipoDescripcion.current.value = "";
+          refCrearTipo.current.value = "";
+          refTipoDescripcion.current.value = "";
 
-        setCurrentTypesVerbs([...currentTypesVerbs, newType]);
+          setCurrentTypesVerbs([...currentTypesVerbs, newType]);
 
-        // setMainVerbs([...mainVerbs, newMainVerb]);
-        setMainVerbs([...mainVerbs, newMainVerb]);
+          // setMainVerbs([...mainVerbs, newMainVerb]);
+          setMainVerbs([...mainVerbs, newMainVerb]);
 
-        // console.log(mainVerbs);
+          // console.log(mainVerbs);
 
-        // setVerbsMode()
+          // setVerbsMode()
 
-        // for (let i = 0; i < currentTypesVerbs.length; i++) {
-        //   if (currentTypesVerbs[i].type == verbsMode) {
-        //     // console.log(mainVerbs[i])
-        //     mainVerbs[i].verbs.push(newVerb);
-        //     ordenarAlf(mainVerbs[i].verbs);
-        //     setVerbs([...mainVerbs[i].verbs]);
-        //   }
-      } catch (error) {
-        console.log(error);
+          // for (let i = 0; i < currentTypesVerbs.length; i++) {
+          //   if (currentTypesVerbs[i].type == verbsMode) {
+          //     // console.log(mainVerbs[i])
+          //     mainVerbs[i].verbs.push(newVerb);
+          //     ordenarAlf(mainVerbs[i].verbs);
+          //     setVerbs([...mainVerbs[i].verbs]);
+          //   }
+        } catch (error) {
+          console.log(error);
+        }
       }
-      }
-      
     } else {
       showMessage("No pueden haber campos vacios", "e");
     }
@@ -623,7 +630,7 @@ const dashBoard = () => {
   async function handleUpdateDescription(docId, newType) {
     await updateVerb(docId, newType, "types");
     // console.log("se cambio");
-    // showMessage("Se cambio la descripcion")
+    showMessage("Se cambio la descripcion")
 
     const tmp = currentTypesVerbs.filter(
       (type) => type.docId !== newType.docId
@@ -677,6 +684,60 @@ const dashBoard = () => {
   // console.log(verbsAllGot);
   // console.log(currentTypesVerbs);
 
+  async function handleUpdateTypeName(docId, newType,newTypeMainVerbs) {
+    // console.log(docId);
+    // console.log(newType);
+    // console.log(newTypeMainVerbs);
+
+
+    await updateVerb(docId, newType, "types");
+    console.log(newTypeMainVerbs.verbs.length)
+
+    for (let i = 0; i < newTypeMainVerbs.verbs.length; i++) {
+      console.log(newTypeMainVerbs.verbs[i])
+      // if (mainVerbs[i].type == newType.type) {
+
+        // console.log(mainVerbs[i].verbs)
+        for (let i2 = 0; i2 < newTypeMainVerbs.verbs[i].length; i2++) {
+          const tmp={
+            docId:newTypeMainVerbs.verbs[i][i2].docId,
+            group:newTypeMainVerbs.verbs[i][i2].group,
+            name:newTypeMainVerbs.verbs[i][i2].name,
+            type:newTypeMainVerbs.type,
+            verb:newTypeMainVerbs.verbs[i][i2].verb
+          }
+          // console.log(tmp)
+          // console.log(mainVerbs[i].verbs[i2].docId);
+          await updateVerb(newTypeMainVerbs.verbs[i][i2].docId,tmp, "verbs");
+          // console.log(newTypeMainVerbs.verbs[i][i2])
+        }
+      // }
+    }
+
+    // console.log("se cambio");
+    showMessage("Se cambio el Nombre")
+
+    const tmp = currentTypesVerbs.filter(
+      (type) => type.docId !== newType.docId
+    );
+
+    const tmp2=mainVerbs.filter(
+      (type) => type.type !== newTypeMainVerbs.type
+    );
+
+    // console.log(tmp);
+
+
+    setTypeVerbMain(newTypeMainVerbs)
+    setCurrentTypesVerbs([...tmp, newType]);
+    setMainVerbs([...tmp2, newTypeMainVerbs])
+
+  }
+
+  // console.log(typeVerbMain)
+  // console.log(currentTypesVerbs)
+  // console.log(mainVerbs)
+
   return (
     <Navbar>
       <Link to="/">Pagina principal</Link>
@@ -724,7 +785,7 @@ const dashBoard = () => {
         {!inputGrupo ? (
           <button
             onClick={(e) => {
-              e.preventDefault()
+              e.preventDefault();
               setInputGrupo(true);
             }}
           >
@@ -733,7 +794,7 @@ const dashBoard = () => {
         ) : (
           <button
             onClick={(e) => {
-              e.preventDefault()
+              e.preventDefault();
               setInputGrupo(false);
 
               refGrupo.current.value = "";
@@ -774,7 +835,13 @@ const dashBoard = () => {
           // console.log(verbGroup)
 
           <div key={verbGroup[0].docId}>
-            - {typeVerbMain.type} -
+            {/* - {typeVerbMain.type} - */}
+            <EditTypeName
+              docId={typeVerbMain.docId}
+              typeVerb={typeVerbMain}
+              allTypes={currentTypesVerbs}
+              onUpdate={handleUpdateTypeName}
+            ></EditTypeName>
             <br />
             {/* <br />- {typeVerbMain.descripcion} - */}
             <DescripcionEdit

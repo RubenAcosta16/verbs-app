@@ -41,14 +41,14 @@ const navBarMain = ({ children }) => {
           <a className="nav-back" href="index.html">
             <img src="./past/assets/arrow.svg" alt="" />
           </a>
-
-          <a href="#" className="nav-logo">
-            <img
+          <Link to="/" className="nav-logo">
+          <img
               src="https://static-00.iconduck.com/assets.00/layout-grid-3x3-icon-512x512-1gz5wevr.png"
               alt=""
             />
             <div>Verbos de Ruben</div>
-          </a>
+          </Link>
+
 
           <button className="open-menu" aria-label="Abrir menú" onClick={menuToggle}>
             <i className="fa-solid fa-bars"></i>

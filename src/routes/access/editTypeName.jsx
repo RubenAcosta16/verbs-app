@@ -1,14 +1,15 @@
 import { useState, useRef, useEffect } from "react";
 
-const descriptionEdit = ({ typeVerb, docId, allTypes, onUpdate }) => {
+const editTypeName = ({ typeVerb, docId, allTypes, onUpdate }) => {
   // console.log(typeVerb)
   // console.log(allTypes)
+  // console.log(typeVerb)
 
   const thisType = allTypes.find((type) => type.type === typeVerb.type);
 
   // console.log(thisType)
 
-  const [currentType, setCurrentType] = useState(thisType?.descripcion);
+  const [currentType, setCurrentType] = useState(thisType.type);
 
   const [editType, setEditType] = useState(false);
 
@@ -25,21 +26,28 @@ const descriptionEdit = ({ typeVerb, docId, allTypes, onUpdate }) => {
   function handleOnBlurType(e) {
     setEditType(false);
 
-    let newDescription = e.target.value;
+    let newName = e.target.value;
+    // console.log(newName)
 
-    if (newDescription == "") {
-      group = "Sin descripcion";
+    if (newName == "") {
+      newName = "Sin nombre";
     }
     // console.log(thisType?)
 
     const newType = {
-      docId: thisType?.docId,
-      habilited: thisType?.habilited,
-      type: thisType?.type,
-      descripcion: newDescription,
+      docId: thisType.docId,
+      habilited: thisType.habilited,
+      type: newName,
+      descripcion: thisType.descripcion,
     };
 
-    onUpdate(thisType?.docId, newType);
+    const newTypeMainVerbs = {
+      type: newName,
+      descripcion: typeVerb.descripcion,
+      verbs:typeVerb.verbs
+    };
+
+    onUpdate(thisType.docId, newType,newTypeMainVerbs);
   }
 
   useEffect(() => {
@@ -53,19 +61,17 @@ const descriptionEdit = ({ typeVerb, docId, allTypes, onUpdate }) => {
   }
 
   return (
-    <div key={thisType?.docId}>
+    <div key={thisType.docId}>
       <p></p>
       <div>
         {editType ? (
           <>
-            <textarea
+            <input
               ref={refType}
               onBlur={handleOnBlurType}
               onChange={handleOnChangeType}
               value={currentType}
-              cols="40"
-              rows="3"
-            ></textarea>
+            ></input>
           </>
         ) : (
           <>
@@ -78,4 +84,4 @@ const descriptionEdit = ({ typeVerb, docId, allTypes, onUpdate }) => {
   );
 };
 
-export default descriptionEdit;
+export default editTypeName;
