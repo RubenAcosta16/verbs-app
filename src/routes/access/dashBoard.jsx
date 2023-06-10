@@ -902,7 +902,7 @@ const dashBoard = () => {
                 Conservar Grupo
               </button>
             ) : (
-              <button className="btn btn-warning"
+              <button className="btn btn-info"
                 onClick={(e) => {
                   e.preventDefault();
                   setInputGrupo(false);
