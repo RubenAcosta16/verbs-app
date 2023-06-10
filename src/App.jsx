@@ -5,6 +5,7 @@ import { getLinks } from "./firebase/firebase";
 
 import NavBar from "./components/navBarMain";
 import VerbLink from "./components/verbLink";
+import Footer from './components/footer'
 
 import "./css/main.css";
 
@@ -44,7 +45,7 @@ function App() {
   }
 
   // console.log(currentTypes)
-
+// console.log(currentTypes)
   return (
     <div className="eq-body">
       <NavBar></NavBar>
@@ -61,7 +62,7 @@ function App() {
           <div className="verbs-container row align-items-center gap-4 p-5">
             {currentTypes?.map((type) => (
               // <div key={verb.name}>{verb.name}</div>
-              <VerbLink key={type.docId} name={type.type}></VerbLink>
+              <VerbLink key={type.docId} type={type}></VerbLink>
               // <div key={type.docId}>
               //   <Link to={"/p/" + type.type}>{type.type}</Link>
               // </div>
@@ -115,9 +116,7 @@ function App() {
         </div>
       ))} */}
 
-      <footer className="container-fluid footer p-5">
-        <p className="text-center">Pagina de verbos - Ruben Acosta</p>
-      </footer>
+      <Footer></Footer>
     </div>
   );
 }

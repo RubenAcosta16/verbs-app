@@ -1,0 +1,25 @@
+.form-verbs{
+    /* background: red; */
+}
+
+body{
+    
+    /* font-family: sans-serif; */
+    background-color: var(--theme-color);
+    margin-top: 76px;
+
+    color: var(--color-text);
+}
+
+.contenedor-main{
+    border: 2px solid var(--primary-color);
+}
+
+
+@media(min-width:950px){
+    .contenedor-main{
+        /* background: #000; */
+        /* color: red; */
+        width: 720px;
+    }
+}

@@ -1,0 +1,10 @@
+a{
+    text-decoration: none;
+}
+
+.link{
+    color: var(--color-text);
+    font-size: 20px;
+    font-weight: 500;
+}
+

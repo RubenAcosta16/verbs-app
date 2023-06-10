@@ -1,7 +1,9 @@
-import moduleName from "../css/nav-bar.css";
+import "../css/nav-bar.css";
 import { Link } from "react-router-dom";
 
 import {useRef} from 'react'
+
+import arrow from "./arrow.svg";
 
 const navBarMain = ({ children }) => {
 
@@ -33,13 +35,12 @@ const navBarMain = ({ children }) => {
 
 
 
-
   return (
     <div>
       <header className="topheader">
         <nav className="topnav">
           <a className="nav-back" href="index.html">
-            <img src="./past/assets/arrow.svg" alt="" />
+            <img src={arrow} alt="" />
           </a>
           <Link to="/" className="nav-logo">
           <img

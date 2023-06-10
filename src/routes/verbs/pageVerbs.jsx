@@ -1,13 +1,14 @@
 import { getLinks, existsVerbMode } from "../../firebase/firebase";
 import { useState, useEffect } from "react";
 
-import { useParams,Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 import Verb from "./verb";
 import NavBar from "../../components/navBarMain";
+import Footer from '../../components/footer'
 import "../../css/main.css";
 
-import '../../css/verbos_style.css'
+import "../../css/verbos_style.css";
 
 const pageVerbs = () => {
   const params = useParams();
@@ -18,7 +19,8 @@ const pageVerbs = () => {
   const [state, setState] = useState(0);
   // 1 = no existe tipos de verbos
 
-  const [descriptcion, setDescriptcion] = useState("")
+  const [descriptcion, setDescriptcion] = useState("");
+  const [type, setType] = useState("")
 
   const [habilited, sethabilited] = useState(true);
 
@@ -36,20 +38,17 @@ const pageVerbs = () => {
       const tmpType = arrTypes.find((type) => type.type == verbParams);
 
       // console.log(tmpType);
-      
+      setType(tmpType.type)
 
       if (tmpType.descripcion) {
-        setDescriptcion(tmpType.descripcion)
+        setDescriptcion(tmpType.descripcion);
         // setDescripcionMode(tmp[0]?.descripcion)
-      }else{
-        let newDescripcion="Sin descripcion"
-  
+      } else {
+        let newDescripcion = "Sin descripcion";
+
         // setDescripcionMode("Sin descripcion")
-        setDescriptcion(newDescripcion)
+        setDescriptcion(newDescripcion);
       }
-
-
-
 
       sethabilited(tmpType.habilited);
 
@@ -171,7 +170,6 @@ const pageVerbs = () => {
     }
   }
 
-
   // console.log(signVerbs)
 
   function listaRandom(num) {
@@ -200,25 +198,21 @@ const pageVerbs = () => {
       for (let i = 0; i < num.length; i++) {
         tmp[i] = arr[num[i]];
 
-
-        let tmp2=[]
-        let tmp2Arr=tmp[i]
+        let tmp2 = [];
+        let tmp2Arr = tmp[i];
         const num2 = listaRandom(tmp[i].length);
         // console.log(tmp[i])
         // console.log(num2)
 
         for (let i2 = 0; i2 < tmp[i].length; i2++) {
-          tmp2[i2]=tmp2Arr[num2[i2]]
+          tmp2[i2] = tmp2Arr[num2[i2]];
           // console.log(num2[i2])
         }
         // console.log(tmp2)
         // tmp[i]=
-        tmp[i]=tmp2
+        tmp[i] = tmp2;
       }
-
-
     } else {
-
       const num = listaRandom(verbs.length);
 
       // console.log(num)
@@ -263,14 +257,16 @@ const pageVerbs = () => {
     );
   }
 
+  console.log(type)
+
   return (
     <div className="eq-body">
       {/* <button onClick={handleOnSubmit}>Enviar</button> */}
       <NavBar></NavBar>
 
-      <Link to="/">Pagina principal</Link>
+      {/* <Link to="/">Pagina principal</Link> */}
 
-      <nav>
+      {/* <nav>
         <li className="nav-item mx-auto px-1 my-1">
           <button
             onClick={handleOrdenar}
@@ -307,31 +303,109 @@ const pageVerbs = () => {
             Significados Aleatorio
           </button>
         </li>
+      </nav> */}
+
+      <nav className="navbar navbar-expand-sm navbar-verbs">
+        <div className="container-fluid">
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul className="navbar-nav mx-auto">
+              <li className="nav-item">
+                {/* <!-- <button type="button" className="btn btn-primary esconder">Generar</button> --> */}
+              </li>
+              <li className="nav-item mx-auto px-1 my-1">
+                <button
+                  type="button"
+                  className="btn btn-outline-primary btn-lg orden rounded-pill"
+                  onClick={handleOrdenar}
+                >
+                  Ordenar
+                </button>
+              </li>
+              <li className="nav-item mx-auto px-1 my-1">
+                <button
+                  type="button"
+                  className="btn btn-outline-primary btn-lg significados rounded-pill"
+                  onClick={handleSignificado}
+                >
+                  Significado
+                </button>
+              </li>
+              <li className="nav-item mx-auto px-1 my-1">
+                <button
+                  type="button"
+                  className="btn btn-outline-primary btn-lg aleatorio rounded-pill"
+                  onClick={handleAleatorio}
+                >
+                  Aleatorio
+                </button>
+              </li>
+              <li className="nav-item mx-auto px-1 my-1">
+                <button
+                  type="button"
+                  className="btn btn-outline-primary btn-lg significadosRandom rounded-pill"
+                  onClick={handleSignificadoAleatorio}
+                >
+                  Significados Aleatorio
+                </button>
+              </li>
+
+              {/* <!-- <li className="nav-item dropdown">
+                  <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Dropdown link
+                  </a>
+                  <ul className="dropdown-menu">
+                    <li><a className="dropdown-item" href="#">Action</a></li>
+                    <li><a className="dropdown-item" href="#">Another action</a></li>
+                    <li><a className="dropdown-item" href="#">Something else here</a></li>
+                  </ul>
+                </li> --> */}
+            </ul>
+          </div>
+        </div>
       </nav>
 
+      <section className="container-lg py-5">
 
-      <div className="contenedor container-lg p-5">
+        <h1 className="mb-5">{type}</h1>
+          <p>{descriptcion}</p>
+        <div className="contenedor container-lg p-5">
 
-        <p>{descriptcion}</p>
-      
-      {habilited
-        ? verbs?.map((verbGroup) => (
-            // console.log(verbGroup)
 
-            <ul className="list" key={verbGroup[0].docId}>
-              --------Grupo: {verbGroup[0].group}----------
-              {verbGroup.map((verb) => (
-                <Verb key={verb.docId} name={verb.name} verb={verb.verb}></Verb>
+          {habilited
+            ? verbs?.map((verbGroup) => (
+                // console.log(verbGroup)
+
+                <ul className="list" key={verbGroup[0].docId}>
+                  --------Grupo: {verbGroup[0].group}----------
+                  {verbGroup.map((verb) => (
+                    <Verb
+                      key={verb.docId}
+                      name={verb.name}
+                      verb={verb.verb}
+                    ></Verb>
+                  ))}
+                </ul>
+              ))
+            : verbs?.map((verb) => (
+                // <div key={verb.name}>{verb.name}</div>
+                <div key={verb.name}>
+                  <Verb name={verb.name} verb={verb.verb}></Verb>
+                </div>
               ))}
-            </ul>
-          ))
-        : verbs?.map((verb) => (
-            // <div key={verb.name}>{verb.name}</div>
-            <div key={verb.name}>
-              <Verb name={verb.name} verb={verb.verb}></Verb>
-            </div>
-          ))}
-          </div>
+        </div>
+      </section>
+      <Footer></Footer>
     </div>
   );
 };
