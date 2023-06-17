@@ -62,7 +62,7 @@ const navbar = ({ children }) => {
             <Link to="/" className="link">Pagina principal</Link>
             </li>
             <li className="menu-item">
-            <Link to="/signout" className="link"><img src={LogoutIcon} alt="" /> Cerrar sesion</Link>
+            <Link to="/signout" className="link"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesion</Link>
             </li>
 
 

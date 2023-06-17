@@ -8,6 +8,7 @@
 
 :root{
     --theme-color:#fff;
+    /* --theme-color-secondary:#d5d5d5; */
     --theme-color-inverse:#1d1d1d;
 
     --primary-color:#124f88;
@@ -19,10 +20,12 @@
     --color-text-secondary:#495057;
     --color-text-secondary-inverse:#d5d5d5;
 
+    /* --line1_ */
+
 
     --color-text-placeholder:#252525;
 
-    --verbs-background:#eee;
+    --verbs-background:#eee;/*usar*/
 
     --menu-background:#3a4460;
 

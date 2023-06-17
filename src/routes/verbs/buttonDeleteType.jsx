@@ -10,20 +10,27 @@ const buttonDeleteType = ({ type, handleDeleteType, docId }) => {
     setDeleteType(false);
   }
   return (
-    <div style={{ display: "inline" }}>
+    <div style={{ display: "inline",  width:"60px"}}>
       {!deleteType ? (
-        <button onClick={handleShowButtonDelete}>Delete</button>
+        <button className="aside-my-button fs-5" onClick={handleShowButtonDelete}>
+          <i className="fa-solid fa-trash"></i>
+        </button>
       ) : (
         <div>
           Estas seguro??
-          <button
-            onClick={() => {
-              handleDeleteType(type.docId, type.type);
-            }}
-          >
-            Si
-          </button>
-          <button onClick={handleNoDelete}>No</button>
+          <div className="d-flex justify-content-between fs-5">
+            <button
+              className="aside-my-button"
+              onClick={() => {
+                handleDeleteType(type.docId, type.type);
+              }}
+            >
+              <i className="fa-solid fa-check"></i>
+            </button>
+            <button className="aside-my-button" onClick={handleNoDelete}>
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
         </div>
       )}
     </div>

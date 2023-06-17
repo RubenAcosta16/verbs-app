@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 const editTypeName = ({ typeVerb, docId, allTypes, onUpdate }) => {
   // console.log(typeVerb)
   // console.log(allTypes)
-  // console.log(typeVerb)
+  // console.log(typeVerb) 
 
   const thisType = allTypes.find((type) => type.type === typeVerb.type);
 
@@ -27,10 +27,14 @@ const editTypeName = ({ typeVerb, docId, allTypes, onUpdate }) => {
     setEditType(false);
 
     let newName = e.target.value;
+    let descripcionTmp=thisType?.descripcion
     // console.log(newName)
 
     if (newName == "") {
       newName = "Sin nombre";
+    }
+    if (descripcionTmp == "") {
+      descripcionTmp = "Sin descripcion";
     }
     // console.log(thisType?)
 
@@ -38,12 +42,12 @@ const editTypeName = ({ typeVerb, docId, allTypes, onUpdate }) => {
       docId: thisType.docId,
       habilited: thisType.habilited,
       type: newName,
-      descripcion: thisType.descripcion,
+      descripcion: descripcionTmp,
     };
 
     const newTypeMainVerbs = {
       type: newName,
-      descripcion: typeVerb.descripcion,
+      descripcion: descripcionTmp,
       verbs:typeVerb.verbs
     };
 

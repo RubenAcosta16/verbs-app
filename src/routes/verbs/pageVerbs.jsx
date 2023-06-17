@@ -18,6 +18,8 @@ const pageVerbs = () => {
   const [signVerbs, setSignVerbs] = useState([]);
   const [state, setState] = useState(0);
   // 1 = no existe tipos de verbos
+  const [loading, setLoading] = useState(0)
+ 
 
   const [descriptcion, setDescriptcion] = useState("");
   const [type, setType] = useState("")
@@ -122,6 +124,8 @@ const pageVerbs = () => {
 
           setVerbs([...resVerbs]);
           significadoVerbos([...resVerbs]);
+
+          setLoading(1)
         }
       } else {
         // poner un useState y luego un return de interfaz
@@ -379,31 +383,36 @@ const pageVerbs = () => {
 
         <h1 className="mb-5">{type}</h1>
           <p>{descriptcion}</p>
-        <div className="contenedor container-lg p-5">
+       
 
+                {loading ==0? <p>Loading...</p>:
+                 <div className="contenedor container-lg p-5">
+                  {habilited
+                    ? verbs?.map((verbGroup) => (
+                        // console.log(verbGroup)
+        
+                        <ul className="list" key={verbGroup[0].docId}>
+                          --------Grupo: {verbGroup[0].group}----------
+                          {verbGroup.map((verb) => (
+                            <Verb
+                              key={verb.docId}
+                              name={verb.name}
+                              verb={verb.verb}
+                            ></Verb>
+                          ))}
+                        </ul>
+                      ))
+                    : verbs?.map((verb) => (
+                        // <div key={verb.name}>{verb.name}</div>
+                        <div key={verb.name}>
+                          <Verb name={verb.name} verb={verb.verb}></Verb>
+                        </div>
+                      ))}
+                      </div>
+                }
 
-          {habilited
-            ? verbs?.map((verbGroup) => (
-                // console.log(verbGroup)
-
-                <ul className="list" key={verbGroup[0].docId}>
-                  --------Grupo: {verbGroup[0].group}----------
-                  {verbGroup.map((verb) => (
-                    <Verb
-                      key={verb.docId}
-                      name={verb.name}
-                      verb={verb.verb}
-                    ></Verb>
-                  ))}
-                </ul>
-              ))
-            : verbs?.map((verb) => (
-                // <div key={verb.name}>{verb.name}</div>
-                <div key={verb.name}>
-                  <Verb name={verb.name} verb={verb.verb}></Verb>
-                </div>
-              ))}
-        </div>
+        
+        
       </section>
       <Footer></Footer>
     </div>

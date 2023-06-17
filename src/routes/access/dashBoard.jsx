@@ -59,6 +59,16 @@ const dashBoard = () => {
   const refCrearTipo = useRef(null);
   const refTipoDescripcion = useRef(null);
 
+  const buttonsState0 = useRef(null);
+  const buttonsState1 = useRef(null);
+  const buttonsState2 = useRef(null);
+
+  // css----------------------
+  const [buttonsState, setButtonsState] = useState(0);
+  //0 crear tipos
+  //1 crear verbos
+  //2 editar verbos
+
   async function handleUserLoggedIn(user) {
     // navigate("/");
     setCurrentState(2);
@@ -266,6 +276,12 @@ const dashBoard = () => {
   }
 
   async function handleType(type) {
+    setButtonsState(2)
+
+    buttonsState2.current.classList.add("buttonStateOn")
+    buttonsState1.current.classList.remove("buttonStateOn")
+    buttonsState0.current.classList.remove("buttonStateOn")
+
     console.log(type);
     let tmp = await mainVerbs.filter((verbs) => verbs.type == type);
 
@@ -470,7 +486,11 @@ const dashBoard = () => {
     e.preventDefault();
 
     const tipo = e.target["type"].value;
-    const descripcion = e.target["tipoDescripcion"].value;
+    let descripcion = e.target["tipoDescripcion"].value;
+
+    if (descripcion == "") {
+      descripcion = "Sin descripcion";
+    }
 
     const tmp = currentTypesVerbs.find(
       (type) => type.type.toLowerCase() == tipo.toLowerCase()
@@ -700,46 +720,50 @@ const dashBoard = () => {
       if (tmp) {
         console.log("ya existe");
       } else {
-        await updateVerb(docId, newType, "types");
-        // console.log(newTypeMainVerbs.verbs.length)
-
-        for (let i = 0; i < newTypeMainVerbs.verbs.length; i++) {
-          console.log(newTypeMainVerbs.verbs[i]);
-          // if (mainVerbs[i].type == newType.type) {
-
-          // console.log(mainVerbs[i].verbs)
-          for (let i2 = 0; i2 < newTypeMainVerbs.verbs[i].length; i2++) {
-            const tmp = {
-              docId: newTypeMainVerbs.verbs[i][i2].docId,
-              group: newTypeMainVerbs.verbs[i][i2].group,
-              name: newTypeMainVerbs.verbs[i][i2].name,
-              type: newTypeMainVerbs.type,
-              verb: newTypeMainVerbs.verbs[i][i2].verb,
-            };
-            // console.log(tmp)
-            // console.log(mainVerbs[i].verbs[i2].docId);
-            await updateVerb(newTypeMainVerbs.verbs[i][i2].docId, tmp, "verbs");
-            // console.log(newTypeMainVerbs.verbs[i][i2])
+        try {
+          await updateVerb(docId, newType, "types");
+          // console.log(newTypeMainVerbs.verbs.length)
+  
+          for (let i = 0; i < newTypeMainVerbs.verbs.length; i++) {
+            console.log(newTypeMainVerbs.verbs[i]);
+            // if (mainVerbs[i].type == newType.type) {
+  
+            // console.log(mainVerbs[i].verbs)
+            for (let i2 = 0; i2 < newTypeMainVerbs.verbs[i].length; i2++) {
+              const tmp = {
+                docId: newTypeMainVerbs.verbs[i][i2].docId,
+                group: newTypeMainVerbs.verbs[i][i2].group,
+                name: newTypeMainVerbs.verbs[i][i2].name,
+                type: newTypeMainVerbs.type,
+                verb: newTypeMainVerbs.verbs[i][i2].verb,
+              };
+              // console.log(tmp)
+              // console.log(mainVerbs[i].verbs[i2].docId);
+              await updateVerb(newTypeMainVerbs.verbs[i][i2].docId, tmp, "verbs");
+              // console.log(newTypeMainVerbs.verbs[i][i2])
+            }
+            // }
           }
-          // }
+  
+          // console.log("se cambio");
+          showMessage("Se cambio el Nombre");
+  
+          const tmp = currentTypesVerbs.filter(
+            (type) => type.docId !== newType.docId
+          );
+  
+          const tmp2 = mainVerbs.filter(
+            (type) => type.type !== newTypeMainVerbs.type
+          );
+  
+          // console.log(tmp);
+  
+          setTypeVerbMain(newTypeMainVerbs);
+          setCurrentTypesVerbs([...tmp, newType]);
+          setMainVerbs([...tmp2, newTypeMainVerbs]);
+        } catch (error) {
+          console.log(error)
         }
-
-        // console.log("se cambio");
-        showMessage("Se cambio el Nombre");
-
-        const tmp = currentTypesVerbs.filter(
-          (type) => type.docId !== newType.docId
-        );
-
-        const tmp2 = mainVerbs.filter(
-          (type) => type.type !== newTypeMainVerbs.type
-        );
-
-        // console.log(tmp);
-
-        setTypeVerbMain(newTypeMainVerbs);
-        setCurrentTypesVerbs([...tmp, newType]);
-        setMainVerbs([...tmp2, newTypeMainVerbs]);
       }
     } else {
       showMessage("No pueden haber campos vacios", "e");
@@ -766,224 +790,292 @@ const dashBoard = () => {
     }
   });
 
+  console.log(currentTypesVerbs)
+
   return (
     <div className="bg-white eq-body">
       <Navbar></Navbar>
-      <h1 className="fs-1 my-5">Dashboard</h1>
+      {/* <h1 className="fs-1 my-5">Dashboard</h1> */}
 
-      <div className="container-sm form-verbs bg-light py-3 px-5 my-5 contenedor-main ">
-        <form
-          action=""
-          onSubmit={handleCrearTipo}
-          className="contenedor-forms d-flex flex-column fs-6 align-items-center gap-0 row-gap-5"
-        >
-          <div className="fs-3">Crear tipo de verbos</div>
-          {/* <label htmlFor="">Nombre:</label>
-          <input ref={refCrearTipo} name="type" type="text" /> */}
-
-          <div className="form__group field my-2">
-            <input
-              type="input"
-              className="form__field"
-              placeholder="Name"
-              name="type"
-              id="name"
-              required
-              ref={refCrearTipo}
-            />
-            <label htmlFor="name" className="form__label">
-              Nombre:
-            </label>
+      <div className="container-main">
+        <nav className="container-aside d-flex flex-column gap-3 pb-3">
+          <div className="container-aside-title">
+            <p className="fs-5 fw-semibold">Edit Verbs</p>
           </div>
+          <nav className="container-aside-buttons d-flex flex-column gap-2">
+            <button ref={buttonsState0}
+              className="my-button buttonStateOn"
+              onClick={() => {
+                setButtonsState(0);
+                // console.log("on")
 
-          <div className="form__group field  my-2">
-            <textarea
-              cols="40"
-              rows="3"
-              type="input"
-              className="form__field"
-              placeholder="Name"
-              name="tipoDescripcion"
-              id="name"
-              required
-              ref={refTipoDescripcion}
-            ></textarea>
-            <label htmlFor="name" className="form__label">
-              Descripcion:
-            </label>
-          </div>
-
-          <div className="px-auto mt-3">
-            <button className="btn btn-dark" type="submit">
-              Crear
+                buttonsState0.current.classList.add("buttonStateOn")
+                buttonsState1.current.classList.remove("buttonStateOn")
+                buttonsState2.current.classList.remove("buttonStateOn")
+              }}
+            >
+              Crear tipos
             </button>
-          </div>
-        </form>
-      </div>
+            <button  ref={buttonsState1}
+              className="my-button"
+              onClick={() => {
+                setButtonsState(1);
 
-      <div className="container-sm form-verbs bg-light py-3 px-5 my-5 contenedor-main">
-        <form
-          action=""
-          onSubmit={handleSubmitVerb}
-          className="d-flex flex-column fs-6 align-items-center"
-        >
-          <div className="fs-3">Crear verbos</div>
-          {/* <label htmlFor="">Nombre:</label>
-          <input ref={refCrearTipo} name="type" type="text" /> */}
-
-          {/* <label htmlFor="">Nombre</label>
-          <input ref={refNombre} type="text" name="nombre" /> */}
-          <div className="form__group field mt-3">
-            <input
-              type="input"
-              className="form__field"
-              placeholder="Name"
-              name="nombre"
-              id="name"
-              required
-              ref={refNombre}
-            />
-            <label htmlFor="name" className="form__label">
-              Nombre:
-            </label>
-          </div>
-
-          {/* <label htmlFor="">Significado</label>
-          <textarea
-            ref={refSignificado}
-            name="significado"
-            cols="40"
-            rows="3"
-          ></textarea> */}
-          <div className="form__group field mt-3">
-            <textarea
-              type="input"
-              className="form__field"
-              placeholder="Name"
-              name="significado"
-              id="name"
-              required
-              cols="40"
-              rows="3"
-              ref={refSignificado}
-            ></textarea>
-            <label htmlFor="name" className="form__label">
-              Significado:
-            </label>
-          </div>
-
-          <div className="form__group field mt-3">
-            <textarea
-              type="input"
-              className="form__field"
-              placeholder="Name"
-              name="grupo"
-              id="name"
-              required
-              cols="40"
-              rows="3"
-              ref={refGrupo}
-            ></textarea>
-            <label htmlFor="name" className="form__label">
-              Grupo:
-            </label>
-
-            <div>Si se queda vacio es porque no tiene grupo</div>
-          </div>
-
-          <div className="mt-3">
-            {!inputGrupo ? (
-              <button className="btn btn-warning"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setInputGrupo(true);
-                }}
-              >
-                Conservar Grupo
-              </button>
-            ) : (
-              <button className="btn btn-info"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setInputGrupo(false);
-
-                  refGrupo.current.value = "";
-                }}
-              >
-                No conservar Grupo
-              </button>
-            )}
-          </div>
-
-          <div className="px-auto mt-3">
-            <button className="btn btn-dark" type="submit">
-              Crear
+                buttonsState1.current.classList.add("buttonStateOn")
+                buttonsState0.current.classList.remove("buttonStateOn")
+                buttonsState2.current.classList.remove("buttonStateOn")
+              }}
+            >
+              Crear verbos
             </button>
-          </div>
-        </form>
-      </div>
+            <button  ref={buttonsState2}
+              className="my-button"
+              onClick={() => {
+                setButtonsState(2);
 
-      <div>
-        <nav>
-          {currentTypesVerbs.map((type) => (
-            <div key={type.docId}>
-              <button
-                onClick={() => {
-                  handleType(type.type);
-                }}
-              >
-                {type.type}
-              </button>
-              <ButtonDelete
-                type={type}
-                handleDeleteType={handleDeleteType}
-              ></ButtonDelete>
+                buttonsState2.current.classList.add("buttonStateOn")
+                buttonsState1.current.classList.remove("buttonStateOn")
+                buttonsState0.current.classList.remove("buttonStateOn")
+              }}
+            >
+              Editar verbos
+            </button>
+          </nav>
 
-              <ButtonHabilited type={type}></ButtonHabilited>
+          <div className="container-aside-btn-types d-flex flex-column gap-3 my-1">
+            <p className="container-aside-types-title fs-4">Tipos</p>
+            {/* tipos */}
+            <div className="container-aside-types w-100 d-flex flex-column gap-2 flex-wrap gap-3">
+              {currentTypesVerbs.map((type) => (
+                <div key={type.docId} className="container-aside-types-button d-flex justify-content-center">
+                  <button className="aside-my-button aside-my-button-type fs-4 my-button-c-r mb-2"
+                    onClick={() => {
+                      handleType(type.type);
+                    }}
+                  >
+                    {type.type}
+                  </button>
+                  <div className="d-flex justify-content-between">
+                    <ButtonDelete
+                      type={type}
+                      handleDeleteType={handleDeleteType}
+                    ></ButtonDelete>
+
+                    <ButtonHabilited type={type}></ButtonHabilited>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </nav>
 
-        {verbs?.map((verbGroup) => (
-          // console.log(verbGroup)
+        <div className="container-section">
+          {/* form 1 */}
+          {buttonsState == 0 ? (
+            <div className="container-sm form-verbs rounded-2 py-3 px-5 my-5 container-section-card">
+              <form
+                action=""
+                onSubmit={handleCrearTipo}
+                className="contenedor-forms d-flex flex-column fs-6 align-items-center gap-0 row-gap-5"
+              >
+                <div className="fs-3 my-4 container-section-card-title">Crear tipo de verbos</div>
+                {/* <label htmlFor="">Nombre:</label>
+          <input ref={refCrearTipo} name="type" type="text" /> */}
 
-          <div key={verbGroup[0].docId}>
-            {/* - {typeVerbMain.type} - */}
-            <EditTypeName
-              docId={typeVerbMain.docId}
-              typeVerb={typeVerbMain}
-              allTypes={currentTypesVerbs}
-              onUpdate={handleUpdateTypeName}
-            ></EditTypeName>
-            {/* <br />- {typeVerbMain.descripcion} - */}
-            <DescripcionEdit
-              docId={typeVerbMain.docId}
-              typeVerb={typeVerbMain}
-              allTypes={currentTypesVerbs}
-              onUpdate={handleUpdateDescription}
-            ></DescripcionEdit>
-            ---------------------------------
-            <GroupVerb
-              group={verbGroup}
-              onUpdateGroup={handleUpdateGroup}
-            ></GroupVerb>
-            <DeleteGroup
-              group={verbGroup}
-              handleDeleteGroup={handleDeleteGroup}
-            ></DeleteGroup>
-            {verbGroup.map((verb) => (
-              <VerbDb
-                key={verb.docId}
-                name={verb.name}
-                verb={verb.verb}
-                docId={verb.docId}
-                group={verb.group}
-                onDelete={remove}
-                onUpdate={handleUpdateVerb}
-              ></VerbDb>
-            ))}
-          </div>
-        ))}
+                <div className="form__group field my-2">
+                  <input
+                    type="input"
+                    className="form__field"
+                    placeholder="Name"
+                    name="type"
+                    id="name"
+                    required
+                    ref={refCrearTipo}
+                  />
+                  <label htmlFor="name" className="form__label">
+                    Nombre:
+                  </label>
+                </div>
+
+                <div className="form__group field  my-2">
+                  <textarea
+                    cols="40"
+                    rows="3"
+                    type="input"
+                    className="form__field"
+                    placeholder="Name"
+                    name="tipoDescripcion"
+                    id="name"
+                    required
+                    ref={refTipoDescripcion}
+                  ></textarea>
+                  <label htmlFor="name" className="form__label">
+                    Descripcion:
+                  </label>
+                </div>
+
+                <div className="px-auto mt-3">
+                  <button className="btn btn-dark" type="submit">
+                    Crear
+                  </button>
+                </div>
+              </form>
+            </div>
+          ) : buttonsState == 1 ? (
+            <div className="container-sm form-verbs bg-light py-3 px-5 my-5 contenedor-main">
+              <form
+                action=""
+                onSubmit={handleSubmitVerb}
+                className="d-flex flex-column fs-6 align-items-center"
+              >
+                <div className="fs-3">Crear verbos</div>
+                {/* <label htmlFor="">Nombre:</label>
+            <input ref={refCrearTipo} name="type" type="text" /> */}
+
+                {/* <label htmlFor="">Nombre</label>
+            <input ref={refNombre} type="text" name="nombre" /> */}
+                <div className="form__group field mt-3">
+                  <input
+                    type="input"
+                    className="form__field"
+                    placeholder="Name"
+                    name="nombre"
+                    id="name"
+                    required
+                    ref={refNombre}
+                  />
+                  <label htmlFor="name" className="form__label">
+                    Nombre:
+                  </label>
+                </div>
+
+                {/* <label htmlFor="">Significado</label>
+            <textarea
+              ref={refSignificado}
+              name="significado"
+              cols="40"
+              rows="3"
+            ></textarea> */}
+                <div className="form__group field mt-3">
+                  <textarea
+                    type="input"
+                    className="form__field"
+                    placeholder="Name"
+                    name="significado"
+                    id="name"
+                    required
+                    cols="40"
+                    rows="3"
+                    ref={refSignificado}
+                  ></textarea>
+                  <label htmlFor="name" className="form__label">
+                    Significado:
+                  </label>
+                </div>
+
+                <div className="form__group field mt-3">
+                  <textarea
+                    type="input"
+                    className="form__field"
+                    placeholder="Name"
+                    name="grupo"
+                    id="name"
+                    required
+                    cols="40"
+                    rows="3"
+                    ref={refGrupo}
+                  ></textarea>
+                  <label htmlFor="name" className="form__label">
+                    Grupo:
+                  </label>
+
+                  <div>Si se queda vacio es porque no tiene grupo</div>
+                </div>
+
+                <div className="mt-3">
+                  {!inputGrupo ? (
+                    <button
+                      className="btn btn-warning"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setInputGrupo(true);
+                      }}
+                    >
+                      Conservar Grupo
+                    </button>
+                  ) : (
+                    <button
+                      className="btn btn-info"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setInputGrupo(false);
+
+                        refGrupo.current.value = "";
+                      }}
+                    >
+                      No conservar Grupo
+                    </button>
+                  )}
+                </div>
+
+                <div className="px-auto mt-3">
+                  <button className="btn btn-dark" type="submit">
+                    Crear
+                  </button>
+                </div>
+              </form>
+            </div>
+          ) : (
+            <div>
+              {verbs?.map((verbGroup) => (
+                // console.log(verbGroup)
+
+                <div key={verbGroup[0].docId}>
+                  {/* - {typeVerbMain.type} - */}
+                  <EditTypeName
+                    docId={typeVerbMain.docId}
+                    typeVerb={typeVerbMain}
+                    allTypes={currentTypesVerbs}
+                    onUpdate={handleUpdateTypeName}
+                  ></EditTypeName>
+                  {/* <br />- {typeVerbMain.descripcion} - */}
+                  <DescripcionEdit
+                    docId={typeVerbMain.docId}
+                    typeVerb={typeVerbMain}
+                    allTypes={currentTypesVerbs}
+                    onUpdate={handleUpdateDescription}
+                  ></DescripcionEdit>
+                  ---------------------------------
+                  <GroupVerb
+                    group={verbGroup}
+                    onUpdateGroup={handleUpdateGroup}
+                  ></GroupVerb>
+                  <DeleteGroup
+                    group={verbGroup}
+                    handleDeleteGroup={handleDeleteGroup}
+                  ></DeleteGroup>
+                  {verbGroup.map((verb) => (
+                    <VerbDb
+                      key={verb.docId}
+                      name={verb.name}
+                      verb={verb.verb}
+                      docId={verb.docId}
+                      group={verb.group}
+                      onDelete={remove}
+                      onUpdate={handleUpdateVerb}
+                    ></VerbDb>
+                  ))}
+                </div>
+              ))}
+            </div>
+          )}
+          {/* form 2 */}
+
+          {/* los verbos */}
+          {/* {buttonsState == 2
+            ? 
+            : {}} */}
+        </div>
       </div>
     </div>
   );

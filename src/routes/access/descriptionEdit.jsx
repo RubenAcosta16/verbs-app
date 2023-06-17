@@ -28,7 +28,7 @@ const descriptionEdit = ({ typeVerb, docId, allTypes, onUpdate }) => {
     let newDescription = e.target.value;
 
     if (newDescription == "") {
-      group = "Sin descripcion";
+      newDescription = "Sin descripcion";
     }
     // console.log(thisType?)
 
@@ -70,7 +70,7 @@ const descriptionEdit = ({ typeVerb, docId, allTypes, onUpdate }) => {
         ) : (
           <>
             <button onClick={handleEditType}>Edit</button>
-            {currentType}
+            {currentType==""?"Sin descripcion":currentType}
           </>
         )}
       </div>

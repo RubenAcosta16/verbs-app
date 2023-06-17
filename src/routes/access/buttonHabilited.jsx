@@ -11,7 +11,7 @@ const buttonHabilited = ({type}) => {
 //   if(type?.habilited){
 //     setHabilited(false)
 //   }else{
-//     setHabilited(true)
+//     setHabilited(true) 
 //   }
 
   async function handleHabilitarVerbos(){
@@ -46,10 +46,10 @@ const buttonHabilited = ({type}) => {
   return (
     <div style={{ display: "inline" }}>
       {habilited ? (
-        <button onClick={handleQuitarVerbos}>Quitar Grupos</button>
+        <button className=' aside-my-habilited btn btn-danger btn-sm' onClick={handleQuitarVerbos}>Quitar Grupos</button>
         ) : (
             
-            <button onClick={handleHabilitarVerbos}>Habilitar Grupos</button>
+            <button className=' aside-my-habilited btn btn-success btn-sm' onClick={handleHabilitarVerbos}>Habilitar Grupos</button>
       )}
     </div>
   );

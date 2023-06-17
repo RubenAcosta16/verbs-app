@@ -4,6 +4,8 @@
     top: 0;
     left: 0;
 
+    height: 76px;
+
     background-color: var(--theme-color);
 
     /* box-shadow: 0 4px 5px #e5e5e5; */
@@ -136,6 +138,11 @@
 
 
 @media(max-width:950px){
+    .topheader{
+
+        height: 86px;
+
+    }
     
     
     /* .topnav{
