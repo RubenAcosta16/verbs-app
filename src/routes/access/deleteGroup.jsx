@@ -18,7 +18,7 @@ const deleteGroup = ({group, handleDeleteGroup }) => {
     <div>
       <div style={{ display: "inline" }}>
         {!deleteType ? (
-          <button onClick={handleShowButtonDelete}>Delete Group</button>
+          <button onClick={handleShowButtonDelete} className='btn btn-danger btn-sm'><i className='fa-solid fa-trash'></i> Group</button>
         ) : (
           <div>
             Estas seguro??

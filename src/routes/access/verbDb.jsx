@@ -88,9 +88,9 @@ const verbDb = ({ docId, name, verb,group, onDelete, onUpdate }) => {
   }
 
   return (
-    <div key={docId}>
+    <div key={docId} className="fs-6">
       <p></p>
-      <div>
+      <div className="fw-semibold">
         {editName ? (
           <>
             <input
@@ -102,7 +102,7 @@ const verbDb = ({ docId, name, verb,group, onDelete, onUpdate }) => {
           </>
         ) : (
           <>
-            <button onClick={handleEditName}>Edit</button>
+            <button onClick={handleEditName} className="my-button-verbs"><i class="fa-solid fa-pen-to-square"></i></button>
             {currentName}
           </>
         )}
@@ -120,13 +120,13 @@ const verbDb = ({ docId, name, verb,group, onDelete, onUpdate }) => {
           </>
         ) : (
           <>
-            <button onClick={handleEditVerb}>Edit</button>
+            <button onClick={handleEditVerb} className="my-button-verbs"><i class="fa-solid fa-pen-to-square"></i></button>
             {currentVerb}
           </>
         )}
       </div>
           
-      <div>
+      <div style={{marginTop:"5px"}}>
         {editGroup ? (
           <>
             <input
@@ -138,7 +138,7 @@ const verbDb = ({ docId, name, verb,group, onDelete, onUpdate }) => {
           </>
         ) : (
           <>
-            <button onClick={handleEditGroup}>Edit</button>
+            <button onClick={handleEditGroup} className="my-button-verbs"><i class="fa-solid fa-pen-to-square"></i></button>
             {/* {currentGroup} */}
             {currentGroup? currentGroup : <div>Sin Grupo</div>}
           </>
@@ -146,7 +146,7 @@ const verbDb = ({ docId, name, verb,group, onDelete, onUpdate }) => {
       </div>
 
       <div>
-        <button onClick={handleDelete}>Delete</button>
+        <button onClick={handleDelete} className="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></button>
       </div>
     </div>
   );

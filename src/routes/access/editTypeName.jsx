@@ -43,16 +43,20 @@ const editTypeName = ({ typeVerb, docId, allTypes, onUpdate }) => {
       habilited: thisType.habilited,
       type: newName,
       descripcion: descripcionTmp,
+
     };
 
     const newTypeMainVerbs = {
       type: newName,
       descripcion: descripcionTmp,
-      verbs:typeVerb.verbs
+      verbs:typeVerb.verbs,
+      // group:thisType.group
     };
 
     onUpdate(thisType.docId, newType,newTypeMainVerbs);
   }
+
+  // console.log(thisType.group)
 
   useEffect(() => {
     if (refType.current) {
@@ -79,7 +83,7 @@ const editTypeName = ({ typeVerb, docId, allTypes, onUpdate }) => {
           </>
         ) : (
           <>
-            <button onClick={handleEditType}>Edit</button>
+            <button onClick={handleEditType} className="fs-5 my-button-verbs color-primary-dark"><i class="fa-solid fa-pen-to-square"></i></button>
             {currentType}
           </>
         )}

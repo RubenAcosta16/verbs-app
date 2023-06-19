@@ -117,6 +117,7 @@ const pageVerbs = () => {
 
           // console.log(arrNormal);
           // console.log(arrSignR);
+          setLoading(1)
         } else {
           ordenarAlf(resVerbs);
           setOriginalVerbs([...resVerbs]);
@@ -261,7 +262,7 @@ const pageVerbs = () => {
     );
   }
 
-  console.log(type)
+  console.log(verbs)
 
   return (
     <div className="eq-body">

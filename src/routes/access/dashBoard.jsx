@@ -276,11 +276,12 @@ const dashBoard = () => {
   }
 
   async function handleType(type) {
-    setButtonsState(2)
-
-    buttonsState2.current.classList.add("buttonStateOn")
-    buttonsState1.current.classList.remove("buttonStateOn")
-    buttonsState0.current.classList.remove("buttonStateOn")
+    if (buttonsState != 1) {
+      setButtonsState(2);
+      buttonsState2.current.classList.add("buttonStateOn");
+      buttonsState1.current.classList.remove("buttonStateOn");
+      buttonsState0.current.classList.remove("buttonStateOn");
+    }
 
     console.log(type);
     let tmp = await mainVerbs.filter((verbs) => verbs.type == type);
@@ -723,11 +724,11 @@ const dashBoard = () => {
         try {
           await updateVerb(docId, newType, "types");
           // console.log(newTypeMainVerbs.verbs.length)
-  
+
           for (let i = 0; i < newTypeMainVerbs.verbs.length; i++) {
             console.log(newTypeMainVerbs.verbs[i]);
             // if (mainVerbs[i].type == newType.type) {
-  
+
             // console.log(mainVerbs[i].verbs)
             for (let i2 = 0; i2 < newTypeMainVerbs.verbs[i].length; i2++) {
               const tmp = {
@@ -737,32 +738,36 @@ const dashBoard = () => {
                 type: newTypeMainVerbs.type,
                 verb: newTypeMainVerbs.verbs[i][i2].verb,
               };
-              // console.log(tmp)
+              console.log(newTypeMainVerbs.verbs[i][i2].group);
               // console.log(mainVerbs[i].verbs[i2].docId);
-              await updateVerb(newTypeMainVerbs.verbs[i][i2].docId, tmp, "verbs");
+              await updateVerb(
+                newTypeMainVerbs.verbs[i][i2].docId,
+                tmp,
+                "verbs"
+              );
               // console.log(newTypeMainVerbs.verbs[i][i2])
             }
             // }
           }
-  
+
           // console.log("se cambio");
           showMessage("Se cambio el Nombre");
-  
+
           const tmp = currentTypesVerbs.filter(
             (type) => type.docId !== newType.docId
           );
-  
+
           const tmp2 = mainVerbs.filter(
             (type) => type.type !== newTypeMainVerbs.type
           );
-  
+
           // console.log(tmp);
-  
+
           setTypeVerbMain(newTypeMainVerbs);
           setCurrentTypesVerbs([...tmp, newType]);
           setMainVerbs([...tmp2, newTypeMainVerbs]);
         } catch (error) {
-          console.log(error)
+          console.log(error);
         }
       }
     } else {
@@ -790,7 +795,7 @@ const dashBoard = () => {
     }
   });
 
-  console.log(currentTypesVerbs)
+  // console.log(currentTypesVerbs);
 
   return (
     <div className="bg-white eq-body">
@@ -799,43 +804,46 @@ const dashBoard = () => {
 
       <div className="container-main">
         <nav className="container-aside d-flex flex-column gap-3 pb-3">
-          <div className="container-aside-title">
-            <p className="fs-5 fw-semibold">Edit Verbs</p>
+          <div className="container-aside-title w-100">
+            <p className="fs-4 fw-semibold">Edit Verbs</p>
           </div>
           <nav className="container-aside-buttons d-flex flex-column gap-2">
-            <button ref={buttonsState0}
+            <button
+              ref={buttonsState0}
               className="my-button buttonStateOn"
               onClick={() => {
                 setButtonsState(0);
                 // console.log("on")
 
-                buttonsState0.current.classList.add("buttonStateOn")
-                buttonsState1.current.classList.remove("buttonStateOn")
-                buttonsState2.current.classList.remove("buttonStateOn")
+                buttonsState0.current.classList.add("buttonStateOn");
+                buttonsState1.current.classList.remove("buttonStateOn");
+                buttonsState2.current.classList.remove("buttonStateOn");
               }}
             >
               Crear tipos
             </button>
-            <button  ref={buttonsState1}
+            <button
+              ref={buttonsState1}
               className="my-button"
               onClick={() => {
                 setButtonsState(1);
 
-                buttonsState1.current.classList.add("buttonStateOn")
-                buttonsState0.current.classList.remove("buttonStateOn")
-                buttonsState2.current.classList.remove("buttonStateOn")
+                buttonsState1.current.classList.add("buttonStateOn");
+                buttonsState0.current.classList.remove("buttonStateOn");
+                buttonsState2.current.classList.remove("buttonStateOn");
               }}
             >
               Crear verbos
             </button>
-            <button  ref={buttonsState2}
+            <button
+              ref={buttonsState2}
               className="my-button"
               onClick={() => {
                 setButtonsState(2);
 
-                buttonsState2.current.classList.add("buttonStateOn")
-                buttonsState1.current.classList.remove("buttonStateOn")
-                buttonsState0.current.classList.remove("buttonStateOn")
+                buttonsState2.current.classList.add("buttonStateOn");
+                buttonsState1.current.classList.remove("buttonStateOn");
+                buttonsState0.current.classList.remove("buttonStateOn");
               }}
             >
               Editar verbos
@@ -847,8 +855,12 @@ const dashBoard = () => {
             {/* tipos */}
             <div className="container-aside-types w-100 d-flex flex-column gap-2 flex-wrap gap-3">
               {currentTypesVerbs.map((type) => (
-                <div key={type.docId} className="container-aside-types-button d-flex justify-content-center">
-                  <button className="aside-my-button aside-my-button-type fs-4 my-button-c-r mb-2"
+                <div
+                  key={type.docId}
+                  className="container-aside-types-button d-flex justify-content-center"
+                >
+                  <button
+                    className="aside-my-button aside-my-button-type fs-4 my-button-c-r mb-2"
                     onClick={() => {
                       handleType(type.type);
                     }}
@@ -878,7 +890,9 @@ const dashBoard = () => {
                 onSubmit={handleCrearTipo}
                 className="contenedor-forms d-flex flex-column fs-6 align-items-center gap-0 row-gap-5"
               >
-                <div className="fs-3 my-4 container-section-card-title">Crear tipo de verbos</div>
+                <div className="fs-3 my-4 container-section-card-title">
+                  Crear tipo de verbos
+                </div>
                 {/* <label htmlFor="">Nombre:</label>
           <input ref={refCrearTipo} name="type" type="text" /> */}
 
@@ -922,13 +936,24 @@ const dashBoard = () => {
               </form>
             </div>
           ) : buttonsState == 1 ? (
-            <div className="container-sm form-verbs bg-light py-3 px-5 my-5 contenedor-main">
+            <div className="container-sm form-verbs rounded-2 py-3 px-5 my-5 container-section-card">
               <form
                 action=""
                 onSubmit={handleSubmitVerb}
-                className="d-flex flex-column fs-6 align-items-center"
+                className="contenedor-forms d-flex flex-column fs-6 align-items-center gap-0 row-gap-5"
               >
-                <div className="fs-3">Crear verbos</div>
+                <div className="fs-3 my-4 container-section-card-title">
+                  Crear verbos
+                </div>
+                <div className="fs-6 my-2 d-flex flex-column align-items-center">
+                  <p>Tipo de verbo seleccionado:</p>
+                  <p
+                    className="fs-5 section-type-verb"
+                    style={{ textAlign: "center" }}
+                  >
+                    {typeVerbMain.type}
+                  </p>
+                </div>
                 {/* <label htmlFor="">Nombre:</label>
             <input ref={refCrearTipo} name="type" type="text" /> */}
 
@@ -1026,47 +1051,64 @@ const dashBoard = () => {
               </form>
             </div>
           ) : (
-            <div>
-              {verbs?.map((verbGroup) => (
-                // console.log(verbGroup)
+            <div className="container-sm form-verbs rounded-2 py-3 px-5 my-5 container-section-card">
+              <div className="contenedor-forms d-flex flex-column fs-6 align-items-center gap-0 row-gap-5">
+                <div className="fs-3 my-4 container-section-card-title">
+                  {typeVerbMain.type}
+                </div>
+                <div className="w-100">
+                  <div className="section-verbs-admin-type fs-5">
+                    <EditTypeName
+                      docId={typeVerbMain.docId}
+                      typeVerb={typeVerbMain}
+                      allTypes={currentTypesVerbs}
+                      onUpdate={handleUpdateTypeName}
+                    ></EditTypeName>
+                    {/* <br />- {typeVerbMain.descripcion} - */}
+                    <DescripcionEdit
+                      docId={typeVerbMain.docId}
+                      typeVerb={typeVerbMain}
+                      allTypes={currentTypesVerbs}
+                      onUpdate={handleUpdateDescription}
+                    ></DescripcionEdit>
+                  </div>
 
-                <div key={verbGroup[0].docId}>
-                  {/* - {typeVerbMain.type} - */}
-                  <EditTypeName
-                    docId={typeVerbMain.docId}
-                    typeVerb={typeVerbMain}
-                    allTypes={currentTypesVerbs}
-                    onUpdate={handleUpdateTypeName}
-                  ></EditTypeName>
-                  {/* <br />- {typeVerbMain.descripcion} - */}
-                  <DescripcionEdit
-                    docId={typeVerbMain.docId}
-                    typeVerb={typeVerbMain}
-                    allTypes={currentTypesVerbs}
-                    onUpdate={handleUpdateDescription}
-                  ></DescripcionEdit>
-                  ---------------------------------
-                  <GroupVerb
-                    group={verbGroup}
-                    onUpdateGroup={handleUpdateGroup}
-                  ></GroupVerb>
-                  <DeleteGroup
-                    group={verbGroup}
-                    handleDeleteGroup={handleDeleteGroup}
-                  ></DeleteGroup>
-                  {verbGroup.map((verb) => (
-                    <VerbDb
-                      key={verb.docId}
-                      name={verb.name}
-                      verb={verb.verb}
-                      docId={verb.docId}
-                      group={verb.group}
-                      onDelete={remove}
-                      onUpdate={handleUpdateVerb}
-                    ></VerbDb>
+                  {verbs?.map((verbGroup) => (
+                    // console.log(verbGroup)
+
+                    <div
+                      className="w-100 d-flex flex-column gap-2 section-verbs-container"
+                      key={verbGroup[0].docId}
+                      style={{ marginTop: "50px" }}
+                    >
+                      {/* - {typeVerbMain.type} - */}
+                      <div className="section-verbs-admin-groups">
+                        <GroupVerb
+                          group={verbGroup}
+                          onUpdateGroup={handleUpdateGroup}
+                        ></GroupVerb>
+                        <DeleteGroup
+                          group={verbGroup}
+                          handleDeleteGroup={handleDeleteGroup}
+                        ></DeleteGroup>
+                      </div>
+                      <div className="section-verbs-admin-verbs">
+                        {verbGroup.map((verb) => (
+                          <VerbDb
+                            key={verb.docId}
+                            name={verb.name}
+                            verb={verb.verb}
+                            docId={verb.docId}
+                            group={verb.group}
+                            onDelete={remove}
+                            onUpdate={handleUpdateVerb}
+                          ></VerbDb>
+                        ))}
+                      </div>
+                    </div>
                   ))}
                 </div>
-              ))}
+              </div>
             </div>
           )}
           {/* form 2 */}

@@ -50,7 +50,7 @@ const groupVerb = ({ group,onUpdateGroup}) => {
   // return <div>-- {group.group} --</div>;
   return (
     <div>
-      <div>
+      <div className="fs-5 fw-semibold">
       {editGroup ? (
         <>
           <input
@@ -62,8 +62,10 @@ const groupVerb = ({ group,onUpdateGroup}) => {
         </>
       ) : (
         <>
-          <button onClick={handleEditGroup}>Edit</button>
-          {currentGroup? currentGroup : <div>Sin Grupo</div>}
+          <button onClick={handleEditGroup} className="my-button-verbs"><i class="fa-solid fa-pen-to-square"></i></button>
+          <span className="">
+            {currentGroup? currentGroup : <div>Sin Grupo</div>}
+          </span>
         </>
       )}
       </div>
