@@ -14,6 +14,7 @@ import DeleteGroup from "./deleteGroup";
 import EditTypeName from "./editTypeName";
 
 import "./css/main.css";
+import "./css/navTypes.css";
 import "./css/inputs.css";
 
 import {
@@ -59,9 +60,14 @@ const dashBoard = () => {
   const refCrearTipo = useRef(null);
   const refTipoDescripcion = useRef(null);
 
+
+  // css------------
+
   const buttonsState0 = useRef(null);
   const buttonsState1 = useRef(null);
   const buttonsState2 = useRef(null);
+
+  const refNavTypes=useRef(null);
 
   // css----------------------
   const [buttonsState, setButtonsState] = useState(0);
@@ -799,6 +805,11 @@ const dashBoard = () => {
     }
   });
 
+  // css
+  function navTypesToggle(){
+    refNavTypes.current.classList.toggle("container-aside-btn-typesOn")
+  }
+
   // console.log(currentTypesVerbs);
 
   return (
@@ -855,9 +866,13 @@ const dashBoard = () => {
           </nav>
 
           <div className="container-aside-btn-types d-flex flex-column gap-3 my-1">
-            <p className="container-aside-types-title fs-4">Tipos</p>
+            <div className="container-aside-btn-types-bars">
+              <i className="fa-solid fa-bars" onClick={navTypesToggle}></i>
+            </div>
+
             {/* tipos */}
-            <div className="container-aside-types w-100 d-flex flex-column gap-2 flex-wrap gap-3">
+            <div className="container-aside-types w-100 d-flex flex-column gap-2 flex-wrap gap-3" ref={refNavTypes}>
+            <p className="container-aside-types-title fs-4">Tipos</p>
               {currentTypesVerbs.map((type) => (
                 <div
                   key={type.docId}

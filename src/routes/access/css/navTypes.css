@@ -1,0 +1,38 @@
+.container-aside-btn-types{
+    /* background: #000; */
+}
+
+.container-aside-btn-types-bars{
+    display: none;
+}
+
+@media (max-width: 950px) {
+    .container-aside-types{
+        /* background: #000; */
+        height: 0;
+        overflow: hidden;
+        transition: height .3s;
+    }
+    .container-aside-btn-typesOn{
+        transition: height ease-in-out .3s;
+        height: fit-content;
+    }
+
+    .container-aside-btn-types-bars{
+        display: none;
+        flex-direction: row-reverse;
+        padding: 20px 15px;
+
+    }
+
+    .container-aside-btn-types-bars i{
+        cursor: pointer;
+        color: var(--color-text-inverse);
+    }
+
+    .container-aside-btn-types-bars{
+        display: flex;
+        font-size: 40px;
+    }
+  }
+  

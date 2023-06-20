@@ -64,6 +64,7 @@ body {
   padding: 0 20px 0 10px;
   /* background: green; */
   border-left: 2px solid var(--primary-color-dark);
+  
 }
 
 .container-aside-buttons {
@@ -299,6 +300,17 @@ body {
   body {
     margin-top: 82px;
     /* background: #000; */
+  }
+
+  .container-main {
+    flex-direction: column;
+  }
+
+  .container-aside {
+    /* width: 100%;
+    flex: 100%; */
+    /* background: red; */
+    /* margin-left: 4px; */
   }
 
   .container-section {
