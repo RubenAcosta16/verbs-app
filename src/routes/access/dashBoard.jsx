@@ -270,7 +270,11 @@ const dashBoard = () => {
         userLoggedIn={handleUserLoggedIn}
         userNotLoggedIn={handleUserNotLoggedIn}
       >
-        Loading...
+        <div class="d-flex justify-content-center">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
       </AuthProvider>
     );
   }
@@ -1051,7 +1055,7 @@ const dashBoard = () => {
               </form>
             </div>
           ) : (
-            <div className="container-sm form-verbs rounded-2 py-3 px-5 my-5 container-section-card">
+            <div className="container-md form-verbs rounded-2 py-3 px-5 my-5 container-section-card">
               <div className="contenedor-forms d-flex flex-column fs-6 align-items-center gap-0 row-gap-5">
                 <div className="fs-3 my-4 container-section-card-title">
                   {typeVerbMain.type}
@@ -1094,7 +1098,8 @@ const dashBoard = () => {
                       </div>
                       <div className="section-verbs-admin-verbs">
                         {verbGroup.map((verb) => (
-                          <VerbDb
+                          <div className="section-verbs-admin-verb">
+                            <VerbDb
                             key={verb.docId}
                             name={verb.name}
                             verb={verb.verb}
@@ -1103,6 +1108,7 @@ const dashBoard = () => {
                             onDelete={remove}
                             onUpdate={handleUpdateVerb}
                           ></VerbDb>
+                          </div>
                         ))}
                       </div>
                     </div>

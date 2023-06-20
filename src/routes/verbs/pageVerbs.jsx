@@ -5,7 +5,7 @@ import { useParams, Link } from "react-router-dom";
 
 import Verb from "./verb";
 import NavBar from "../../components/navBarMain";
-import Footer from '../../components/footer'
+import Footer from "../../components/footer";
 import "../../css/main.css";
 
 import "../../css/verbos_style.css";
@@ -18,11 +18,10 @@ const pageVerbs = () => {
   const [signVerbs, setSignVerbs] = useState([]);
   const [state, setState] = useState(0);
   // 1 = no existe tipos de verbos
-  const [loading, setLoading] = useState(0)
- 
+  const [loading, setLoading] = useState(0);
 
   const [descriptcion, setDescriptcion] = useState("");
-  const [type, setType] = useState("")
+  const [type, setType] = useState("");
 
   const [habilited, sethabilited] = useState(true);
 
@@ -40,7 +39,7 @@ const pageVerbs = () => {
       const tmpType = arrTypes.find((type) => type.type == verbParams);
 
       // console.log(tmpType);
-      setType(tmpType.type)
+      setType(tmpType.type);
 
       if (tmpType.descripcion) {
         setDescriptcion(tmpType.descripcion);
@@ -117,7 +116,7 @@ const pageVerbs = () => {
 
           // console.log(arrNormal);
           // console.log(arrSignR);
-          setLoading(1)
+          setLoading(1);
         } else {
           ordenarAlf(resVerbs);
           setOriginalVerbs([...resVerbs]);
@@ -126,7 +125,7 @@ const pageVerbs = () => {
           setVerbs([...resVerbs]);
           significadoVerbos([...resVerbs]);
 
-          setLoading(1)
+          setLoading(1);
         }
       } else {
         // poner un useState y luego un return de interfaz
@@ -262,7 +261,7 @@ const pageVerbs = () => {
     );
   }
 
-  console.log(verbs)
+  console.log(verbs);
 
   return (
     <div className="eq-body">
@@ -310,24 +309,16 @@ const pageVerbs = () => {
         </li>
       </nav> */}
 
+
+
       <nav className="navbar navbar-expand-sm navbar-verbs">
-        <div className="container-fluid">
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNavDropdown"
-            aria-controls="navbarNavDropdown"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul className="navbar-nav mx-auto">
-              <li className="nav-item">
-                {/* <!-- <button type="button" className="btn btn-primary esconder">Generar</button> --> */}
-              </li>
+          <div className="container-fluid">
+            {/* <!-- <a className="navbar-brand" href="#">Navbar</a> --> */}
+            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+              <span className="navbar-toggler-icon"></span>
+            </button>
+            <div className="collapse navbar-collapse" id="navbarNavDropdown">
+              <ul className="navbar-nav mx-auto">
               <li className="nav-item mx-auto px-1 my-1">
                 <button
                   type="button"
@@ -364,8 +355,8 @@ const pageVerbs = () => {
                   Significados Aleatorio
                 </button>
               </li>
-
-              {/* <!-- <li className="nav-item dropdown">
+                
+                {/* <!-- <li className="nav-item dropdown">
                   <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Dropdown link
                   </a>
@@ -375,45 +366,46 @@ const pageVerbs = () => {
                     <li><a className="dropdown-item" href="#">Something else here</a></li>
                   </ul>
                 </li> --> */}
-            </ul>
+              </ul>
+            </div>
           </div>
-        </div>
-      </nav>
+        </nav>
 
       <section className="container-lg py-5">
-
         <h1 className="mb-5">{type}</h1>
-          <p>{descriptcion}</p>
-       
+        <p>{descriptcion}</p>
 
-                {loading ==0? <p>Loading...</p>:
-                 <div className="contenedor container-lg p-5">
-                  {habilited
-                    ? verbs?.map((verbGroup) => (
-                        // console.log(verbGroup)
-        
-                        <ul className="list" key={verbGroup[0].docId}>
-                          --------Grupo: {verbGroup[0].group}----------
-                          {verbGroup.map((verb) => (
-                            <Verb
-                              key={verb.docId}
-                              name={verb.name}
-                              verb={verb.verb}
-                            ></Verb>
-                          ))}
-                        </ul>
-                      ))
-                    : verbs?.map((verb) => (
-                        // <div key={verb.name}>{verb.name}</div>
-                        <div key={verb.name}>
-                          <Verb name={verb.name} verb={verb.verb}></Verb>
-                        </div>
-                      ))}
-                      </div>
-                }
+        {loading == 0 ? (
+          <div className="d-flex justify-content-center">
+            <div className="spinner-border" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        ) : (
+          <div className="contenedor container-lg p-5">
+            {habilited
+              ? verbs?.map((verbGroup) => (
+                  // console.log(verbGroup)
 
-        
-        
+                  <ul className="list" key={verbGroup[0].docId}>
+                    --------Grupo: {verbGroup[0].group}----------
+                    {verbGroup.map((verb) => (
+                      <Verb
+                        key={verb.docId}
+                        name={verb.name}
+                        verb={verb.verb}
+                      ></Verb>
+                    ))}
+                  </ul>
+                ))
+              : verbs?.map((verb) => (
+                  // <div key={verb.name}>{verb.name}</div>
+                  <div key={verb.name}>
+                    <Verb name={verb.name} verb={verb.verb}></Verb>
+                  </div>
+                ))}
+          </div>
+        )}
       </section>
       <Footer></Footer>
     </div>

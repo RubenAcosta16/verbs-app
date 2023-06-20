@@ -83,7 +83,7 @@ const editTypeName = ({ typeVerb, docId, allTypes, onUpdate }) => {
           </>
         ) : (
           <>
-            <button onClick={handleEditType} className="fs-5 my-button-verbs color-primary-dark"><i class="fa-solid fa-pen-to-square"></i></button>
+            <button onClick={handleEditType} className="fs-5 my-button-verbs color-text-inverse"><i class="fa-solid fa-pen-to-square"></i></button>
             {currentType}
           </>
         )}
