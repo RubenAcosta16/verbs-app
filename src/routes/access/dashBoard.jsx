@@ -900,7 +900,7 @@ const dashBoard = () => {
           </div>
         </nav>
 
-        <div className="container-section">
+        <div className="container-section container-md">
           {/* form 1 */}
           {buttonsState == 0 ? (
             <div className="container-sm form-verbs rounded-2 py-3 px-5 my-5 container-section-card">
@@ -1075,7 +1075,7 @@ const dashBoard = () => {
                 <div className="fs-3 my-4 container-section-card-title">
                   {typeVerbMain.type}
                 </div>
-                <div className="w-100">
+                <div className="section-verbs-type">
                   <div className="section-verbs-admin-type fs-5">
                     <EditTypeName
                       docId={typeVerbMain.docId}
