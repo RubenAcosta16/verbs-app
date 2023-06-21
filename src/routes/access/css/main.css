@@ -316,4 +316,48 @@ body {
   .container-section {
     padding: 0;
   }
+
+
+
+
+
+  /* /////////////// */
+  .section-verbs-admin-type {
+  width: 100%;
+  color: var(--color-text-inverse);
+  /* padding: 15px 100px; */
+  padding: 15px;
+
+
+  /* border-bottom: 2px solid var(--color-text-secondary-inverse); */
+  background: rgb(13,45,75);
+  background: linear-gradient(90deg, rgba(13,45,75,1) 49%, rgba(9,1,177,1) 100%);
+  border-radius: 10px;
+}
+
+.section-verbs-type{
+  /* width: 100%; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.section-verbs-admin-groups {
+  padding: 0 30px;
+}
+
+.section-verbs-admin-verbs {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.section-verbs-admin-verb {
+  padding: 0 10px 10px 10px;
+  width: 50%;
+  border-bottom: 2px solid var(--color-text-secondary-inverse);
+}
 }
