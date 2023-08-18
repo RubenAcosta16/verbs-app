@@ -65,7 +65,8 @@
       }
       
       .buttonStateOn, .container-aside-buttons-type-button:hover {
-        padding: 10px 0;
+        font-size: 23px;
+        padding: 7px 0;
         border-radius: 0 0 15px 15px;
         background-color: var(--verbs-background);
         color: var(--color-text);
