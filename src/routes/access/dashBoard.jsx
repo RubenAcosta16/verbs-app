@@ -60,14 +60,13 @@ const dashBoard = () => {
   const refCrearTipo = useRef(null);
   const refTipoDescripcion = useRef(null);
 
-
   // css------------
 
   const buttonsState0 = useRef(null);
   const buttonsState1 = useRef(null);
   const buttonsState2 = useRef(null);
 
-  const refNavTypes=useRef(null);
+  const refNavTypes = useRef(null);
 
   // css----------------------
   const [buttonsState, setButtonsState] = useState(0);
@@ -806,8 +805,8 @@ const dashBoard = () => {
   });
 
   // css
-  function navTypesToggle(){
-    refNavTypes.current.classList.toggle("container-aside-btn-typesOn")
+  function navTypesToggle() {
+    refNavTypes.current.classList.toggle("container-aside-btn-typesOn");
   }
 
   // console.log(currentTypesVerbs);
@@ -818,11 +817,11 @@ const dashBoard = () => {
       {/* <h1 className="fs-1 my-5">Dashboard</h1> */}
 
       <div className="container-main">
-        <nav className="container-aside d-flex flex-column gap-3 pb-3">
+        <nav className="container-aside flex-column gap-3 pb-3">
           <div className="container-aside-title w-100">
             <p className="fs-4 fw-semibold">Edit Verbs</p>
           </div>
-          <nav className="container-aside-buttons d-flex flex-column gap-2">
+          <nav className="container-aside-buttons d-flex  gap-2">
             <button
               ref={buttonsState0}
               className="my-button buttonStateOn"
@@ -835,7 +834,8 @@ const dashBoard = () => {
                 buttonsState2.current.classList.remove("buttonStateOn");
               }}
             >
-              Crear tipos
+              <i class="fa-solid fa-folder-plus my-button-verbs"></i>
+              <span className="my-button-verbsOff">Crear tipos</span>
             </button>
             <button
               ref={buttonsState1}
@@ -848,7 +848,8 @@ const dashBoard = () => {
                 buttonsState2.current.classList.remove("buttonStateOn");
               }}
             >
-              Crear verbos
+              <i class="fa-regular fa-square-plus my-button-verbs"></i>
+              <span className="my-button-verbsOff">Crear verbos</span>
             </button>
             <button
               ref={buttonsState2}
@@ -861,7 +862,21 @@ const dashBoard = () => {
                 buttonsState0.current.classList.remove("buttonStateOn");
               }}
             >
-              Editar verbos
+              <i class="fa-solid fa-pen-to-square my-button-verbs"></i>
+              <span className="my-button-verbsOff">Editar verbos</span>
+            </button>
+
+            <button
+              className="container-aside-buttons-type-button my-button"
+              onClick={() => {
+                // setButtonsState(2);
+
+                refNavTypes.current.classList.toggle("container-aside-btn-typesOn");
+                // buttonsState1.current.classList.remove("buttonStateOn");
+                // buttonsState0.current.classList.remove("buttonStateOn");
+              }}
+            >
+              <i class="fa-solid fa-ellipsis"></i>
             </button>
           </nav>
 
@@ -871,8 +886,11 @@ const dashBoard = () => {
             </div>
 
             {/* tipos */}
-            <div className="container-aside-types w-100 d-flex flex-column gap-2 flex-wrap gap-3" ref={refNavTypes}>
-            <p className="container-aside-types-title fs-4">Tipos</p>
+            <div
+              className="container-aside-types flex-column gap-2 flex-wrap gap-3"
+              ref={refNavTypes}
+            >
+              <p className="container-aside-types-title fs-4">Tipos</p>
               {currentTypesVerbs.map((type) => (
                 <div
                   key={type.docId}
@@ -882,9 +900,10 @@ const dashBoard = () => {
                     className="aside-my-button aside-my-button-type fs-4 my-button-c-r mb-2"
                     onClick={() => {
                       handleType(type.type);
+                      refNavTypes.current.classList.remove("container-aside-btn-typesOn");
                     }}
                   >
-                    {type.type}
+                    <span>{type.type}</span>
                   </button>
                   <div className="d-flex justify-content-between">
                     <ButtonDelete
@@ -1071,7 +1090,7 @@ const dashBoard = () => {
             </div>
           ) : (
             <div className="container-md form-verbs rounded-2 py-3 px-5 my-5 container-section-card">
-              <div className="contenedor-forms d-flex flex-column fs-6 align-items-center gap-0 row-gap-5">
+              <div className="contenedor-forms d-flex flex-column fs-6  gap-0 row-gap-5">
                 <div className="fs-3 my-4 container-section-card-title">
                   {typeVerbMain.type}
                 </div>
@@ -1115,14 +1134,14 @@ const dashBoard = () => {
                         {verbGroup.map((verb) => (
                           <div className="section-verbs-admin-verb">
                             <VerbDb
-                            key={verb.docId}
-                            name={verb.name}
-                            verb={verb.verb}
-                            docId={verb.docId}
-                            group={verb.group}
-                            onDelete={remove}
-                            onUpdate={handleUpdateVerb}
-                          ></VerbDb>
+                              key={verb.docId}
+                              name={verb.name}
+                              verb={verb.verb}
+                              docId={verb.docId}
+                              group={verb.group}
+                              onDelete={remove}
+                              onUpdate={handleUpdateVerb}
+                            ></VerbDb>
                           </div>
                         ))}
                       </div>
