@@ -60,6 +60,7 @@ body {
 
 .container-aside-types {
   display: flex;
+  /* flex-wrap: ; */
   position: relative;
   left: 10px;
   /* margin-left: 15px; */

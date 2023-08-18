@@ -887,7 +887,7 @@ const dashBoard = () => {
 
             {/* tipos */}
             <div
-              className="container-aside-types flex-column gap-2 flex-wrap gap-3"
+              className="container-aside-types flex-column gap-2 gap-3"
               ref={refNavTypes}
             >
               <p className="container-aside-types-title fs-4">Tipos</p>
