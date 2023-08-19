@@ -125,6 +125,7 @@ body {
   background: rgb(13,45,75);
   background: linear-gradient(90deg, rgba(13,45,75,1) 49%, rgba(9,1,177,1) 100%);
   border-radius: 10px;
+
 }
 
 .section-verbs-admin-groups {
@@ -324,8 +325,12 @@ body {
 
 
   /* /////////////// */
+
+
+
   .section-verbs-admin-type {
-  width: 100%;
+    width: 90%;
+    padding: 15px 25px;
   color: var(--color-text-inverse);
   /* padding: 15px 100px; */
   padding: 15px;
@@ -355,6 +360,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  /* width: 100%; */
 }
 
 .section-verbs-admin-verb {
@@ -362,11 +368,5 @@ body {
   width: 50%;
   border-bottom: 2px solid var(--color-text-secondary-inverse);
 }
-
-
-
-
-
-
 
 }

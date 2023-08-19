@@ -286,10 +286,12 @@ const dashBoard = () => {
 
   async function handleType(type) {
     if (buttonsState != 1) {
+                      // setButtonsState(1);
       setButtonsState(2);
       buttonsState2.current.classList.add("buttonStateOn");
       buttonsState1.current.classList.remove("buttonStateOn");
       buttonsState0.current.classList.remove("buttonStateOn");
+      console.log("siu")
     }
 
     console.log(type);
@@ -811,8 +813,20 @@ const dashBoard = () => {
 
   // console.log(currentTypesVerbs);
 
+
+
+
+  // nav en movil que detecte que tocas fuera
+function handleClickMovilFuera(){
+  refNavTypes.current.classList.remove("container-aside-btn-typesOn");
+}
+
+function handleClickMovilDentro (){
+  // refNavTypes.current.classList.toggle("container-aside-btn-typesOn");
+}
+
   return (
-    <div className="bg-white eq-body">
+    <div className="bg-white eq-body" >
       <Navbar></Navbar>
       {/* <h1 className="fs-1 my-5">Dashboard</h1> */}
 
@@ -827,7 +841,7 @@ const dashBoard = () => {
               className="my-button buttonStateOn"
               onClick={() => {
                 setButtonsState(0);
-                // console.log("on")
+                console.log("111")
 
                 buttonsState0.current.classList.add("buttonStateOn");
                 buttonsState1.current.classList.remove("buttonStateOn");
@@ -855,6 +869,7 @@ const dashBoard = () => {
               ref={buttonsState2}
               className="my-button"
               onClick={() => {
+                // setButtonsState(1);
                 setButtonsState(2);
 
                 buttonsState2.current.classList.add("buttonStateOn");
@@ -870,6 +885,8 @@ const dashBoard = () => {
               className="container-aside-buttons-type-button my-button"
               onClick={() => {
                 // setButtonsState(2);
+
+                console.log("on")
 
                 refNavTypes.current.classList.toggle("container-aside-btn-typesOn");
                 // buttonsState1.current.classList.remove("buttonStateOn");
@@ -889,6 +906,16 @@ const dashBoard = () => {
             <div
               className="container-aside-types flex-column gap-2 gap-3"
               ref={refNavTypes}
+
+              onClick={handleClickMovilDentro}
+
+              // onClick={(e) =>{
+
+              //     // Verificar si el clic ocurrió fuera del div
+              //     if (!refNavTypes.current.contains(e.target)) {
+              //       console.log('Se hizo clic fuera del div');
+              //     }
+              // }}
             >
               <p className="container-aside-types-title fs-4">Tipos</p>
               {currentTypesVerbs.map((type) => (
@@ -901,6 +928,7 @@ const dashBoard = () => {
                     onClick={() => {
                       handleType(type.type);
                       refNavTypes.current.classList.remove("container-aside-btn-typesOn");
+
                     }}
                   >
                     <span>{type.type}</span>
@@ -919,7 +947,7 @@ const dashBoard = () => {
           </div>
         </nav>
 
-        <div className="container-section container-md">
+        <div className="container-section container-md" onClick={handleClickMovilFuera}> 
           {/* form 1 */}
           {buttonsState == 0 ? (
             <div className="container-sm form-verbs rounded-2 py-3 px-5 my-5 container-section-card">

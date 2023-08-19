@@ -59,14 +59,19 @@
       
         z-index: 20;
       }
+
+      .container-aside-buttons button{
+        font-size: 23px;
+      }
+
       .container-aside-buttons-type-button{
         display: block;
         font: 30px;
       }
       
       .buttonStateOn, .container-aside-buttons-type-button:hover {
-        font-size: 23px;
         padding: 7px 0;
+        /* font-size: 23px; */
         border-radius: 0 0 15px 15px;
         background-color: var(--verbs-background);
         color: var(--color-text);
@@ -95,11 +100,10 @@
       }
 
       .section-verbs-admin-type{
-        width: 70%;
-        padding: 15px 25px;
+
       }
 
 
-
+      /* section-verbs-admin-verb */
   }
   
