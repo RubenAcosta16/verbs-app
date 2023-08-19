@@ -146,7 +146,7 @@ const verbDb = ({ docId, name, verb,group, onDelete, onUpdate }) => {
       </div>
 
       <div>
-        <button onClick={handleDelete} className="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></button>
+        <button onClick={handleDelete} className="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
       </div>
     </div>
   );

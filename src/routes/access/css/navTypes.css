@@ -73,7 +73,7 @@
         padding: 7px 0;
         /* font-size: 23px; */
         border-radius: 0 0 15px 15px;
-        background-color: var(--verbs-background);
+        background-color: var(--color-text-inverse);
         color: var(--color-text);
       }
       

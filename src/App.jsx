@@ -5,12 +5,14 @@ import { getLinks } from "./firebase/firebase";
 
 import NavBar from "./components/navBarMain";
 import VerbLink from "./components/verbLink";
-import Footer from './components/footer'
+import Footer from "./components/footer";
 
 import "./css/main.css";
 
 function App() {
   const [currentTypes, setCurrentTypes] = useState([]);
+
+  const [state, setState] = useState(0);
 
   useEffect(() => {
     typesVerbs();
@@ -29,6 +31,7 @@ function App() {
 
       setCurrentTypes(types);
       ordenarAlf(currentTypes);
+      setState(1)
     }
   }, []);
 
@@ -44,8 +47,14 @@ function App() {
     });
   }
 
+  // <div class="d-flex justify-content-center">
+  //         <div class="spinner-border" role="status">
+  //           <span class="visually-hidden">Loading...</span>
+  //         </div>
+  //       </div>
+
   // console.log(currentTypes)
-// console.log(currentTypes)
+  // console.log(currentTypes)
   return (
     <div className="eq-body">
       <NavBar></NavBar>
@@ -60,13 +69,20 @@ function App() {
           </p>
 
           <div className="verbs-container row align-items-center gap-4 p-5">
-            {currentTypes?.map((type) => (
-              // <div key={verb.name}>{verb.name}</div>
+            {state == 0 ? (
+              <div class="d-flex justify-content-center">
+                <div class="spinner-border" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </div>
+            ) : (
+              currentTypes?.map((type) => (
+                <VerbLink key={type.docId} type={type}></VerbLink>
+              ))
+            )}
+            {/* {currentTypes?.map((type) => (
               <VerbLink key={type.docId} type={type}></VerbLink>
-              // <div key={type.docId}>
-              //   <Link to={"/p/" + type.type}>{type.type}</Link>
-              // </div>
-            ))}
+            ))} */}
 
             {/* <VerbLink></VerbLink>
             <VerbLink></VerbLink>

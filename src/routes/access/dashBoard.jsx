@@ -969,7 +969,7 @@ function handleClickMovilDentro (){
                     placeholder="Name"
                     name="type"
                     id="name"
-                    required
+                    // required
                     ref={refCrearTipo}
                   />
                   <label htmlFor="name" className="form__label">
@@ -986,7 +986,7 @@ function handleClickMovilDentro (){
                     placeholder="Name"
                     name="tipoDescripcion"
                     id="name"
-                    required
+                    // required
                     ref={refTipoDescripcion}
                   ></textarea>
                   <label htmlFor="name" className="form__label">
@@ -1032,7 +1032,7 @@ function handleClickMovilDentro (){
                     placeholder="Name"
                     name="nombre"
                     id="name"
-                    required
+                    // required
                     ref={refNombre}
                   />
                   <label htmlFor="name" className="form__label">
@@ -1054,7 +1054,7 @@ function handleClickMovilDentro (){
                     placeholder="Name"
                     name="significado"
                     id="name"
-                    required
+                    // required
                     cols="40"
                     rows="3"
                     ref={refSignificado}
@@ -1071,7 +1071,7 @@ function handleClickMovilDentro (){
                     placeholder="Name"
                     name="grupo"
                     id="name"
-                    required
+                    // required
                     cols="40"
                     rows="3"
                     ref={refGrupo}

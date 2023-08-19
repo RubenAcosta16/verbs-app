@@ -12,7 +12,7 @@ const buttonDeleteType = ({ type, handleDeleteType, docId }) => {
   return (
     <div style={{ display: "inline",  width:"60px"}}>
       {!deleteType ? (
-        <button className="btn btn-danger btn-sm fs-6" onClick={handleShowButtonDelete}>
+        <button className="btn btn-danger fs-6" onClick={handleShowButtonDelete}>
           <i className="fa-solid fa-trash"></i>
         </button>
       ) : (

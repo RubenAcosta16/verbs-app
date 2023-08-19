@@ -185,6 +185,8 @@ body {
   background: none;
   border: 0;
   margin-right: 5px;
+  font-size: 23px;
+  margin-bottom: 7px;
   /* color: var(--primary-color-dark); */
 }
 
@@ -355,17 +357,19 @@ body {
 }
 
 .section-verbs-admin-verbs {
-  padding: 0;
+  padding: 5px 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  min-width: 100%;
+  word-wrap: break-word;
   align-items: center;
   /* width: 100%; */
 }
 
 .section-verbs-admin-verb {
   padding: 0 10px 10px 10px;
-  width: 50%;
+  width: 90%;
   border-bottom: 2px solid var(--color-text-secondary-inverse);
 }
 
