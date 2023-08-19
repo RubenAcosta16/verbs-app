@@ -16,18 +16,18 @@ const buttonDeleteType = ({ type, handleDeleteType, docId }) => {
           <i className="fa-solid fa-trash"></i>
         </button>
       ) : (
-        <div>
+        <div className="asideDeleteButton">
           Estas seguro??
           <div className="d-flex justify-content-between fs-5">
             <button
-              className="aside-my-button"
+              className="aside-my-button asideDeleteButton"
               onClick={() => {
                 handleDeleteType(type.docId, type.type);
               }}
             >
               <i className="fa-solid fa-check"></i>
             </button>
-            <button className="aside-my-button" onClick={handleNoDelete}>
+            <button className="aside-my-button asideDeleteButton" onClick={handleNoDelete}>
               <i class="fa-solid fa-xmark"></i>
             </button>
           </div>

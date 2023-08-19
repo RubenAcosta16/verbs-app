@@ -18,6 +18,7 @@
 
 
 .link-btn-card  a{
+    padding: 0;
     color: var(--color-text);
     text-decoration: none;
     cursor: pointer;

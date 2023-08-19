@@ -309,16 +309,22 @@ const pageVerbs = () => {
         </li>
       </nav> */}
 
-
-
       <nav className="navbar navbar-expand-sm navbar-verbs">
-          <div className="container-fluid">
-            {/* <!-- <a className="navbar-brand" href="#">Navbar</a> --> */}
-            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-              <span className="navbar-toggler-icon"></span>
-            </button>
-            <div className="collapse navbar-collapse" id="navbarNavDropdown">
-              <ul className="navbar-nav mx-auto">
+        <div className="container-fluid">
+          {/* <!-- <a className="navbar-brand" href="#">Navbar</a> --> */}
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul className="navbar-nav mx-auto">
               <li className="nav-item mx-auto px-1 my-1">
                 <button
                   type="button"
@@ -355,8 +361,8 @@ const pageVerbs = () => {
                   Significados Aleatorio
                 </button>
               </li>
-                
-                {/* <!-- <li className="nav-item dropdown">
+
+              {/* <!-- <li className="nav-item dropdown">
                   <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Dropdown link
                   </a>
@@ -366,10 +372,10 @@ const pageVerbs = () => {
                     <li><a className="dropdown-item" href="#">Something else here</a></li>
                   </ul>
                 </li> --> */}
-              </ul>
-            </div>
+            </ul>
           </div>
-        </nav>
+        </div>
+      </nav>
 
       <section className="container-lg py-5">
         <h1 className="mb-5">{type}</h1>
@@ -386,21 +392,27 @@ const pageVerbs = () => {
             {habilited
               ? verbs?.map((verbGroup) => (
                   // console.log(verbGroup)
-
-                  <ul className="list" key={verbGroup[0].docId}>
-                    --------Grupo: {verbGroup[0].group}----------
-                    {verbGroup.map((verb) => (
-                      <Verb
-                        key={verb.docId}
-                        name={verb.name}
-                        verb={verb.verb}
-                      ></Verb>
-                    ))}
-                  </ul>
+                  <div className="borderBVerbs">
+                    <br />
+                    <br />
+                    <ul className="list" key={verbGroup[0].docId}>
+                      <span style={{ fontWeight: "500" }}>Grupo:</span>{" "}
+                      {verbGroup[0].group}
+                      <br />
+                      <br />
+                      {verbGroup.map((verb) => (
+                        <Verb
+                          key={verb.docId}
+                          name={verb.name}
+                          verb={verb.verb}
+                        ></Verb>
+                      ))}
+                    </ul>
+                  </div>
                 ))
               : verbs?.map((verb) => (
                   // <div key={verb.name}>{verb.name}</div>
-                  <div key={verb.name}>
+                  <div key={verb.name} >
                     <Verb name={verb.name} verb={verb.verb}></Verb>
                   </div>
                 ))}

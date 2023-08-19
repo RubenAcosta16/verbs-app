@@ -353,10 +353,7 @@ const dashBoard = () => {
       const verbsFound = verbsAllGot.find(
         (verb) => verb.name.toLowerCase() === nombre.toLowerCase()
       );
-      if (verbsFound) {
-        // console.log(verbsFound)
-        showMessage("Hay otro verbo igual, no se puede agregar", "e");
-      } else {
+
         try {
           insertVerb(newVerb, "verbs", newDocId);
 
@@ -389,7 +386,7 @@ const dashBoard = () => {
         } catch (error) {
           console.log(error);
         }
-      }
+      
     } else {
       showMessage("No pueden haber campos vacios", "e");
     }
@@ -586,9 +583,18 @@ const dashBoard = () => {
       if (mainVerbs[i].type == type) {
         // await deleteVerb(mainVerbs[i].docId, "verbs");
         // console.log(mainVerbs[i].verbs)
+
+        //aqui esta en grupos
         for (let i2 = 0; i2 < mainVerbs[i].verbs.length; i2++) {
-          // console.log(mainVerbs[i].verbs[i2].docId);
-          await deleteVerb(mainVerbs[i].verbs[i2].docId, "verbs");
+          // console.log(mainVerbs[i].verbs[i2]);
+          // await deleteVerb(mainVerbs[i].verbs[i2].docId, "verbs");
+
+          //aqui cada verbo de cada grupo
+          for (let i3 = 0; i3 < mainVerbs[i].verbs[i2].length; i3++) {
+            // console.log(mainVerbs[i].verbs[i2][i3]);
+            await deleteVerb(mainVerbs[i].verbs[i2][i3].docId, "verbs");
+            
+          }
         }
       }
     }

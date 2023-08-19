@@ -373,4 +373,8 @@ body {
   border-bottom: 2px solid var(--color-text-secondary-inverse);
 }
 
+.asideDeleteButton{
+  color: var(--color-text);
+}
+
 }

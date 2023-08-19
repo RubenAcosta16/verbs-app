@@ -115,6 +115,10 @@ background-size: cover;
     font-size: 40px !important;
 }
 
+.borderBVerbs{
+    border-bottom: 2px solid var(--primary-color-dark);
+}
+
 
 
 
