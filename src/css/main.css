@@ -119,7 +119,10 @@ background-size: cover;
     border-bottom: 2px solid var(--primary-color-dark);
 }
 
-
+/* .card-img-top{
+    object-fit: cover;
+    width: 1000px;
+} */
 
 
 @media(max-width:950px){

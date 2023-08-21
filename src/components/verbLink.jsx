@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import "../css/link-btn-card.css";
 
 const verbLink = ({ type }) => {
-  let num = Math.random() * 20 + 360;
-  // console.log(num);
+  let num = Math.random() * 12 + 360;
+  console.log(num);
   return (
     <div className="col-md text-center link-btn-card font-weight-bold">
       <Link to={"/p/" + type.type}>
@@ -25,7 +25,7 @@ const verbLink = ({ type }) => {
         <div className="col-md text-center link-btn-card font-weight-bold">
           <a href="./past/">
             <div className="card">
-              <img
+              <img 
                 src={`https://picsum.photos/500/${Math.round(num)}.jpg`}
                 className="card-img-top"
                 alt="..."
