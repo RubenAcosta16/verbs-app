@@ -4,7 +4,7 @@ import '../../css/verbos_style.css'
 
 import arrow from "./arrow.svg";
 
-const link = ({ name, verb }) => {
+const link = ({ name, verb,counter="" }) => {
   const img = useRef(null);
   const significadoRef = useRef(null)
 
@@ -24,8 +24,9 @@ const link = ({ name, verb }) => {
 
   return (
     <li className="verbo" onClick={make}>
+
       <span className="palabra" >
-        {name}
+      <span style={{fontWeight:"500",marginRight:"15px"}}>{counter}</span><span>{name}</span>
         <img src={arrow} alt="" ref={img}/>
       </span>
       <span ref={significadoRef} className="significado text-p-sm">

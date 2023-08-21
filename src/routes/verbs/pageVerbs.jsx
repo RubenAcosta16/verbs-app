@@ -14,8 +14,14 @@ const pageVerbs = () => {
   const params = useParams();
 
   const [verbs, setVerbs] = useState([]);
-  const [originalVerbs, setOriginalVerbs] = useState([]);
-  const [signVerbs, setSignVerbs] = useState([]);
+
+  const [originalVerbsR, setOriginalVerbsR] = useState([]);
+  const [signVerbsR, setSignVerbsR] = useState([]);
+
+  // const [verbs, setVerbs] = useState([]);
+  const [originalVerbsN, setOriginalVerbsN] = useState([]);
+  const [signVerbsN, setSignVerbsN] = useState([]);
+
   const [state, setState] = useState(0);
   // 1 = no existe tipos de verbos
   const [loading, setLoading] = useState(0);
@@ -24,6 +30,7 @@ const pageVerbs = () => {
   const [type, setType] = useState("");
 
   const [habilited, sethabilited] = useState(true);
+  const [habilited2, sethabilited2] = useState(true);
 
   // console.log(habilited);
 
@@ -52,6 +59,7 @@ const pageVerbs = () => {
       }
 
       sethabilited(tmpType.habilited);
+      sethabilited2(tmpType.habilited);
 
       const verbsAll = await getLinks("verbs");
 
@@ -81,7 +89,7 @@ const pageVerbs = () => {
       // console.log(arrSign);
 
       if (verbExist) {
-        if (tmpType.habilited) {
+
           // console.log("si")
           // traerVerbos(verbsAll, verbExist);
 
@@ -109,24 +117,34 @@ const pageVerbs = () => {
             return resultArray;
           }
 
-          setOriginalVerbs([...arrNormal]);
-          setSignVerbs([...arrSignR]);
+          setOriginalVerbsR([...arrNormal]);
+          setSignVerbsR([...arrSignR]);
 
-          setVerbs([...arrNormal]);
+
 
           // console.log(arrNormal);
           // console.log(arrSignR);
-          setLoading(1);
-        } else {
-          ordenarAlf(resVerbs);
-          setOriginalVerbs([...resVerbs]);
-          setSignVerbs([...resVerbs]);
+          // setLoading(1);
 
-          setVerbs([...resVerbs]);
+
+          //parte de verbos deshabilitados
+
+
+          ordenarAlf(resVerbs);
+          setOriginalVerbsN([...resVerbs]);
+          setSignVerbsN([...resVerbs]);
+
           significadoVerbos([...resVerbs]);
 
+          if (tmpType.habilited) {
+            setVerbs([...arrNormal]);
+          }else{
+
+            setVerbs([...resVerbs]);
+          }
+
           setLoading(1);
-        }
+        
       } else {
         // poner un useState y luego un return de interfaz
         setState(1);
@@ -170,7 +188,7 @@ const pageVerbs = () => {
       // console.log(resVerbs[i])
       arrSign.push(obj);
 
-      setSignVerbs(arrSign);
+      setSignVerbsN(arrSign);
     }
   }
 
@@ -195,60 +213,81 @@ const pageVerbs = () => {
   function randomVerbs(arr) {
     // console.log(habilited);
     const tmp = [];
-    if (habilited) {
-      const num = listaRandom(verbs.length);
+    // if (habilited2) {
+    //   const num = listaRandom(verbs.length);
+
+    //   // console.log(num)
+    //   for (let i = 0; i < num.length; i++) {
+    //     tmp[i] = arr[num[i]];
+
+    //     let tmp2 = [];
+    //     let tmp2Arr = tmp[i];
+    //     const num2 = listaRandom(tmp[i].length);
+    //     // console.log(tmp[i])
+    //     // console.log(num2)
+
+    //     for (let i2 = 0; i2 < tmp[i].length; i2++) {
+    //       tmp2[i2] = tmp2Arr[num2[i2]];
+    //       // console.log(num2[i2])
+    //     }
+    //     // console.log(tmp2)
+    //     // tmp[i]=
+    //     tmp[i] = tmp2;
+    //   }
+    // } else {
+      const num = listaRandom(arr.length);
 
       // console.log(num)
       for (let i = 0; i < num.length; i++) {
         tmp[i] = arr[num[i]];
-
-        let tmp2 = [];
-        let tmp2Arr = tmp[i];
-        const num2 = listaRandom(tmp[i].length);
-        // console.log(tmp[i])
-        // console.log(num2)
-
-        for (let i2 = 0; i2 < tmp[i].length; i2++) {
-          tmp2[i2] = tmp2Arr[num2[i2]];
-          // console.log(num2[i2])
-        }
-        // console.log(tmp2)
-        // tmp[i]=
-        tmp[i] = tmp2;
       }
-    } else {
-      const num = listaRandom(verbs.length);
-
-      // console.log(num)
-      for (let i = 0; i < num.length; i++) {
-        tmp[i] = arr[num[i]];
-      }
-    }
+    // }
 
     setVerbs([...tmp]);
   }
 
   function handleOrdenar() {
-    setVerbs([...originalVerbs]);
+    if(habilited){
+      sethabilited2(true)
+      setVerbs([...originalVerbsR]);
+    }else{
+
+      setVerbs([...originalVerbsN]);
+    }
   }
 
   function handleSignificado() {
-    // console.log(signVerbs)
-    // setSignVerbs([...originalVerbs]);
+    if(habilited){
+      sethabilited2(true)
+      setVerbs([...signVerbsR]);
+    }else{
 
-    setVerbs([...signVerbs]);
+      setVerbs([...signVerbsN]);
+    }
+
 
     // setSignVerbs([...originalVerbs])
   }
 
   function handleAleatorio() {
-    randomVerbs([...originalVerbs]);
+    if(habilited){
+      sethabilited2(false)
+      // randomVerbs([...originalVerbsR]);
+    }
+
+      randomVerbs([...originalVerbsN]);
+
+
   }
 
   function handleSignificadoAleatorio() {
     // setVerbs([...signVerbs])
+    if(habilited){
+      sethabilited2(false)
+      // randomVerbs([...originalVerbsR]);
+    }
 
-    randomVerbs([...signVerbs]);
+    randomVerbs([...signVerbsN]);
   }
 
   //   console.log(verbs)
@@ -260,8 +299,10 @@ const pageVerbs = () => {
       </div>
     );
   }
+//contador de los verbos deshabilitados
+  let c=0
 
-  console.log(verbs);
+  // console.log(verbs);
 
   return (
     <div className="eq-body">
@@ -389,7 +430,7 @@ const pageVerbs = () => {
           </div>
         ) : (
           <div className="contenedor container-lg p-5">
-            {habilited
+            {habilited2
               ? verbs?.map((verbGroup) => (
                   // console.log(verbGroup)
                   <div className="borderBVerbs">
@@ -413,7 +454,7 @@ const pageVerbs = () => {
               : verbs?.map((verb) => (
                   // <div key={verb.name}>{verb.name}</div>
                   <div key={verb.name} >
-                    <Verb name={verb.name} verb={verb.verb}></Verb>
+                    <Verb name={verb.name} verb={verb.verb} counter={c++}></Verb>
                   </div>
                 ))}
           </div>
