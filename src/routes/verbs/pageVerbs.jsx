@@ -300,7 +300,7 @@ const pageVerbs = () => {
     );
   }
 //contador de los verbos deshabilitados
-  let c=0
+  let c=1
 
   // console.log(verbs);
 
