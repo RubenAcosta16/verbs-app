@@ -131,6 +131,25 @@ left: 100px; */
 } */
 
 
+.speakButton{  
+    /* padding-bottom: 7px; */
+    /* color: var(--color-text-inverse); */
+    /* width: 100%; */
+    background: none;
+      border: 0;
+      margin-left: 10px;
+    /* display: flex;
+    flex-direction: column; */
+  
+    /* border-top: 2px solid var(--primary-color-dark);
+    border-bottom: 2px solid var(--primary-color-dark);} */
+}
+
+.speakButton:hover{
+    color: rgba(0, 0, 0, 0.719);
+
+}
+
 
 @media(max-width:950px){
     .contenedor{

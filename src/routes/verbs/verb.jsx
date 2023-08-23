@@ -22,29 +22,48 @@ const link = ({ name, verb, counter = "" }) => {
     significadoRef.current.style.height = height + "px";
   }
 
-  function esMultiploDe4(numero) {
-    return numero % 4 === 0;
+  let separador = {};
+  if (counter % 4 === 0 && counter != "") {
+    separador = { marginBottom: "30px" };
   }
 
-  let separador={}
-  if((counter % 4 === 0)&&counter!=""){
-    separador={marginBottom:"30px"}
+  function handleSpeak(text) {
+    let utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = "en-US";
+    speechSynthesis.speak(utterance);
   }
 
   return (
-    <li className="verbo " style={separador} onClick={make}>
+    <li className="verbo " style={separador}>
       <span className="palabra">
-        <span style={{ fontWeight: "500", marginRight: "15px" }}>
-          {counter}
+        <span onClick={make}>
+          <span style={{ fontWeight: "500", marginRight: "15px" }}>
+            {counter}
+          </span>
+          <span>{name}</span>
+          <img src={arrow} alt="" ref={img} />
         </span>
-        <span>{name}</span>
-        <img src={arrow} alt="" ref={img} />
+
+        <button
+          className="speakButton"
+          onClick={() => {
+            handleSpeak(name);
+          }}
+        >
+          <i class="fa-solid fa-volume-high"></i>
+        </button>
       </span>
       <span ref={significadoRef} className="significado text-p-sm">
         {verb}
+        <button
+          className="speakButton"
+          onClick={() => {
+            handleSpeak(verb);
+          }}
+        >
+          <i class="fa-solid fa-volume-high"></i>
+        </button>
       </span>
-
-      {/* {(counter % 4) === 0 ? "lineVerb" : ""} */}
     </li>
   );
 };

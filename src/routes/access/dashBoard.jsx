@@ -103,7 +103,6 @@ const dashBoard = () => {
 
   async function handleUserLoggedIn(user) {
     // navigate("/");
-    setCurrentState(2);
 
     // console.log("sesion iniciada")
     // console.log(user)
@@ -124,6 +123,9 @@ const dashBoard = () => {
     setVerbsAllGot(verbsAll);
 
     recibirArray(verbsAll, types, types[0].type);
+
+    setCurrentState(2);
+
   }
 
   // console.log(verbsAllGot)
