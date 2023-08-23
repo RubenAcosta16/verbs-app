@@ -2,7 +2,8 @@ import AuthProvider from "./authProvider";
 import { useState, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
-import { showMessage } from "../../app/showMessage";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Navbar from "./navbar";
 import VerbDb from "./verbDb";
@@ -29,6 +30,32 @@ import { v4 as uuidv4 } from "uuid";
 // install npm install uuidv4
 
 const dashBoard = () => {
+  const messageError = (txt) => {
+    toast.error(txt, {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      });
+  }
+
+  const messageSuccess=(txt)=>{
+    toast.success(txt, {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      });
+  }
+
   const [currentState, setCurrentState] = useState(0);
   // 3 recargar
 
@@ -357,7 +384,7 @@ const dashBoard = () => {
         try {
           insertVerb(newVerb, "verbs", newDocId);
 
-          showMessage("se envio el verbo");
+          messageSuccess("se envio el verbo");
 
           refNombre.current.value = "";
           refSignificado.current.value = "";
@@ -388,7 +415,7 @@ const dashBoard = () => {
         }
       
     } else {
-      showMessage("No pueden haber campos vacios", "e");
+      messageError("No pueden haber campos vacios", "e");
     }
   }
   // console.log(verbsAllGot)
@@ -441,6 +468,8 @@ const dashBoard = () => {
     //       //   // recibirArray(verbsAllGot,currentTypesVerbs)
     //       // }
     //     }
+
+    messageSuccess("se elimino el verbo")
   }
 
   async function handleUpdateVerb(docId, name, verb, group, groupCall = false) {
@@ -530,7 +559,7 @@ const dashBoard = () => {
           // para crear tipo
           insertVerb(newType, "types", newDocId);
 
-          showMessage("se creo el tipo");
+          messageSuccess("se creo el tipo");
           // console.log(newType);
 
           refCrearTipo.current.value = "";
@@ -557,7 +586,7 @@ const dashBoard = () => {
         }
       }
     } else {
-      showMessage("No pueden haber campos vacios", "e");
+      messageError("No pueden haber campos vacios", "e");
     }
   }
   // console.log(mainVerbs);
@@ -613,6 +642,8 @@ const dashBoard = () => {
     // setCurrentTypesVerbs([...currentTypesVerbs, newType]);
 
     // setMainVerbs([...mainVerbs, newMainVerb]);
+
+    messageSuccess("se elimino el tipo")
   }
 
   // console.log(verbs)
@@ -669,7 +700,7 @@ const dashBoard = () => {
   async function handleUpdateDescription(docId, newType) {
     await updateVerb(docId, newType, "types");
     // console.log("se cambio");
-    showMessage("Se cambio la descripcion");
+    messageSuccess("Se cambio la descripcion");
 
     const tmp = currentTypesVerbs.filter(
       (type) => type.docId !== newType.docId
@@ -718,6 +749,8 @@ const dashBoard = () => {
     // setVerbsAllGot([...tmp]);
 
     // recibirArray(tmp, currentTypesVerbs, typeVerbMain.type);
+
+    messageSuccess("se elimino el grupo")
   }
 
   // console.log(verbsAllGot);
@@ -768,7 +801,7 @@ const dashBoard = () => {
           }
 
           // console.log("se cambio");
-          showMessage("Se cambio el Nombre");
+          messageSuccess("Se cambio el Nombre");
 
           const tmp = currentTypesVerbs.filter(
             (type) => type.docId !== newType.docId
@@ -788,7 +821,7 @@ const dashBoard = () => {
         }
       }
     } else {
-      showMessage("No pueden haber campos vacios", "e");
+      messageError("No pueden haber campos vacios", "e");
     }
   }
 
@@ -1193,6 +1226,7 @@ function handleClickMovilDentro (){
             : {}} */}
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

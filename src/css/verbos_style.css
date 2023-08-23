@@ -122,7 +122,13 @@ left: 100px; */
 }
 
 
-
+/* .lineVerb{
+    position: relative;
+    width: 90%;
+    margin: 10px auto;
+    top: 3px;
+    border-bottom: 2px solid var(--primary-color-dark);
+} */
 
 
 
