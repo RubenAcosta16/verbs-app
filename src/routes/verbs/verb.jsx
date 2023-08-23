@@ -27,7 +27,7 @@ const link = ({ name, verb, counter = "" }) => {
   }
 
   let separador={}
-  if(counter % 4 === 0){
+  if((counter % 4 === 0)&&counter!=""){
     separador={marginBottom:"30px"}
   }
 
