@@ -362,7 +362,7 @@ const dashBoard = () => {
     const significado = e.target["significado"].value;
     let grupo = e.target["grupo"].value;
 
-    if (!grupo) {
+    if (grupo=="") {
       grupo = "Sin grupo";
     }
 
@@ -380,13 +380,22 @@ const dashBoard = () => {
 
       //solo valida si hay uno con el mismo nombre en el mismo grupo
       const verbsFound = verbsAllGot.find(
-        (verb) => verb.name.toLowerCase() === nombre.toLowerCase()
+        (verb) => (verb.group==newVerb.group)&&(verb.name.toLowerCase()==newVerb.name.toLowerCase())
       );
 
-        try {
-          insertVerb(newVerb, "verbs", newDocId);
+      // console.log(verbsFound)
+      // console.log(newVerb)
 
-          messageSuccess("se envio el verbo");
+      if(verbsFound){
+          messageError("Ya hay otro verbo igual en el mismo grupo")
+          return
+
+      }
+
+      try {
+        insertVerb(newVerb, "verbs", newDocId);
+        
+        messageSuccess("se envio el verbo");
 
           refNombre.current.value = "";
           refSignificado.current.value = "";
@@ -417,7 +426,7 @@ const dashBoard = () => {
         }
       
     } else {
-      messageError("No pueden haber campos vacios", "e");
+      messageError("No pueden haber campos vacios");
     }
   }
   // console.log(verbsAllGot)
