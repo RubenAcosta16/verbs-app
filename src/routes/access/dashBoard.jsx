@@ -380,7 +380,7 @@ const dashBoard = () => {
 
       //solo valida si hay uno con el mismo nombre en el mismo grupo
       const verbsFound = verbsAllGot.find(
-        (verb) => (verb.group==newVerb.group)&&(verb.name.toLowerCase()==newVerb.name.toLowerCase())
+        (verb) => (verb.group==newVerb.group)&&(verb.type==newVerb.type)&&(verb.name.toLowerCase()==newVerb.name.toLowerCase())
       );
 
       // console.log(verbsFound)
