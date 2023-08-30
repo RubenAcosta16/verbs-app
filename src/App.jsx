@@ -74,7 +74,7 @@ function App() {
                 <div class="spinner-border" role="status">
                   <span class="visually-hidden">Loading...</span>
                 </div>
-              </div>
+              </div> 
             ) : (
               currentTypes?.map((type) => (
                 <VerbLink key={type.docId} type={type}></VerbLink>
